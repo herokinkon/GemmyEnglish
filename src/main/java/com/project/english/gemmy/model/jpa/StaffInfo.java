@@ -1,0 +1,147 @@
+package com.project.english.gemmy.model.jpa;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+
+/**
+ * The persistent class for the staff_info database table.
+ * 
+ */
+@Entity
+@Table(name="staff_info")
+@NamedQuery(name="StaffInfo.findAll", query="SELECT s FROM StaffInfo s")
+public class StaffInfo implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date birthday;
+
+	@Column(name="contact_number")
+	private String contactNumber;
+
+	private String email;
+
+	private String facebook;
+
+	@Column(name="full_name")
+	private String fullName;
+
+	//bi-directional many-to-one association to StaffDetail
+	@OneToMany(mappedBy="staffInfo")
+	private List<StaffDetail> staffDetails;
+
+	//bi-directional many-to-many association to Class
+	@ManyToMany
+	@JoinTable(
+		name="classes_has_staff_info"
+		, joinColumns={
+			@JoinColumn(name="staff_info_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="classes_id")
+			}
+		)
+	private List<Classes> classes;
+
+	//bi-directional many-to-one association to UserAccount
+	@ManyToOne
+	@JoinColumn(name="user_account_id")
+	private UserAccount userAccount;
+
+	public StaffInfo() {
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getBirthday() {
+		return this.birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getContactNumber() {
+		return this.contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFacebook() {
+		return this.facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getFullName() {
+		return this.fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public List<StaffDetail> getStaffDetails() {
+		return this.staffDetails;
+	}
+
+	public void setStaffDetails(List<StaffDetail> staffDetails) {
+		this.staffDetails = staffDetails;
+	}
+
+	public StaffDetail addStaffDetail(StaffDetail staffDetail) {
+		getStaffDetails().add(staffDetail);
+		staffDetail.setStaffInfo(this);
+
+		return staffDetail;
+	}
+
+	public StaffDetail removeStaffDetail(StaffDetail staffDetail) {
+		getStaffDetails().remove(staffDetail);
+		staffDetail.setStaffInfo(null);
+
+		return staffDetail;
+	}
+
+	public List<Classes> getClasses() {
+		return this.classes;
+	}
+
+	public void setClasses(List<Classes> classes) {
+		this.classes = classes;
+	}
+
+	public UserAccount getUserAccount() {
+		return this.userAccount;
+	}
+
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
+	}
+
+}
