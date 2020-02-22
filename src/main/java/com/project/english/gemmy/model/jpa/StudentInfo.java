@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Entity
 @Table(name="student_info")
-@NamedQuery(name="StudentInfo.findAll", query="SELECT s FROM StudentInfo s")
 public class StudentInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -39,10 +38,6 @@ public class StudentInfo implements Serializable {
 	@Column(name="parent_email")
 	private String parentEmail;
 
-	//bi-directional many-to-one association to Attendance
-	@OneToMany(mappedBy="studentInfo")
-	private List<Attendance> attendances;
-
 	//bi-directional many-to-one association to ExamResult
 	@OneToMany(mappedBy="studentInfo")
 	private List<ExamResult> examResults;
@@ -68,6 +63,8 @@ public class StudentInfo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="user_account_id")
 	private UserAccount userAccount;
+	
+	private String attendance;
 
 	public StudentInfo() {
 	}
@@ -136,28 +133,6 @@ public class StudentInfo implements Serializable {
 		this.parentEmail = parentEmail;
 	}
 
-	public List<Attendance> getAttendances() {
-		return this.attendances;
-	}
-
-	public void setAttendances(List<Attendance> attendances) {
-		this.attendances = attendances;
-	}
-
-	public Attendance addAttendance(Attendance attendance) {
-		getAttendances().add(attendance);
-		attendance.setStudentInfo(this);
-
-		return attendance;
-	}
-
-	public Attendance removeAttendance(Attendance attendance) {
-		getAttendances().remove(attendance);
-		attendance.setStudentInfo(null);
-
-		return attendance;
-	}
-
 	public List<ExamResult> getExamResults() {
 		return this.examResults;
 	}
@@ -216,6 +191,14 @@ public class StudentInfo implements Serializable {
 
 	public void setUserAccount(UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+
+	public String getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(String attendance) {
+		this.attendance = attendance;
 	}
 
 }

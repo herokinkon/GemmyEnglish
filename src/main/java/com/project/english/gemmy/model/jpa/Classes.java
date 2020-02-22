@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Entity
 @Table(name="classes")
-@NamedQuery(name="Classes.findAll", query="SELECT c FROM Classes c")
 public class Classes implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -33,10 +32,6 @@ public class Classes implements Serializable {
 	private Date startDate;
 
 	private Boolean status;
-
-	//bi-directional many-to-one association to Attendance
-	@OneToMany(mappedBy="classes")
-	private List<Attendance> attendances;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
@@ -103,28 +98,6 @@ public class Classes implements Serializable {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
-	}
-
-	public List<Attendance> getAttendances() {
-		return this.attendances;
-	}
-
-	public void setAttendances(List<Attendance> attendances) {
-		this.attendances = attendances;
-	}
-
-	public Attendance addAttendance(Attendance attendance) {
-		getAttendances().add(attendance);
-		attendance.setClasses(this);
-
-		return attendance;
-	}
-
-	public Attendance removeAttendance(Attendance attendance) {
-		getAttendances().remove(attendance);
-		attendance.setClasses(null);
-
-		return attendance;
 	}
 
 	public Course getCourse() {

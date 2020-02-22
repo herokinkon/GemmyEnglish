@@ -10,7 +10,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="result_mapping")
-@NamedQuery(name="ResultMapping.findAll", query="SELECT r FROM ResultMapping r")
 public class ResultMapping implements Serializable {
 	private static final long serialVersionUID = 1L;
 
