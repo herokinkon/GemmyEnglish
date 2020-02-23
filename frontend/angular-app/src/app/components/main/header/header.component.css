@@ -1,0 +1,12 @@
+.spacer {
+  flex: auto;
+}
+
+.account {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.title {
+  margin-left: 10px;
+}
