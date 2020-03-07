@@ -21,8 +21,8 @@ public class StudentInfoController {
 		
 	}
 	
-	@RequestMapping(value = "/getStudentByName", method = RequestMethod.GET)
-	public ResponseEntity<Void> getStudentByName() {
+	@RequestMapping(value = "/getStudentByUserAccountId", method = RequestMethod.GET)
+	public ResponseEntity<Void> getStudentByUserAccountId() {
 		return null;
 		
 	}
