@@ -12,12 +12,26 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
+
+// PrimeNG table
+import {TableModule} from 'primeng/table';
+
+// Pages components
+import { StudentManagementComponent } from './pages/student-management/student-management.component';
+import { StudentDetailComponent } from './pages/student-management/student-detail/student-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    StudentManagementComponent,
+    StudentDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +41,13 @@ import {MatListModule} from '@angular/material/list';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatListModule
+    MatListModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDialogModule,
+    FormsModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
