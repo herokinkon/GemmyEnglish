@@ -1,4 +1,5 @@
-<p-table [columns]="cols" [value]="students" selectionMode="single" [(selection)]="selectedStudent" [paginator]="true" [rows]="15" (onRowSelect)="onRowSelect($event)">
+<p-table [columns]="cols" [value]="students" selectionMode="single" [(selection)]="selectedStudent" [paginator]="true"
+    [rows]="15" (onRowSelect)="onRowSelect($event)">
     <ng-template pTemplate="caption">
         Student List
     </ng-template>
@@ -13,7 +14,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                {{col.field === 'birthday' ? (rowData[col.field] | date:'dd-MM-yyyy') :rowData[col.field]}}
             </td>
         </tr>
     </ng-template>
@@ -23,5 +24,5 @@
                 <mat-icon>add</mat-icon><span>Add</span>
             </button>
         </div>
-    </ng-template>    
+    </ng-template>
 </p-table>
