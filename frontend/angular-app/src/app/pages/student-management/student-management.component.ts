@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { Student } from './student-service/student';
 
 @Component({
   selector: 'app-student-management',
@@ -9,7 +10,7 @@ import { StudentDetailComponent } from './student-detail/student-detail.componen
 })
 export class StudentManagementComponent implements OnInit {
 
-  students: any[];
+  students: Student[];
   selectedStudent: any;
   cols: any[];
 
@@ -24,10 +25,10 @@ export class StudentManagementComponent implements OnInit {
     { field: 'contact_number', header: 'Phone Number' }];
 
     const dod = Date.now();
-    this.students = [{ id: '1', name: 'Adam', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
-    { id: '2', name: 'Tina', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
-    { id: '3', name: 'Mark', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
-    { id: '4', name: 'Lovelance', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' }];
+    this.students = [{ id: 1, name: 'Adam', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
+    { id: 2, name: 'Tina', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
+    { id: 3, name: 'Mark', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
+    { id: 4, name: 'Lovelance', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' }];
   }
 
   showDialogToAdd() {

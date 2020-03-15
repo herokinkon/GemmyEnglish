@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './components/main/header/header.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { SideMenuComponent } from './shared/components/side-menu/side-menu.component';
 
 // Angular material modules
-import { SideMenuComponent } from './components/main/side-menu/side-menu.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
