@@ -31,10 +31,14 @@ public class StaffInfo implements Serializable {
 
 	@Column(name="full_name")
 	private String fullName;
+	
+	private String salary;
 
-	//bi-directional many-to-one association to StaffDetail
-	@OneToMany(mappedBy="staffInfo")
-	private List<StaffDetail> staffDetails;
+	@Column(name="staff_type")
+	private String staffType;
+
+	@Column(name="work_of_staff")
+	private String workOfStaff;
 
 	//bi-directional many-to-many association to Class
 	@ManyToMany
@@ -105,28 +109,6 @@ public class StaffInfo implements Serializable {
 		this.fullName = fullName;
 	}
 
-	public List<StaffDetail> getStaffDetails() {
-		return this.staffDetails;
-	}
-
-	public void setStaffDetails(List<StaffDetail> staffDetails) {
-		this.staffDetails = staffDetails;
-	}
-
-	public StaffDetail addStaffDetail(StaffDetail staffDetail) {
-		getStaffDetails().add(staffDetail);
-		staffDetail.setStaffInfo(this);
-
-		return staffDetail;
-	}
-
-	public StaffDetail removeStaffDetail(StaffDetail staffDetail) {
-		getStaffDetails().remove(staffDetail);
-		staffDetail.setStaffInfo(null);
-
-		return staffDetail;
-	}
-
 	public List<Classes> getClasses() {
 		return this.classes;
 	}
@@ -141,6 +123,30 @@ public class StaffInfo implements Serializable {
 
 	public void setUserAccount(UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+	
+	public String getSalary() {
+		return this.salary;
+	}
+
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
+
+	public String getStaffType() {
+		return this.staffType;
+	}
+
+	public void setStaffType(String staffType) {
+		this.staffType = staffType;
+	}
+
+	public String getWorkOfStaff() {
+		return this.workOfStaff;
+	}
+
+	public void setWorkOfStaff(String workOfStaff) {
+		this.workOfStaff = workOfStaff;
 	}
 
 }
