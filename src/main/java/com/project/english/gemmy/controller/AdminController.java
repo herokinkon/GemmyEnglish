@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.english.gemmy.model.request.CreateAccountRequest;
-import com.project.english.gemmy.model.request.UpdateAccountRequest;
+import com.project.english.gemmy.model.request.UpdateInfoRequest;
 import com.project.english.gemmy.model.response.ResponseModel;
 import com.project.english.gemmy.service.StaffInfoService;
 import com.project.english.gemmy.service.StudentInfoService;
@@ -41,7 +41,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
-	public ResponseEntity<ResponseModel> updateAccount(UpdateAccountRequest updateAccountRequest) {
+	public ResponseEntity<ResponseModel> updateAccount(UpdateInfoRequest updateAccountRequest) {
 		boolean isSuccess;
 		if (updateAccountRequest.getTypeOfUSer().equals("staff")) {
 			isSuccess = staffInfoService.updateInfo(updateAccountRequest);

@@ -1,12 +1,14 @@
 package com.project.english.gemmy.model.request;
 
-public class UpdateAccountRequest {
+import java.util.Date;
+
+public class UpdateInfoRequest {
 	
 	private Long userId;
 	
 	private String fullName;
 	
-	private String birthday;
+	private Date birthday;
 	
 	private String email;
 	
@@ -36,11 +38,11 @@ public class UpdateAccountRequest {
 		this.fullName = fullName;
 	}
 
-	public String getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 

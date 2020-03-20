@@ -10,7 +10,7 @@ import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StaffInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
-import com.project.english.gemmy.model.request.UpdateAccountRequest;
+import com.project.english.gemmy.model.request.UpdateInfoRequest;
 import com.project.english.gemmy.model.response.UserInfoResponse;
 
 @Service
@@ -35,10 +35,10 @@ public class StaffInfoService {
 		return null;
 	}
 	
-	public boolean updateInfo(UpdateAccountRequest updateAccountRequest) {
+	public boolean updateInfo(UpdateInfoRequest updateAccountRequest) {
 		StaffInfo staffInfo = new StaffInfo();
 		staffInfo.setId(updateAccountRequest.getUserId());
-//		staffInfo.setBirthday(updateAccountRequest.getBirthday());
+		staffInfo.setBirthday(updateAccountRequest.getBirthday());
 		staffInfo.setContactNumber(updateAccountRequest.getContactNumber());
 		staffInfo.setEmail(updateAccountRequest.getEmail());
 		staffInfo.setFacebook(updateAccountRequest.getFacebook());
