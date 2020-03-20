@@ -38,12 +38,8 @@ public class StudentInfoService {
 		return null;
 	}
 	
-	// use for user
-	public StudentInfo updateStudent(UpdateInfoRequest updateInfoRequest) {
+	public StudentInfo createNewStudent(UpdateInfoRequest updateInfoRequest) {
 		StudentInfo studentInfo = new StudentInfo();
-		if (updateInfoRequest.getUserId() != null) {
-			studentInfo.setId(updateInfoRequest.getUserId());
-		}
 		studentInfo.setBirthday(updateInfoRequest.getBirthday());
 		studentInfo.setContactNumber(updateInfoRequest.getContactNumber());
 		studentInfo.setEmail(updateInfoRequest.getEmail());
@@ -51,6 +47,30 @@ public class StudentInfoService {
 		studentInfo.setFullName(updateInfoRequest.getFullName());
 		studentInfo.setParentContactNumber(updateInfoRequest.getParentContactNumber());
 		studentInfo.setParentEmail(updateInfoRequest.getParentEmail());
+		StudentInfo result = studentInfoRepo.save(studentInfo);
+		if (result != null) {
+			return result;
+		}
+		return null;
+	}
+	
+	// use for user
+	public StudentInfo updateStudent(UpdateInfoRequest updateInfoRequest) {
+		StudentInfo beforeUpdate = null;
+		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getUserId());
+		if (temp.isPresent()) {
+			beforeUpdate = temp.get();
+		}
+		StudentInfo studentInfo = new StudentInfo();
+		studentInfo.setId(beforeUpdate.getId());
+		studentInfo.setBirthday(updateInfoRequest.getBirthday() != null ? updateInfoRequest.getBirthday() : beforeUpdate.getBirthday());
+		studentInfo.setContactNumber(updateInfoRequest.getContactNumber() != null ? updateInfoRequest.getContactNumber() : beforeUpdate.getContactNumber());
+		studentInfo.setEmail(updateInfoRequest.getEmail() != null ? updateInfoRequest.getEmail() : beforeUpdate.getEmail());
+		studentInfo.setFacebook(updateInfoRequest.getFacebook() != null ? updateInfoRequest.getFacebook() : beforeUpdate.getFacebook());
+		studentInfo.setFullName(updateInfoRequest.getFullName() != null ? updateInfoRequest.getFullName() : beforeUpdate.getFullName());
+		studentInfo.setParentContactNumber(updateInfoRequest.getParentContactNumber() != null ? updateInfoRequest.getParentContactNumber() : beforeUpdate.getParentContactNumber());
+		studentInfo.setParentEmail(updateInfoRequest.getParentEmail() != null ? updateInfoRequest.getParentEmail() : beforeUpdate.getParentEmail());
+		studentInfo.setAttendance(beforeUpdate.getAttendance());
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
 			return result;

@@ -18,6 +18,12 @@ public class Classes implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name="class_name")
+	private String className;
+	
+	@Column(name="class_code")
+	private String classCode;
 
 	private String description;
 
@@ -144,6 +150,22 @@ public class Classes implements Serializable {
 
 	public void setStudentInfos(List<StudentInfo> studentInfos) {
 		this.studentInfos = studentInfos;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public String getClassCode() {
+		return classCode;
+	}
+
+	public void setClassCode(String classCode) {
+		this.classCode = classCode;
 	}
 
 }

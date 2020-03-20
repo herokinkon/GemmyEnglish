@@ -71,7 +71,7 @@ public class StudentInfoController {
 	
 	@PostMapping("/")
 	public ResponseEntity<StudentInfo> createStudentInfo(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfo studentInfo = studentInfoService.updateStudent(updateInfoRequest);
+		StudentInfo studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
 		if (studentInfo != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(studentInfo.getId()).toUri())

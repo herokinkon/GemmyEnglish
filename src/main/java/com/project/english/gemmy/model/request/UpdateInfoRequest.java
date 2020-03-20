@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class UpdateInfoRequest {
 	
+	// staffId if user is staff
+	// studentIf if user is student
 	private Long userId;
 	
 	private String fullName;

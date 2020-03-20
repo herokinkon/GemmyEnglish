@@ -1,42 +1,86 @@
 package com.project.english.gemmy.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.project.english.gemmy.model.jpa.Classes;
+import com.project.english.gemmy.model.request.ClassRequest;
+import com.project.english.gemmy.service.ClassesService;
 
 @RestController
 @RequestMapping("/classes")
 public class ClassesController {
 	
-	@RequestMapping(value = "/getAllClasses", method = RequestMethod.GET)
-	public ResponseEntity<Void> getAllClasses() {
-		return null;
-		
-	}
-
-	@RequestMapping(value = "/createClass", method = RequestMethod.POST)
-	public ResponseEntity<Void> createNewClass() {
-		return null;
-		
+	@Autowired
+	private ClassesService classesService;
+	
+	@GetMapping("/")
+	public ResponseEntity<List<Classes>> getAllClasses() {
+		List<Classes> classes = classesService.getAllClass();
+		if (classes != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(classes);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Classes> getClassById(@PathVariable Long id) {
+		Classes result = classesService.getClassById(id);
+		if (result != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(result);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@RequestMapping(value = "/updateClass", method = RequestMethod.POST)
-	public ResponseEntity<Void> updateClass() {
+	@GetMapping("/{searchText}")
+	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
 		return null;
-		
 	}
 	
-	@RequestMapping(value = "/getClassByName", method = RequestMethod.GET)
-	public ResponseEntity<Void> getClassByName() {
-		return null;
-		
+	@PostMapping("/")
+	public ResponseEntity<Classes> createNewClass(@RequestBody ClassRequest request) {
+		Classes classes = classesService.createNewClass(request);
+		if (classes != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
+					.headers(httpHeaders).body(classes);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(value = "/searchClass", method = RequestMethod.GET)
-	public ResponseEntity<Void> searchClass() {
-		return null;
-		
+	@PutMapping("/")
+	public ResponseEntity<Classes> updateClass(@RequestBody ClassRequest request) {
+		Classes classes = classesService.updateClass(request);
+		if (classes != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
+					.headers(httpHeaders).body(classes);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+		boolean result = classesService.deleteClass(id);
+		if (result) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }
