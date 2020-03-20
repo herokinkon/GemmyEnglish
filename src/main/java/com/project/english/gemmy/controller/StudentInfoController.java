@@ -59,15 +59,15 @@ public class StudentInfoController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("/{searchText}")
-	public ResponseEntity<List<StudentInfo>> searchStudentByName(@PathVariable String searchText) {
-		List<StudentInfo> studentInfoLst = studentInfoService.getAllStudent();
-		if (studentInfoLst != null) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
+//	@GetMapping("/{searchText}")
+//	public ResponseEntity<List<StudentInfo>> searchStudentByName(@PathVariable String searchText) {
+//		List<StudentInfo> studentInfoLst = studentInfoService.searchStudent(searchText);
+//		if (studentInfoLst != null) {
+//			HttpHeaders httpHeaders = new HttpHeaders();
+//			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
+//		}
+//		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//	}
 	
 	@PostMapping("/")
 	public ResponseEntity<StudentInfo> createStudentInfo(@RequestBody UpdateInfoRequest updateInfoRequest) {

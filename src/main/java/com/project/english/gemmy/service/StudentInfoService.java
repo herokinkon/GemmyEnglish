@@ -58,6 +58,10 @@ public class StudentInfoService {
 		return null;
 	}
 	
+//	public StudentInfo searchStudent(String searchText) {
+//		
+//	}
+	
 	public boolean deleteStudent(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
