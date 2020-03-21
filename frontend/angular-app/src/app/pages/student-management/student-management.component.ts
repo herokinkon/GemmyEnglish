@@ -42,12 +42,14 @@ export class StudentManagementComponent implements OnInit {
   delete(student: any) {
     const index = this.students.findIndex(stu => student.id === stu.id);
     this.students.splice(index, 1);
+    this.studentService.deleteStudent(student);
   }
 
   save(student: any, isNewStudent?: boolean) {
     if (isNewStudent) {
-      this.students.push(student);
+      this.studentService.createStudent(student).subscribe(newStudent => this.students.push(newStudent));
     } else {
+      this.studentService.updateStudent(student);
       const index = this.students.findIndex(stu => student.id === stu.id);
       if (index >= 0) {
         this.students[index] = student;
