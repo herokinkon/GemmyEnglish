@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.request.UpdateInfoRequest;
+import com.project.english.gemmy.model.response.StudentInfoResponse;
 import com.project.english.gemmy.service.StudentInfoService;
 
 @RestController
@@ -28,8 +29,8 @@ public class StudentInfoController {
 	private StudentInfoService studentInfoService;
 	
 	@GetMapping("/")
-	public ResponseEntity<List<StudentInfo>> getAllStudent() {
-		List<StudentInfo> studentInfoLst = studentInfoService.getAllStudent();
+	public ResponseEntity<List<StudentInfoResponse>> getAllStudent() {
+		List<StudentInfoResponse> studentInfoLst = studentInfoService.getAllStudent();
 		if (studentInfoLst != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
@@ -38,8 +39,8 @@ public class StudentInfoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<StudentInfo> updateStudent(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfo result = studentInfoService.updateStudent(updateInfoRequest);
+	public ResponseEntity<StudentInfoResponse> updateStudent(@RequestBody UpdateInfoRequest updateInfoRequest) {
+		StudentInfoResponse result = studentInfoService.updateStudent(updateInfoRequest);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(result.getId()).toUri())
@@ -50,8 +51,8 @@ public class StudentInfoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<StudentInfo> getStudentByStudentId(@PathVariable Long id) {
-		StudentInfo result = studentInfoService.getStudentInfoById(id);
+	public ResponseEntity<StudentInfoResponse> getStudentByStudentId(@PathVariable Long id) {
+		StudentInfoResponse result = studentInfoService.getStudentInfoById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
@@ -70,8 +71,8 @@ public class StudentInfoController {
 //	}
 	
 	@PostMapping("/")
-	public ResponseEntity<StudentInfo> createStudentInfo(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfo studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
+	public ResponseEntity<StudentInfoResponse> createStudentInfo(@RequestBody UpdateInfoRequest updateInfoRequest) {
+		StudentInfoResponse studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
 		if (studentInfo != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(studentInfo.getId()).toUri())

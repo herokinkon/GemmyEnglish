@@ -1,5 +1,6 @@
 package com.project.english.gemmy.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
 import com.project.english.gemmy.model.request.UpdateInfoRequest;
+import com.project.english.gemmy.model.response.StudentInfoResponse;
 import com.project.english.gemmy.model.response.UserInfoResponse;
 
 @Service
@@ -22,23 +24,29 @@ public class StudentInfoService {
 	@Autowired
 	private UserAccountRepository userAccountRepo;
 	
-	public List<StudentInfo> getAllStudent() {
+	public List<StudentInfoResponse> getAllStudent() {
 		List<StudentInfo> allUserAccount = studentInfoRepo.findAll();
 		if (allUserAccount != null && !allUserAccount.isEmpty()) {
-			return allUserAccount;
+			List<StudentInfoResponse> result = new ArrayList<>();
+			allUserAccount.stream().forEach(item -> {
+				StudentInfoResponse temp = new StudentInfoResponse(item);
+				result.add(temp);
+			});
+			return result;
 		}
 		return null;
 	}
 	
-	public StudentInfo getStudentInfoById(Long id) {
+	public StudentInfoResponse getStudentInfoById(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-			return studentInfo.get();
+			StudentInfoResponse result = new StudentInfoResponse(studentInfo.get());
+			return result;
 		}
 		return null;
 	}
 	
-	public StudentInfo createNewStudent(UpdateInfoRequest updateInfoRequest) {
+	public StudentInfoResponse createNewStudent(UpdateInfoRequest updateInfoRequest) {
 		StudentInfo studentInfo = new StudentInfo();
 		studentInfo.setBirthday(updateInfoRequest.getBirthday());
 		studentInfo.setContactNumber(updateInfoRequest.getContactNumber());
@@ -49,13 +57,13 @@ public class StudentInfoService {
 		studentInfo.setParentEmail(updateInfoRequest.getParentEmail());
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
-			return result;
+			return new StudentInfoResponse(result);
 		}
 		return null;
 	}
 	
 	// use for user
-	public StudentInfo updateStudent(UpdateInfoRequest updateInfoRequest) {
+	public StudentInfoResponse updateStudent(UpdateInfoRequest updateInfoRequest) {
 		StudentInfo beforeUpdate = null;
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getUserId());
 		if (temp.isPresent()) {
@@ -73,7 +81,7 @@ public class StudentInfoService {
 		studentInfo.setAttendance(beforeUpdate.getAttendance());
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
-			return result;
+			return new StudentInfoResponse(result);
 		}
 		return null;
 	}
