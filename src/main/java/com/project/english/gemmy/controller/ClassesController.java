@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.request.ClassRequest;
+import com.project.english.gemmy.model.response.ClassesInfoResponse;
 import com.project.english.gemmy.service.ClassesService;
 
 @RestController
@@ -28,8 +28,8 @@ public class ClassesController {
 	private ClassesService classesService;
 	
 	@GetMapping("/")
-	public ResponseEntity<List<Classes>> getAllClasses() {
-		List<Classes> classes = classesService.getAllClass();
+	public ResponseEntity<List<ClassesInfoResponse>> getAllClasses() {
+		List<ClassesInfoResponse> classes = classesService.getAllClass();
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(classes);
@@ -38,8 +38,8 @@ public class ClassesController {
 	}	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Classes> getClassById(@PathVariable Long id) {
-		Classes result = classesService.getClassById(id);
+	public ResponseEntity<ClassesInfoResponse> getClassById(@PathVariable Long id) {
+		ClassesInfoResponse result = classesService.getClassById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
@@ -53,8 +53,8 @@ public class ClassesController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Classes> createNewClass(@RequestBody ClassRequest request) {
-		Classes classes = classesService.createNewClass(request);
+	public ResponseEntity<ClassesInfoResponse> createNewClass(@RequestBody ClassRequest request) {
+		ClassesInfoResponse classes = classesService.createNewClass(request);
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
@@ -64,8 +64,8 @@ public class ClassesController {
 	}
 	
 	@PutMapping("/")
-	public ResponseEntity<Classes> updateClass(@RequestBody ClassRequest request) {
-		Classes classes = classesService.updateClass(request);
+	public ResponseEntity<ClassesInfoResponse> updateClass(@RequestBody ClassRequest request) {
+		ClassesInfoResponse classes = classesService.updateClass(request);
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())

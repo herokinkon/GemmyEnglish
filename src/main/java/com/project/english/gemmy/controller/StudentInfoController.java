@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.request.UpdateInfoRequest;
 import com.project.english.gemmy.model.response.StudentInfoResponse;
 import com.project.english.gemmy.service.StudentInfoService;
