@@ -20,12 +20,14 @@ export class StudentDetailComponent implements OnInit {
     this.studentInfo.birthday = new Date(data.student.birthday);
     this.title = data.title;
 
-    this.fields = [{ field: 'id', header: 'StudentId', type: 'number' },
-    { field: 'fullName', header: 'Full Name', type: 'text' },
+    this.fields = [{ field: 'fullName', header: 'Full Name', type: 'text' },
     { field: 'birthday', header: 'Birth Day', type: 'date' },
     { field: 'email', header: 'Email', type: 'email' },
     { field: 'facebook', header: 'Facebook', type: 'text' },
     { field: 'contactNumber', header: 'Phone Number', type: 'tel' }];
+    if (!this.isNewStudent) {
+      this.fields.unshift({ field: 'id', header: 'StudentId', type: 'number' });
+    }
   }
 
   ngOnInit(): void {
