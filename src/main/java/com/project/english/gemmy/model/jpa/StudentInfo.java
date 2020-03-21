@@ -19,7 +19,7 @@ public class StudentInfo implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
 	@Column(name="contact_number")
