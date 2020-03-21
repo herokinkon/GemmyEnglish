@@ -21,11 +21,11 @@ export class StudentDetailComponent implements OnInit {
     this.title = data.title;
 
     this.fields = [{ field: 'id', header: 'StudentId', type: 'number' },
-    { field: 'name', header: 'Full Name', type: 'text' },
+    { field: 'fullName', header: 'Full Name', type: 'text' },
     { field: 'birthday', header: 'Birth Day', type: 'date' },
     { field: 'email', header: 'Email', type: 'email' },
-    { field: 'fb', header: 'Facebook', type: 'text' },
-    { field: 'contact_number', header: 'Phone Number', type: 'tel' }];
+    { field: 'facebook', header: 'Facebook', type: 'text' },
+    { field: 'contactNumber', header: 'Phone Number', type: 'tel' }];
   }
 
   ngOnInit(): void {

@@ -15,11 +15,11 @@ export class StudentService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }
+  };
   constructor(private http: HttpClient) { }
 
-  getStudents(): Observable<Student> {
-    return this.http.get<Student>(this.apiUrl + '/getAllStudent', this.httpOptions);
+  getStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(this.apiUrl + '/', this.httpOptions);
   }
 
   getStudent(id: number): Observable<Student> {
