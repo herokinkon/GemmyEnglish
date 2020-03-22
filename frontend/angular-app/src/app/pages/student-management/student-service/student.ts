@@ -1,8 +1,8 @@
 export interface Student {
     id: number;
-    name: string;
+    fullName: string;
     birthday: number;
     email: string;
-    fb: string;
-    contact_number: string;
+    facebook: string;
+    contactNumber: string;
 }
