@@ -25,11 +25,6 @@ export class StudentManagementComponent implements OnInit {
     { field: 'facebook', header: 'Facebook' },
     { field: 'contactNumber', header: 'Phone Number' }];
 
-    // const dod = Date.now();
-    // this.students = [{ id: 1, name: 'Adam', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
-    // { id: 2, name: 'Tina', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
-    // { id: 3, name: 'Mark', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' },
-    // { id: 4, name: 'Lovelance', birthday: dod, email: 'test@gmail', fb: 'fb.com/hungdo', contact_number: '123456789' }];
     this.studentService.getStudents().subscribe(data => this.students = data);
 
   }
@@ -49,7 +44,7 @@ export class StudentManagementComponent implements OnInit {
     if (isNewStudent) {
       this.studentService.createStudent(student).subscribe(newStudent => this.students.push(newStudent));
     } else {
-      this.studentService.updateStudent(student);
+      this.studentService.updateStudent(student).subscribe();
       const index = this.students.findIndex(stu => student.id === stu.id);
       if (index >= 0) {
         this.students[index] = student;
