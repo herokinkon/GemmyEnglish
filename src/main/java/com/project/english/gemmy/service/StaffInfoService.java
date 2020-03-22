@@ -37,7 +37,7 @@ public class StaffInfoService {
 	
 	public boolean updateInfo(UpdateInfoRequest updateAccountRequest) {
 		StaffInfo staffInfo = new StaffInfo();
-		staffInfo.setId(updateAccountRequest.getUserId());
+		staffInfo.setId(updateAccountRequest.getId());
 		staffInfo.setBirthday(updateAccountRequest.getBirthday());
 		staffInfo.setContactNumber(updateAccountRequest.getContactNumber());
 		staffInfo.setEmail(updateAccountRequest.getEmail());

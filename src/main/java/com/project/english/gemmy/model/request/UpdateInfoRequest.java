@@ -6,7 +6,7 @@ public class UpdateInfoRequest {
 	
 	// staffId if user is staff
 	// studentIf if user is student
-	private Long userId;
+	private Long id;
 	
 	private String fullName;
 	
@@ -23,14 +23,6 @@ public class UpdateInfoRequest {
 	private String parentContactNumber;
 	
 	private String typeOfUSer;
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
 
 	public String getFullName() {
 		return fullName;
@@ -94,6 +86,14 @@ public class UpdateInfoRequest {
 
 	public void setTypeOfUSer(String typeOfUSer) {
 		this.typeOfUSer = typeOfUSer;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

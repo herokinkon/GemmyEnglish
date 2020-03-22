@@ -8,69 +8,61 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the student_info database table.
  * 
  */
 @Entity
-@Table(name="student_info")
+@Table(name = "student_info")
 public class StudentInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
-	@Column(name="contact_number")
+	@Column(name = "contact_number")
 	private String contactNumber;
 
 	private String email;
 
 	private String facebook;
 
-	@Column(name="full_name")
+	@Column(name = "full_name")
 	private String fullName;
 
-	@Column(name="parent_contact_number")
+	@Column(name = "parent_contact_number")
 	private String parentContactNumber;
 
-	@Column(name="parent_email")
+	@Column(name = "parent_email")
 	private String parentEmail;
 
-	//bi-directional many-to-one association to ExamResult
+	// bi-directional many-to-one association to ExamResult
 	@JsonIgnore
-	@OneToMany(mappedBy="studentInfo")
+	@OneToMany(mappedBy = "studentInfo")
 	private List<ExamResult> examResults;
 
-	//bi-directional many-to-one association to FeePayment
+	// bi-directional many-to-one association to FeePayment
 	@JsonIgnore
-	@OneToMany(mappedBy="studentInfo")
+	@OneToMany(mappedBy = "studentInfo")
 	private List<FeePayment> feePayments;
 
-	//bi-directional many-to-many association to Class
+	// bi-directional many-to-many association to Class
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(
-		name="student_classes"
-		, joinColumns={
-			@JoinColumn(name="student_info_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="classes_id")
-			}
-		)
+	@JoinTable(name = "student_classes", joinColumns = { @JoinColumn(name = "student_info_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "classes_id") })
 	private List<Classes> classes;
 
-	//bi-directional many-to-one association to UserAccount
+	// bi-directional many-to-one association to UserAccount
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="user_account_id")
+	@JoinColumn(name = "user_account_id")
 	private UserAccount userAccount;
-	
+
 	private String attendance;
 
 	public StudentInfo() {

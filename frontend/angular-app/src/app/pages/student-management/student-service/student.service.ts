@@ -9,29 +9,29 @@ import { Student } from './student';
 })
 export class StudentService {
 
-  apiUrl = AppConstant.serverURL + '/student';
+  apiUrl = AppConstant.serverURL + '/student/';
   // Http Options
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }
+  };
   constructor(private http: HttpClient) { }
 
-  getStudents(): Observable<Student> {
-    return this.http.get<Student>(this.apiUrl + '/getAllStudent', this.httpOptions);
+  getStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(this.apiUrl, this.httpOptions);
   }
 
   getStudent(id: number): Observable<Student> {
-    return this.http.get<Student>(this.apiUrl + `/${id}`, this.httpOptions);
+    return this.http.get<Student>(this.apiUrl + `${id}`, this.httpOptions);
   }
 
   deleteStudent(id: number): Observable<Student> {
-    return this.http.delete<Student>(this.apiUrl + `/${id}`, this.httpOptions);
+    return this.http.delete<Student>(this.apiUrl + `${id}`, this.httpOptions);
   }
 
   createStudent(student: Student): Observable<Student> {
-    return this.http.post<Student>(this.apiUrl, student, this.httpOptions);
+    return this.http.post<Student>(this.apiUrl, student);
   }
 
   updateStudent(student: Student): Observable<Student> {
