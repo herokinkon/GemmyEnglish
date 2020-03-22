@@ -1,5 +1,6 @@
 package com.project.english.gemmy.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
 import com.project.english.gemmy.model.repositories.CourseRepository;
 import com.project.english.gemmy.model.request.ClassRequest;
+import com.project.english.gemmy.model.response.ClassesInfoResponse;
 
 @Service
 public class ClassesService {
@@ -21,23 +23,28 @@ public class ClassesService {
 	@Autowired
 	private CourseRepository courseRepo;
 	
-	public List<Classes> getAllClass() {
+	public List<ClassesInfoResponse> getAllClass() {
 		List<Classes> allClasses = classesRepo.findAll();
 		if (allClasses != null && !allClasses.isEmpty()) {
-			return allClasses;
+			List<ClassesInfoResponse> result = new ArrayList<>();
+			allClasses.stream().forEach(item -> {
+				ClassesInfoResponse temp = new ClassesInfoResponse(item);
+				result.add(temp);
+			});
+			return result;
 		}
 		return null;
 	}
 	
-	public Classes getClassById(Long id) {
+	public ClassesInfoResponse getClassById(Long id) {
 		Optional<Classes> classInfo = classesRepo.findById(id);
 		if (classInfo.isPresent()) {
-			return classInfo.get();
+			return new ClassesInfoResponse(classInfo.get());
 		}
 		return null;
 	}
 	
-	public Classes createNewClass(ClassRequest classRequest) {
+	public ClassesInfoResponse createNewClass(ClassRequest classRequest) {
 		Classes classInfo = new Classes();
 		classInfo.setClassName(classRequest.getClassName());
 		classInfo.setClassCode(classRequest.getClassCode());
@@ -54,12 +61,12 @@ public class ClassesService {
 		classInfo.setStatus(classRequest.getStatus());
 		Classes result = classesRepo.save(classInfo);
 		if (result != null) {
-			return result;
+			return new ClassesInfoResponse(result);
 		}
 		return null;
 	}
 	
-	public Classes updateClass(ClassRequest classRequest) {
+	public ClassesInfoResponse updateClass(ClassRequest classRequest) {
 		Classes beforeUpdate = null;
 		Optional<Classes> temp = classesRepo.findById(classRequest.getId());
 		if (temp.isPresent()) {
@@ -87,7 +94,7 @@ public class ClassesService {
 		classInfo.setStudentInfos(beforeUpdate.getStudentInfos());
 		Classes result = classesRepo.save(classInfo);
 		if (result != null) {
-			return result;
+			return new ClassesInfoResponse(result);
 		}
 		return null;
 	}
