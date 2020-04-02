@@ -3,18 +3,16 @@
 }
 
 mat-tab-group {
-  min-width: 500px;
-  min-height: 300px;
+  /* min-width: 500px; */
+  max-width: 500px;
+  max-height: 600px;
+  min-height: 400px;
 }
 
 .mat-dialog-actions {
   float: right;
 }
 
-.mat-form-field-infix {
-  display: flex;
-}
-
-.dateField {
-  width: 140px;
+mat-form-field {
+  width: 80%;
 }

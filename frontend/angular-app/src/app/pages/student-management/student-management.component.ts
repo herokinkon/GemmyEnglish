@@ -20,7 +20,7 @@ export class StudentManagementComponent implements OnInit {
   ngOnInit(): void {
     this.cols = [{ field: 'id', header: 'StudentId' },
     { field: 'fullName', header: 'Full Name' },
-    { field: 'birthday', header: 'Birth Day', pipe: 'date' },
+    { field: 'birthday', header: 'Birthday' },
     { field: 'email', header: 'Email' },
     { field: 'facebook', header: 'Facebook' },
     { field: 'contactNumber', header: 'Phone Number' }];

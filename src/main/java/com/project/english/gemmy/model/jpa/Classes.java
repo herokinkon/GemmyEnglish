@@ -30,13 +30,13 @@ public class Classes implements Serializable {
 
 	private String description;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="end_date")
 	private Date endDate;
 
 	private String fee;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="start_date")
 	private Date startDate;
 

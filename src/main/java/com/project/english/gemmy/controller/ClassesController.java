@@ -13,20 +13,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.project.english.gemmy.model.request.ClassRequest;
 import com.project.english.gemmy.model.response.ClassesInfoResponse;
 import com.project.english.gemmy.service.ClassesService;
+import com.project.english.gemmy.service.StudentInfoService;
 
 @RestController
-@RequestMapping("/classes")
+@RequestMapping("/api/classes")
 public class ClassesController {
-	
+
 	@Autowired
 	private ClassesService classesService;
-	
+
 	@GetMapping("/")
 	public ResponseEntity<List<ClassesInfoResponse>> getAllClasses() {
 		List<ClassesInfoResponse> classes = classesService.getAllClass();
@@ -35,8 +37,8 @@ public class ClassesController {
 			return ResponseEntity.ok().headers(httpHeaders).body(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}	
-	
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<ClassesInfoResponse> getClassById(@PathVariable Long id) {
 		ClassesInfoResponse result = classesService.getClassById(id);
@@ -46,34 +48,36 @@ public class ClassesController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@GetMapping("/{searchText}")
 	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
 		return null;
 	}
-	
+
 	@PostMapping("/")
 	public ResponseEntity<ClassesInfoResponse> createNewClass(@RequestBody ClassRequest request) {
 		ClassesInfoResponse classes = classesService.createNewClass(request);
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
+			return ResponseEntity
+					.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
 					.headers(httpHeaders).body(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@PutMapping("/")
 	public ResponseEntity<ClassesInfoResponse> updateClass(@RequestBody ClassRequest request) {
 		ClassesInfoResponse classes = classesService.updateClass(request);
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
+			return ResponseEntity
+					.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
 					.headers(httpHeaders).body(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
 		boolean result = classesService.deleteClass(id);
@@ -81,6 +85,11 @@ public class ClassesController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping("/getClassByStudent")
+	public ResponseEntity<List<ClassesInfoResponse>> getClassByStudent(@RequestParam("studentId") Long studentId) {
+		return ResponseEntity.ok().body(classesService.getClassesByStudent(studentId));
 	}
 
 }
