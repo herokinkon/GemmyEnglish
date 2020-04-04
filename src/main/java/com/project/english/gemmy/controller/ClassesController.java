@@ -21,7 +21,7 @@ import com.project.english.gemmy.model.response.ClassesInfoResponse;
 import com.project.english.gemmy.service.ClassesService;
 
 @RestController
-@RequestMapping("/classes")
+@RequestMapping("/api/classes")
 public class ClassesController {
 	
 	@Autowired

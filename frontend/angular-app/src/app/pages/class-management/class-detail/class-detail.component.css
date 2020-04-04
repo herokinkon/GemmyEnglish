@@ -1,0 +1,20 @@
+.mat-dialog-content {
+  display: contents;
+}
+
+mat-tab-group {
+  min-width: 500px;
+  min-height: 300px;
+}
+
+.mat-dialog-actions {
+  float: right;
+}
+
+.mat-form-field-infix {
+  display: flex;
+}
+
+.dateField {
+  width: 140px;
+}

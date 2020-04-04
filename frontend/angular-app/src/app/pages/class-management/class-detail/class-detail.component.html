@@ -1,0 +1,38 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Class Info">
+        <div mat-dialog-content>
+            <form>
+                <mat-grid-list cols="2" rowHeight="3:1">
+                    <mat-grid-tile *ngFor="let field of fields">
+                        <mat-form-field>
+                            <mat-label>{{field.header}}</mat-label>
+                            <input *ngIf="field.field !== 'startDate' && field.field !== 'endDate'"
+                                name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
+                                [disabled]="field.field === 'id'">
+                            <div *ngIf="field.field == 'startDate'">
+                                <input  class="dateField" name="startDate" matInput
+                                    [matDatepicker]="myDatepicker" [(ngModel)]="classInfo.startDate">
+                                <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #myDatepicker></mat-datepicker>
+                            </div>
+                            <div *ngIf="field.field == 'endDate'">
+                                <input  class="dateField" name="endDate" matInput
+                                    [matDatepicker]="myDatepicker" [(ngModel)]="classInfo.endDate">
+                                <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #myDatepicker></mat-datepicker>
+                            </div>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </form>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+<div mat-dialog-actions>
+    <button *ngIf="!isNewClass" type="button" mat-raised-button color="warn" (click)="closeDialog('delete')">
+        <mat-icon>delete</mat-icon><span>Delete</span>
+    </button>
+    <button type="button" mat-raised-button color="accent" (click)="closeDialog('save')">
+        <mat-icon>check_circle</mat-icon><span>Save</span>
+    </button>
+</div>

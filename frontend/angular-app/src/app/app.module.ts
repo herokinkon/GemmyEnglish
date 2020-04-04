@@ -27,10 +27,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 
 // PrimeNG table
 import { TableModule } from 'primeng/table';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Pages components
 import { StudentManagementComponent } from './pages/student-management/student-management.component';
 import { StudentDetailComponent } from './pages/student-management/student-detail/student-detail.component';
+import { ClassManagementComponent } from './pages/class-management/class-management.component';
+import { ClassDetailComponent } from './pages/class-management/class-detail/class-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { StudentDetailComponent } from './pages/student-management/student-detai
     HeaderComponent,
     SideMenuComponent,
     StudentManagementComponent,
-    StudentDetailComponent
+    StudentDetailComponent,
+    ClassManagementComponent,
+    ClassDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,8 @@ import { StudentDetailComponent } from './pages/student-management/student-detai
     MatTabsModule,
     FormsModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
