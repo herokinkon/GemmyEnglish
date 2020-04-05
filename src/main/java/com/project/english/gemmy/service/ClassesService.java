@@ -112,4 +112,7 @@ public class ClassesService {
 		return false;
 	}
 	
+	public List<ClassesInfoResponse> getClassesByStudent(long studentId){
+		return classesRepo.findByStudentInfos_id(studentId);
+	}
 }
