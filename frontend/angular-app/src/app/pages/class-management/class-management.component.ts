@@ -26,12 +26,15 @@ export class ClassManagementComponent implements OnInit {
     { field: 'fee', header: 'Fee' }];
 
     this.classService.getClasses().subscribe(data => this.classes = data);
-
   }
 
   showDialogToAdd() {
     const dialogRef = this.dialog.open(ClassDetailComponent, { data: { title: 'New Class', clas: {} } });
-    dialogRef.afterClosed().subscribe(data => { if (data) { this.save(data.clas, true); } });
+    dialogRef.afterClosed().subscribe(data => { 
+      if (data) { 
+        this.save(data.clas, true);
+      } 
+    });
   }
 
   delete(clas: any) {

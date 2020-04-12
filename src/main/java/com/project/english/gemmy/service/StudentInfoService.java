@@ -7,13 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.english.gemmy.model.dto.StudentInfoDto;
+import com.project.english.gemmy.model.dto.UpdateInfoRequest;
+import com.project.english.gemmy.model.dto.UserInfoResponse;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
-import com.project.english.gemmy.model.request.UpdateInfoRequest;
-import com.project.english.gemmy.model.response.StudentInfoResponse;
-import com.project.english.gemmy.model.response.UserInfoResponse;
 
 @Service
 public class StudentInfoService {
@@ -24,12 +24,12 @@ public class StudentInfoService {
 	@Autowired
 	private UserAccountRepository userAccountRepo;
 
-	public List<StudentInfoResponse> getAllStudent() {
+	public List<StudentInfoDto> getAllStudent() {
 		List<StudentInfo> allUserAccount = studentInfoRepo.findAll();
 		if (allUserAccount != null && !allUserAccount.isEmpty()) {
-			List<StudentInfoResponse> result = new ArrayList<>();
+			List<StudentInfoDto> result = new ArrayList<>();
 			allUserAccount.stream().forEach(item -> {
-				StudentInfoResponse temp = new StudentInfoResponse(item);
+				StudentInfoDto temp = new StudentInfoDto(item);
 				result.add(temp);
 			});
 			return result;
@@ -37,16 +37,16 @@ public class StudentInfoService {
 		return null;
 	}
 
-	public StudentInfoResponse getStudentInfoById(Long id) {
+	public StudentInfoDto getStudentInfoById(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-			StudentInfoResponse result = new StudentInfoResponse(studentInfo.get());
+			StudentInfoDto result = new StudentInfoDto(studentInfo.get());
 			return result;
 		}
 		return null;
 	}
 
-	public StudentInfoResponse createNewStudent(UpdateInfoRequest updateInfoRequest) {
+	public StudentInfoDto createNewStudent(UpdateInfoRequest updateInfoRequest) {
 		StudentInfo studentInfo = new StudentInfo();
 		studentInfo.setBirthday(updateInfoRequest.getBirthday());
 		studentInfo.setContactNumber(updateInfoRequest.getContactNumber());
@@ -57,13 +57,13 @@ public class StudentInfoService {
 		studentInfo.setParentEmail(updateInfoRequest.getParentEmail());
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
-			return new StudentInfoResponse(result);
+			return new StudentInfoDto(result);
 		}
 		return null;
 	}
 
 	// use for user
-	public StudentInfoResponse updateStudent(UpdateInfoRequest updateInfoRequest) {
+	public StudentInfoDto updateStudent(UpdateInfoRequest updateInfoRequest) {
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getId());
 		if (temp.isPresent()) {
 			StudentInfo studentInfo = temp.get();
@@ -76,7 +76,7 @@ public class StudentInfoService {
 			studentInfo.setParentEmail(updateInfoRequest.getParentEmail());
 			StudentInfo result = studentInfoRepo.save(studentInfo);
 			if (result != null) {
-				return new StudentInfoResponse(result);
+				return new StudentInfoDto(result);
 			}
 		}
 		return null;
@@ -122,6 +122,23 @@ public class StudentInfoService {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<StudentInfoDto> getStudentInfoByClass(Long id) {
+		List<StudentInfo> allUserAccount = studentInfoRepo.findAll();
+		if (allUserAccount != null && !allUserAccount.isEmpty()) {
+			List<StudentInfoDto> result = new ArrayList<>();
+			allUserAccount.stream().forEach(item -> {
+				StudentInfoDto temp = new StudentInfoDto(item);
+				result.add(temp);
+			});
+			return result;
+		}
+		return null;
+	}
+	
+	public List<StudentInfo> getStudentListByClass(long classId){
+		return studentInfoRepo.findByClasses_id(classId);
 	}
 
 }

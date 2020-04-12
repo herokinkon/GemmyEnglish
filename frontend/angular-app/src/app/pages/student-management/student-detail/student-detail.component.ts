@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ClassService } from '../../class-management/class-service/class-service';
+import { ClassService } from '../../class-management/class-service/class.service';
 import { Class } from '../../class-management/class-service/class';
 import { Student } from '../student-service/student';
 

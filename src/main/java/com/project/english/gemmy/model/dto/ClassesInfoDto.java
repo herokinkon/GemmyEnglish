@@ -1,10 +1,10 @@
-package com.project.english.gemmy.model.response;
+package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
 
 import com.project.english.gemmy.model.jpa.Classes;
 
-public class ClassesInfoResponse {
+public class ClassesInfoDto {
 
 	private Long id;
 
@@ -22,11 +22,13 @@ public class ClassesInfoResponse {
 
 	private Boolean status;
 	
-	public ClassesInfoResponse() {
+	private Long courseId;
+	
+	public ClassesInfoDto() {
 		
 	}
 	
-	public ClassesInfoResponse(Classes classesInfo) {
+	public ClassesInfoDto(Classes classesInfo) {
 		this.id = classesInfo.getId();
 		this.className = classesInfo.getClassName();
 		this.classCode = classesInfo.getClassCode();
@@ -99,6 +101,14 @@ public class ClassesInfoResponse {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public Long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
 	}
 
 }

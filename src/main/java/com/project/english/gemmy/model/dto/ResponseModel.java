@@ -1,4 +1,4 @@
-package com.project.english.gemmy.model.response;
+package com.project.english.gemmy.model.dto;
 
 public class ResponseModel {
 

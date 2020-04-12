@@ -1,4 +1,4 @@
-package com.project.english.gemmy.model.request;
+package com.project.english.gemmy.model.dto;
 
 public class UserInfoRequest {
 	

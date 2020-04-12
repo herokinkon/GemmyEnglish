@@ -1,14 +1,16 @@
-package com.project.english.gemmy.model.request;
+package com.project.english.gemmy.model.dto;
 
-public class CreateAccountRequest {
+import java.util.Date;
 
-	private String userName;
+public class UpdateInfoRequest {
 	
-	private String password;
+	// staffId if user is staff
+	// studentIf if user is student
+	private Long id;
 	
 	private String fullName;
 	
-	private String birthday;
+	private Date birthday;
 	
 	private String email;
 	
@@ -19,24 +21,8 @@ public class CreateAccountRequest {
 	private String parentEmail;
 	
 	private String parentContactNumber;
-
+	
 	private String typeOfUSer;
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getFullName() {
 		return fullName;
@@ -46,11 +32,11 @@ public class CreateAccountRequest {
 		this.fullName = fullName;
 	}
 
-	public String getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
@@ -101,4 +87,13 @@ public class CreateAccountRequest {
 	public void setTypeOfUSer(String typeOfUSer) {
 		this.typeOfUSer = typeOfUSer;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

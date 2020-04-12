@@ -1,4 +1,4 @@
-<mat-tab-group animationDuration="0ms">
+<mat-tab-group animationDuration="1ms">
     <mat-tab label="Class Info">
         <div mat-dialog-content>
             <form>
@@ -6,18 +6,19 @@
                     <mat-grid-tile *ngFor="let field of fields">
                         <mat-form-field>
                             <mat-label>{{field.header}}</mat-label>
-                            <input *ngIf="field.field !== 'startDate' && field.field !== 'endDate'"
-                                name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
-                                [disabled]="field.field === 'id'">
+                            <div *ngIf="field.field !== 'startDate' && field.field !== 'endDate'">
+                                <input name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
+                                    [disabled]="field.field === 'id'">
+                            </div>
                             <div *ngIf="field.field == 'startDate'">
-                                <input  class="dateField" name="startDate" matInput
+                                <input *ngIf="field.field == 'startDate'" class="dateField" name="startDate" matInput
                                     [matDatepicker]="myDatepicker" [(ngModel)]="classInfo.startDate">
                                 <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
                                 <mat-datepicker #myDatepicker></mat-datepicker>
                             </div>
                             <div *ngIf="field.field == 'endDate'">
-                                <input  class="dateField" name="endDate" matInput
-                                    [matDatepicker]="myDatepicker" [(ngModel)]="classInfo.endDate">
+                                <input class="dateField" name="endDate" matInput [matDatepicker]="myDatepicker"
+                                    [(ngModel)]="classInfo.endDate">
                                 <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
                                 <mat-datepicker #myDatepicker></mat-datepicker>
                             </div>
@@ -25,6 +26,72 @@
                     </mat-grid-tile>
                 </mat-grid-list>
             </form>
+        </div>
+    </mat-tab>
+    <mat-tab *ngIf="!isNewClass" label="Student List">
+        <div mat-dialog-content>
+            <!-- <p-table #dt [value]="studentList" dataKey="id" [rowHover]="true" [rows]="10" [autoLayout]="true"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true" [filterDelay]="0">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                        <th>Contact</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-student>
+                    <tr class="ui-selectable-row">
+                        <td>{{student.id}}</td>
+                        <td>{{student.fullName}}</td>
+                        <td>{{student.birthday}}</td>
+                        <td>{{student.contactNumber}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8" style="text-align:left">No students found.</td>
+                    </tr>
+                </ng-template>
+            </p-table> -->
+            <p-table #dt [value]="studentList" [(selection)]="selectedStudents" dataKey="id"
+                styleClass="ui-table-customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                [paginator]="true" [filterDelay]="0">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                        <th>Contact Number</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-student>
+                    <tr class="ui-selectable-row">
+                        <td>{{student.id}}</td>
+                        <td>{{student.fullName}}</td>
+                        <td>{{student.birthday}}</td>
+                        <td>{{student.contactNumber}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8" style="text-align:left">No students found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </mat-tab>
+    <mat-tab *ngIf="!isNewClass" label="Attendance">
+        <div mat-dialog-content>
+            <mat-selection-list #listStudent [(ngModel)]="selectedStudent">
+                <mat-list-option *ngFor="let student of studentList"
+                    [value]="student.fullName + '_' + student.birthday">
+                    <div>
+                        <mat-label>{{student.fullName}} </mat-label>
+                        <mat-label> {{student.birthday}}</mat-label>
+                    </div>
+                </mat-list-option>
+            </mat-selection-list>
         </div>
     </mat-tab>
 </mat-tab-group>

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Observable } from 'rxjs';
 import { Classes } from './classes-model';
+import { Class } from './class';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,10 @@ export class ClassService {
 
   updateClass(classes: Classes): Observable<Classes> {
     return this.http.put<Classes>(this.apiUrl, classes, this.httpOptions);
+  }
+
+  getClassByStudent(studentId: number): Observable<Class[]> {
+    const data = { ...this.httpOptions, params: { studentId: studentId.toString() } };
+    return this.http.get<Class[]>(this.apiUrl + 'getClassByStudent', data);
   }
 }

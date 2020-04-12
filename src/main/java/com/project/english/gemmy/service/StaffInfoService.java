@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.english.gemmy.model.dto.UpdateInfoRequest;
+import com.project.english.gemmy.model.dto.UserInfoResponse;
 import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StaffInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
-import com.project.english.gemmy.model.request.UpdateInfoRequest;
-import com.project.english.gemmy.model.response.UserInfoResponse;
 
 @Service
 public class StaffInfoService {

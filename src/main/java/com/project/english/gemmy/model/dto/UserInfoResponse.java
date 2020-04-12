@@ -1,16 +1,15 @@
-package com.project.english.gemmy.model.request;
+package com.project.english.gemmy.model.dto;
 
-import java.util.Date;
+import com.project.english.gemmy.model.jpa.StaffInfo;
+import com.project.english.gemmy.model.jpa.StudentInfo;
 
-public class UpdateInfoRequest {
+public class UserInfoResponse {
 	
-	// staffId if user is staff
-	// studentIf if user is student
-	private Long id;
-	
+	private Long userId;
+
 	private String fullName;
 	
-	private Date birthday;
+	private String birthdate;
 	
 	private String email;
 	
@@ -21,8 +20,14 @@ public class UpdateInfoRequest {
 	private String parentEmail;
 	
 	private String parentContactNumber;
-	
-	private String typeOfUSer;
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	} 
 
 	public String getFullName() {
 		return fullName;
@@ -32,12 +37,12 @@ public class UpdateInfoRequest {
 		this.fullName = fullName;
 	}
 
-	public Date getBirthday() {
-		return birthday;
+	public String getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public String getEmail() {
@@ -80,20 +85,14 @@ public class UpdateInfoRequest {
 		this.parentContactNumber = parentContactNumber;
 	}
 
-	public String getTypeOfUSer() {
-		return typeOfUSer;
+	public void convertEntityToStaffObject(StaffInfo staffInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void setTypeOfUSer(String typeOfUSer) {
-		this.typeOfUSer = typeOfUSer;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void convertEntityToStudentObject(StudentInfo studentInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

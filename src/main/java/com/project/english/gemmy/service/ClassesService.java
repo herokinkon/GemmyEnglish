@@ -7,12 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.english.gemmy.model.dto.ClassesInfoDto;
 import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
 import com.project.english.gemmy.model.repositories.CourseRepository;
-import com.project.english.gemmy.model.request.ClassRequest;
-import com.project.english.gemmy.model.response.ClassesInfoResponse;
 
 @Service
 public class ClassesService {
@@ -23,12 +22,12 @@ public class ClassesService {
 	@Autowired
 	private CourseRepository courseRepo;
 	
-	public List<ClassesInfoResponse> getAllClass() {
+	public List<ClassesInfoDto> getAllClass() {
 		List<Classes> allClasses = classesRepo.findAll();
 		if (allClasses != null && !allClasses.isEmpty()) {
-			List<ClassesInfoResponse> result = new ArrayList<>();
+			List<ClassesInfoDto> result = new ArrayList<>();
 			allClasses.stream().forEach(item -> {
-				ClassesInfoResponse temp = new ClassesInfoResponse(item);
+				ClassesInfoDto temp = new ClassesInfoDto(item);
 				result.add(temp);
 			});
 			return result;
@@ -36,15 +35,15 @@ public class ClassesService {
 		return null;
 	}
 	
-	public ClassesInfoResponse getClassById(Long id) {
+	public ClassesInfoDto getClassById(Long id) {
 		Optional<Classes> classInfo = classesRepo.findById(id);
 		if (classInfo.isPresent()) {
-			return new ClassesInfoResponse(classInfo.get());
+			return new ClassesInfoDto(classInfo.get());
 		}
 		return null;
 	}
 	
-	public ClassesInfoResponse createNewClass(ClassRequest classRequest) {
+	public ClassesInfoDto createNewClass(ClassesInfoDto classRequest) {
 		Classes classInfo = new Classes();
 		classInfo.setClassName(classRequest.getClassName());
 		classInfo.setClassCode(classRequest.getClassCode());
@@ -61,12 +60,12 @@ public class ClassesService {
 		classInfo.setStatus(classRequest.getStatus());
 		Classes result = classesRepo.save(classInfo);
 		if (result != null) {
-			return new ClassesInfoResponse(result);
+			return new ClassesInfoDto(result);
 		}
 		return null;
 	}
 	
-	public ClassesInfoResponse updateClass(ClassRequest classRequest) {
+	public ClassesInfoDto updateClass(ClassesInfoDto classRequest) {
 		Classes beforeUpdate = null;
 		Optional<Classes> temp = classesRepo.findById(classRequest.getId());
 		if (temp.isPresent()) {
@@ -94,7 +93,7 @@ public class ClassesService {
 		classInfo.setStudentInfos(beforeUpdate.getStudentInfos());
 		Classes result = classesRepo.save(classInfo);
 		if (result != null) {
-			return new ClassesInfoResponse(result);
+			return new ClassesInfoDto(result);
 		}
 		return null;
 	}
@@ -112,7 +111,7 @@ public class ClassesService {
 		return false;
 	}
 	
-	public List<ClassesInfoResponse> getClassesByStudent(long studentId){
+	public List<ClassesInfoDto> getClassesByStudent(long studentId){
 		return classesRepo.findByStudentInfos_id(studentId);
 	}
 }

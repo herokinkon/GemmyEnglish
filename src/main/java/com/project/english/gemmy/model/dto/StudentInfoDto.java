@@ -1,10 +1,10 @@
-package com.project.english.gemmy.model.response;
+package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
 
 import com.project.english.gemmy.model.jpa.StudentInfo;
 
-public class StudentInfoResponse {
+public class StudentInfoDto {
 	
 	private Long id;
 
@@ -26,11 +26,11 @@ public class StudentInfoResponse {
 	
 	private String classCode;
 	
-	public StudentInfoResponse() {
+	public StudentInfoDto() {
 		
 	}
 	
-	public StudentInfoResponse(StudentInfo studentInfo) {
+	public StudentInfoDto(StudentInfo studentInfo) {
 		this.id = studentInfo.getId();
 		this.birthday = studentInfo.getBirthday();
 		this.attendance = studentInfo.getAttendance();

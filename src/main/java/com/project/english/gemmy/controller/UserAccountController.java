@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.english.gemmy.model.request.UserInfoRequest;
-import com.project.english.gemmy.model.response.ResponseModel;
-import com.project.english.gemmy.model.response.UserInfoResponse;
+import com.project.english.gemmy.model.dto.ResponseModel;
+import com.project.english.gemmy.model.dto.UserInfoRequest;
+import com.project.english.gemmy.model.dto.UserInfoResponse;
 import com.project.english.gemmy.service.StaffInfoService;
 import com.project.english.gemmy.service.StudentInfoService;
 import com.project.english.gemmy.util.MessageResponse;

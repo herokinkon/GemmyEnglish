@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.project.english.gemmy.model.request.ClassRequest;
-import com.project.english.gemmy.model.response.ClassesInfoResponse;
+import com.project.english.gemmy.model.dto.ClassesInfoDto;
 import com.project.english.gemmy.service.ClassesService;
-import com.project.english.gemmy.service.StudentInfoService;
 
 @RestController
 @RequestMapping("/api/classes")
@@ -30,8 +28,8 @@ public class ClassesController {
 	private ClassesService classesService;
 
 	@GetMapping("/")
-	public ResponseEntity<List<ClassesInfoResponse>> getAllClasses() {
-		List<ClassesInfoResponse> classes = classesService.getAllClass();
+	public ResponseEntity<List<ClassesInfoDto>> getAllClasses() {
+		List<ClassesInfoDto> classes = classesService.getAllClass();
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(classes);
@@ -40,8 +38,8 @@ public class ClassesController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ClassesInfoResponse> getClassById(@PathVariable Long id) {
-		ClassesInfoResponse result = classesService.getClassById(id);
+	public ResponseEntity<ClassesInfoDto> getClassById(@PathVariable Long id) {
+		ClassesInfoDto result = classesService.getClassById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
@@ -55,8 +53,8 @@ public class ClassesController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<ClassesInfoResponse> createNewClass(@RequestBody ClassRequest request) {
-		ClassesInfoResponse classes = classesService.createNewClass(request);
+	public ResponseEntity<ClassesInfoDto> createNewClass(@RequestBody ClassesInfoDto request) {
+		ClassesInfoDto classes = classesService.createNewClass(request);
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity
@@ -67,8 +65,8 @@ public class ClassesController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<ClassesInfoResponse> updateClass(@RequestBody ClassRequest request) {
-		ClassesInfoResponse classes = classesService.updateClass(request);
+	public ResponseEntity<ClassesInfoDto> updateClass(@RequestBody ClassesInfoDto request) {
+		ClassesInfoDto classes = classesService.updateClass(request);
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity
@@ -88,7 +86,7 @@ public class ClassesController {
 	}
 
 	@GetMapping("/getClassByStudent")
-	public ResponseEntity<List<ClassesInfoResponse>> getClassByStudent(@RequestParam("studentId") Long studentId) {
+	public ResponseEntity<List<ClassesInfoDto>> getClassByStudent(@RequestParam("studentId") Long studentId) {
 		return ResponseEntity.ok().body(classesService.getClassesByStudent(studentId));
 	}
 
