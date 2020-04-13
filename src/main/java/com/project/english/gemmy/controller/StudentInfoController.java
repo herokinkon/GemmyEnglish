@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.english.gemmy.model.request.UpdateInfoRequest;
-import com.project.english.gemmy.model.response.StudentInfoResponse;
+import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.service.StudentInfoService;
 
 @RestController
@@ -27,8 +26,8 @@ public class StudentInfoController {
 	private StudentInfoService studentInfoService;
 	
 	@GetMapping("/")
-	public ResponseEntity<List<StudentInfoResponse>> getAllStudent() {
-		List<StudentInfoResponse> studentInfoLst = studentInfoService.getAllStudent();
+	public ResponseEntity<List<StudentDTO>> getAllStudent() {
+		List<StudentDTO> studentInfoLst = studentInfoService.getAllStudent();
 		if (studentInfoLst != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
@@ -37,8 +36,8 @@ public class StudentInfoController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<StudentInfoResponse> updateStudent(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfoResponse result = studentInfoService.updateStudent(updateInfoRequest);
+	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO updateInfoRequest) {
+		StudentDTO result = studentInfoService.updateStudent(updateInfoRequest);
 		if (result != null) {
 			return ResponseEntity.ok(result);
 		}
@@ -47,8 +46,8 @@ public class StudentInfoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<StudentInfoResponse> getStudentByStudentId(@PathVariable Long id) {
-		StudentInfoResponse result = studentInfoService.getStudentInfoById(id);
+	public ResponseEntity<StudentDTO> getStudentByStudentId(@PathVariable Long id) {
+		StudentDTO result = studentInfoService.getStudentInfoById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
@@ -57,8 +56,8 @@ public class StudentInfoController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<StudentInfoResponse> createStudentInfo(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfoResponse studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
+	public ResponseEntity<StudentDTO> createStudentInfo(@RequestBody StudentDTO updateInfoRequest) {
+		StudentDTO studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
 		if (studentInfo != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(studentInfo);
 		}

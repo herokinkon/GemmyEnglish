@@ -1,10 +1,10 @@
-package com.project.english.gemmy.model.response;
+package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
 
 import com.project.english.gemmy.model.jpa.StudentInfo;
 
-public class StudentInfoResponse {
+public class StudentDTO {
 	
 	private Long id;
 
@@ -17,6 +17,8 @@ public class StudentInfoResponse {
 	private String facebook;
 
 	private String fullName;
+	
+	private String occupation;
 
 	private String parentContactNumber;
 
@@ -26,11 +28,11 @@ public class StudentInfoResponse {
 	
 	private String classCode;
 	
-	public StudentInfoResponse() {
+	public StudentDTO() {
 		
 	}
 	
-	public StudentInfoResponse(StudentInfo studentInfo) {
+	public StudentDTO(StudentInfo studentInfo) {
 		this.id = studentInfo.getId();
 		this.birthday = studentInfo.getBirthday();
 		this.attendance = studentInfo.getAttendance();
@@ -40,6 +42,7 @@ public class StudentInfoResponse {
 		this.fullName = studentInfo.getFullName();
 		this.parentContactNumber = studentInfo.getParentContactNumber();
 		this.parentEmail = studentInfo.getParentEmail();
+		this.occupation = studentInfo.getOccupation();
 	}
 
 	public Long getId() {
@@ -88,6 +91,14 @@ public class StudentInfoResponse {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getOccupation() {
+		return this.occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
 	}
 
 	public String getParentContactNumber() {

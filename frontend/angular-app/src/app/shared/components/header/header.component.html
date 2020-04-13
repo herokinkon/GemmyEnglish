@@ -1,9 +1,9 @@
   <mat-toolbar color='primary'>
-    <mat-icon (click)="toggleSideMenu.emit()">menu</mat-icon>
+    <mat-icon class="menu-icon" (click)="toggleSideMenu.emit()">menu</mat-icon>
     <span class="title">{{title}}</span>
     <div class="spacer"></div>
     <!-- User account -->
-    <mat-icon class="account" [matMenuTriggerFor]="accountMenu">account_circle</mat-icon>
+    <img class="account-icon menu-icon" [matMenuTriggerFor]="accountMenu" src="/assets/icons/user.svg">
     <mat-menu #accountMenu="matMenu">
       <button mat-menu-item>
         <mat-icon>settings</mat-icon>

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.english.gemmy.model.request.CreateAccountRequest;
-import com.project.english.gemmy.model.request.UpdateInfoRequest;
 import com.project.english.gemmy.model.response.ResponseModel;
 import com.project.english.gemmy.service.StaffInfoService;
 import com.project.english.gemmy.service.StudentInfoService;
@@ -40,22 +39,22 @@ public class AdminController {
 		return new ResponseEntity<ResponseModel>(res, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
-	public ResponseEntity<ResponseModel> updateAccount(UpdateInfoRequest updateAccountRequest) {
-		boolean isSuccess;
-		if (updateAccountRequest.getTypeOfUSer().equals("staff")) {
-			isSuccess = staffInfoService.updateInfo(updateAccountRequest);
-		} else {
-			isSuccess = studentInfoService.updateInfo(updateAccountRequest);
-		}
-		if (isSuccess) {
-			ResponseModel res = new ResponseModel();
-			res.setMessage("");
-			return new ResponseEntity<ResponseModel>(res, HttpStatus.OK);
-		}
-		ResponseModel res = new ResponseModel();
-		res.setMessage("Could not create User Account");
-		return new ResponseEntity<ResponseModel>(res, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+//	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
+//	public ResponseEntity<ResponseModel> updateAccount(UpdateInfoRequest updateAccountRequest) {
+//		boolean isSuccess;
+//		if (updateAccountRequest.getTypeOfUSer().equals("staff")) {
+//			isSuccess = staffInfoService.updateInfo(updateAccountRequest);
+//		} else {
+//			isSuccess = studentInfoService.updateInfo(updateAccountRequest);
+//		}
+//		if (isSuccess) {
+//			ResponseModel res = new ResponseModel();
+//			res.setMessage("");
+//			return new ResponseEntity<ResponseModel>(res, HttpStatus.OK);
+//		}
+//		ResponseModel res = new ResponseModel();
+//		res.setMessage("Could not create User Account");
+//		return new ResponseEntity<ResponseModel>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
 
 }
