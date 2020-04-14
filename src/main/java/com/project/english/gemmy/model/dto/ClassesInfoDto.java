@@ -24,6 +24,10 @@ public class ClassesInfoDto {
 	
 	private Long courseId;
 	
+	private String courseName;
+	
+	private String courseDescription;
+	
 	public ClassesInfoDto() {
 		
 	}
@@ -37,6 +41,9 @@ public class ClassesInfoDto {
 		this.fee = classesInfo.getFee();
 		this.startDate = classesInfo.getStartDate();
 		this.status = classesInfo.getStatus();
+		this.courseId = classesInfo.getCourse().getId();
+		this.courseName = classesInfo.getCourse().getName();
+		this.courseDescription = classesInfo.getCourse().getDescription();
 	}
 
 	public Long getId() {
@@ -109,6 +116,22 @@ public class ClassesInfoDto {
 
 	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getCourseDescription() {
+		return courseDescription;
+	}
+
+	public void setCourseDescription(String courseDescription) {
+		this.courseDescription = courseDescription;
 	}
 
 }

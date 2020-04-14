@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
+import com.project.english.gemmy.model.dto.ClassAttendance;
 import com.project.english.gemmy.model.dto.ClassesInfoDto;
+import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.service.ClassesService;
+import com.project.english.gemmy.service.CourseService;
 
 @RestController
 @RequestMapping("/api/classes")
@@ -26,6 +28,9 @@ public class ClassesController {
 
 	@Autowired
 	private ClassesService classesService;
+	
+	@Autowired
+	private CourseService courseService;
 
 	@GetMapping("/")
 	public ResponseEntity<List<ClassesInfoDto>> getAllClasses() {
@@ -56,10 +61,7 @@ public class ClassesController {
 	public ResponseEntity<ClassesInfoDto> createNewClass(@RequestBody ClassesInfoDto request) {
 		ClassesInfoDto classes = classesService.createNewClass(request);
 		if (classes != null) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity
-					.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
-					.headers(httpHeaders).body(classes);
+			return ResponseEntity.status(HttpStatus.CREATED).body(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -68,10 +70,7 @@ public class ClassesController {
 	public ResponseEntity<ClassesInfoDto> updateClass(@RequestBody ClassesInfoDto request) {
 		ClassesInfoDto classes = classesService.updateClass(request);
 		if (classes != null) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity
-					.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
-					.headers(httpHeaders).body(classes);
+			return ResponseEntity.ok(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -88,6 +87,36 @@ public class ClassesController {
 	@GetMapping("/getClassByStudent")
 	public ResponseEntity<List<ClassesInfoDto>> getClassByStudent(@RequestParam("studentId") Long studentId) {
 		return ResponseEntity.ok().body(classesService.getClassesByStudent(studentId));
+	}
+	
+	@GetMapping("/getCourse")
+	public ResponseEntity<List<Course>> getCourses() {
+		List<Course> courses = courseService.getAllCourses();
+		if (courses != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(courses);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@PutMapping("/classAttendance")
+	public ResponseEntity<ClassesInfoDto> updateClassAndAttendance(@RequestBody ClassAttendance request) {
+//		ClassesInfoDto classes = classesService.updateClassAndAttendance(request);
+//		if (classes != null) {
+//			return ResponseEntity.ok(classes);
+//		}
+//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PutMapping("/attendance")
+	public ResponseEntity<ClassesInfoDto> updateAttedance(@RequestBody ClassAttendance request) {
+//		ClassesInfoDto classes = classesService.updateAttedance(request);
+//		if (classes != null) {
+//			return ResponseEntity.ok(classes);
+//		}
+//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

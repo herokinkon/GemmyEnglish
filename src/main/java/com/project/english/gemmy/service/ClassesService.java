@@ -12,12 +12,16 @@ import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
 import com.project.english.gemmy.model.repositories.CourseRepository;
+import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 
 @Service
 public class ClassesService {
 	
 	@Autowired
 	private ClassesRepository classesRepo;
+	
+	@Autowired
+	private StudentInfoRepository studentInfoRepo;
 	
 	@Autowired
 	private CourseRepository courseRepo;
@@ -72,22 +76,18 @@ public class ClassesService {
 			beforeUpdate = temp.get();
 		}
 		Classes classInfo = new Classes();
-		classInfo.setId(beforeUpdate.getId());
-		classInfo.setClassName(classRequest.getClassName() != null ? classRequest.getClassName() : beforeUpdate.getClassName());
-		classInfo.setClassCode(classRequest.getClassCode() != null ? classRequest.getClassCode() : beforeUpdate.getClassCode());
-		if (classRequest.getCourseId() == beforeUpdate.getId()) {
-			classInfo.setCourse(beforeUpdate.getCourse());
-		} else {
-			Optional<Course> course = courseRepo.findById(classRequest.getCourseId());
-			if (course.isPresent()) {
-				classInfo.setCourse(course.get());
-			}
+		classInfo.setId(classRequest.getId());
+		classInfo.setClassName(classRequest.getClassName() != null ? classRequest.getClassName() : "");
+		classInfo.setClassCode(classRequest.getClassCode() != null ? classRequest.getClassCode() : "");
+		Optional<Course> course = courseRepo.findById(classRequest.getCourseId());
+		if (course.isPresent()) {
+			classInfo.setCourse(course.get());
 		}
-		classInfo.setDescription(classRequest.getDescription() != null ? classRequest.getDescription() : beforeUpdate.getDescription());
-		classInfo.setEndDate(classRequest.getEndDate() != null ? classRequest.getEndDate() : beforeUpdate.getEndDate());
+		classInfo.setDescription(classRequest.getDescription());
+		classInfo.setEndDate(classRequest.getEndDate());
 		classInfo.setFee(classRequest.getFee() != null ? classRequest.getFee() : beforeUpdate.getFee());
-		classInfo.setStartDate(beforeUpdate.getStartDate());
-		classInfo.setStatus(classRequest.getStatus() != null ? classRequest.getStatus() : beforeUpdate.getStatus());
+		classInfo.setStartDate(classRequest.getStartDate());
+		classInfo.setStatus(classRequest.getStatus());
 		classInfo.setFeePayments(beforeUpdate.getFeePayments());
 		classInfo.setStaffInfos(beforeUpdate.getStaffInfos());
 		classInfo.setStudentInfos(beforeUpdate.getStudentInfos());
@@ -114,4 +114,17 @@ public class ClassesService {
 	public List<ClassesInfoDto> getClassesByStudent(long studentId){
 		return classesRepo.findByStudentInfos_id(studentId);
 	}
+	
+//	public boolean updateClassAndAttendance(ClassAttendance request) {
+//		ClassesInfoDto result1 = this.updateClass(request.getClassInfo());
+//		boolean result2 = this.updateAttedance(request.getAttendance());
+//		if (result1 != null && result2 != null) {
+//			return true;
+//		}
+//	}
+//	
+//	public boolean updateAttedance(Attendance request) {
+//		String json = new Gson().toJson(request);
+//		studentInfoRepo.findById(request.get)
+//	}
 }
