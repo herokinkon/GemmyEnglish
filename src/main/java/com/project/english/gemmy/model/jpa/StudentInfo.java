@@ -33,6 +33,9 @@ public class StudentInfo implements Serializable {
 
 	@Column(name = "full_name")
 	private String fullName;
+	
+	@Column(name = "occupation")
+	private String occupation;
 
 	@Column(name = "parent_contact_number")
 	private String parentContactNumber;
@@ -114,6 +117,14 @@ public class StudentInfo implements Serializable {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getOccupation() {
+		return this.occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
 	}
 
 	public String getParentContactNumber() {

@@ -10,7 +10,6 @@ import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StaffInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
-import com.project.english.gemmy.model.request.UpdateInfoRequest;
 import com.project.english.gemmy.model.response.UserInfoResponse;
 
 @Service
@@ -35,18 +34,18 @@ public class StaffInfoService {
 		return null;
 	}
 	
-	public boolean updateInfo(UpdateInfoRequest updateAccountRequest) {
-		StaffInfo staffInfo = new StaffInfo();
-		staffInfo.setId(updateAccountRequest.getId());
-		staffInfo.setBirthday(updateAccountRequest.getBirthday());
-		staffInfo.setContactNumber(updateAccountRequest.getContactNumber());
-		staffInfo.setEmail(updateAccountRequest.getEmail());
-		staffInfo.setFacebook(updateAccountRequest.getFacebook());
-		staffInfo.setFullName(updateAccountRequest.getFullName());
-		StaffInfo result = staffInfoRepo.save(staffInfo);
-		if (result != null) {
-			return true;
-		}
-		return false;
-	}
+//	public boolean updateInfo(UpdateInfoRequest updateAccountRequest) {
+//		StaffInfo staffInfo = new StaffInfo();
+//		staffInfo.setId(updateAccountRequest.getId());
+//		staffInfo.setBirthday(updateAccountRequest.getBirthday());
+//		staffInfo.setContactNumber(updateAccountRequest.getContactNumber());
+//		staffInfo.setEmail(updateAccountRequest.getEmail());
+//		staffInfo.setFacebook(updateAccountRequest.getFacebook());
+//		staffInfo.setFullName(updateAccountRequest.getFullName());
+//		StaffInfo result = staffInfoRepo.save(staffInfo);
+//		if (result != null) {
+//			return true;
+//		}
+//		return false;
+//	}
 }

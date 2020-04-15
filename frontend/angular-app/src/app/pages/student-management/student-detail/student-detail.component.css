@@ -1,18 +1,24 @@
-.mat-dialog-content {
-  display: contents;
-}
-
-mat-tab-group {
-  /* min-width: 500px; */
+.student-detail {
   max-width: 500px;
   max-height: 600px;
   min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.mat-dialog-actions {
+.student-detail-actions {
   float: right;
+}
+
+.mat-raised-button {
+  margin-left: 5px;
 }
 
 mat-form-field {
   width: 80%;
+}
+
+.content {
+  flex-grow: 1;
 }
