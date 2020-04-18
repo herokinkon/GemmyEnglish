@@ -4,7 +4,7 @@ public class ClassAttendance {
 
 	private ClassesInfoDto classInfo;
 	
-	private StudentInfoDto[] studentInfo;
+	private StudentDTO[] studentInfo;
 
 	public ClassesInfoDto getClassInfo() {
 		return classInfo;
@@ -14,11 +14,11 @@ public class ClassAttendance {
 		this.classInfo = classInfo;
 	}
 
-	public StudentInfoDto[] getStudentInfo() {
+	public StudentDTO[] getStudentInfo() {
 		return studentInfo;
 	}
 
-	public void setStudentInfo(StudentInfoDto[] studentInfo) {
+	public void setStudentInfo(StudentDTO[] studentInfo) {
 		this.studentInfo = studentInfo;
 	}
 

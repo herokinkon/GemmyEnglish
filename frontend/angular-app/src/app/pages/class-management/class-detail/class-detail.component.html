@@ -1,86 +1,88 @@
-<mat-tab-group animationDuration="1ms">
-    <mat-tab label="Class Info">
-        <div mat-dialog-content>
-            <form>
-                <mat-grid-list cols="2" rowHeight="3:1">
-                    <mat-grid-tile *ngFor="let field of fields">
-                        <mat-form-field>
-                            <mat-label>{{field.header}}</mat-label>
-                            <input
-                                *ngIf="field.field !== 'startDate' && field.field !== 'endDate' && field.field !== 'courseId'"
-                                name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
-                                [disabled]="field.field === 'id'" (keyup)="onChange()">
-                            <mat-select *ngIf="field.field === 'courseId'" [(value)]="classInfo[field.field]"
-                                (openedChange)="courseChange($event)">
-                                <mat-option *ngFor="let c of course" [value]="c.id">
-                                    {{c.name}} - {{c.description}}
-                                </mat-option>
-                            </mat-select>
-                            <div *ngIf="field.field == 'startDate'">
-                                <input class="dateField" name="startDate" matInput [matDatepicker]="myDatepicker"
-                                    [(ngModel)]="classInfo.startDate">
-                                <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
-                                <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
-                            </div>
-                            <div *ngIf="field.field == 'endDate'">
-                                <input class="dateField" name="endDate" matInput [matDatepicker]="myDatepicker"
-                                    [(ngModel)]="classInfo.endDate">
-                                <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
-                                <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
-                            </div>
-                        </mat-form-field>
-                    </mat-grid-tile>
-                </mat-grid-list>
-            </form>
-        </div>
-    </mat-tab>
-    <mat-tab *ngIf="!isNewClass" label="Student List">
-        <div mat-dialog-content>
-            <p-table #dt [value]="studentList" dataKey="id" [rowHover]="true" [rows]="10" [autoLayout]="true"
-                [showCurrentPageReport]="true" [paginator]="true" [filterDelay]="0">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Birthday</th>
-                        <th>Contact</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-student>
-                    <tr class="ui-selectable-row">
-                        <td>{{student.id}}</td>
-                        <td>{{student.fullName}}</td>
-                        <td>{{student.birthday}}</td>
-                        <td>{{student.contactNumber}}</td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="8" style="text-align:left">No students found.</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    </mat-tab>
-    <mat-tab *ngIf="!isNewClass" label="Attendance">
-        <div mat-dialog-content>
-            <mat-selection-list #listStudent [(ngModel)]="selectedStudent" (ngModelChange)="onNgModelChange()">
-                <mat-list-option *ngFor="let student of studentList" [value]="student">
-                    <div>
-                        <mat-label>{{student.fullName}} </mat-label>
-                        <mat-label> {{student.birthday}}</mat-label>
-                    </div>
-                </mat-list-option>
-            </mat-selection-list>
-        </div>
-    </mat-tab>
-</mat-tab-group>
-<div mat-dialog-actions>
-    <button *ngIf="!isNewClass" type="button" mat-raised-button color="warn" (click)="closeDialog('delete')">
-        <mat-icon>delete</mat-icon><span>Delete</span>
-    </button>
-    <button [disabled]="!isClassInfoChange && !isAttendanceChange" type="button" mat-raised-button color="accent"
+<div class="student-detail">
+    <div class="content">
+        <mat-tab-group animationDuration="1ms">
+            <mat-tab label="Class Info">
+                <form>
+                    <mat-grid-list cols="2" rowHeight="3:1">
+                        <mat-grid-tile *ngFor="let field of fields">
+                            <mat-form-field>
+                                <mat-label>{{field.header}}</mat-label>
+                                <input
+                                    *ngIf="field.field !== 'startDate' && field.field !== 'endDate' && field.field !== 'courseId'"
+                                    name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
+                                    [disabled]="field.field === 'id'" (keyup)="onChange()">
+                                <mat-select *ngIf="field.field === 'courseId'" [(value)]="classInfo[field.field]"
+                                    (openedChange)="courseChange($event)">
+                                    <mat-option *ngFor="let c of course" [value]="c.id">
+                                        {{c.name}} - {{c.description}}
+                                    </mat-option>
+                                </mat-select>
+                                <div *ngIf="field.field == 'startDate'">
+                                    <input class="dateField" name="startDate" matInput [matDatepicker]="myDatepicker"
+                                        [(ngModel)]="classInfo.startDate">
+                                    <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
+                                </div>
+                                <div *ngIf="field.field == 'endDate'">
+                                    <input class="dateField" name="endDate" matInput [matDatepicker]="myDatepicker"
+                                        [(ngModel)]="classInfo.endDate">
+                                    <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
+                                </div>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </form>
+            </mat-tab>
+            <mat-tab *ngIf="!isNewClass" label="Student List">
+                <p-table #dt [value]="studentList" dataKey="id" [rowHover]="true" [rows]="10" [autoLayout]="true"
+                    [showCurrentPageReport]="true" [paginator]="true" [filterDelay]="0">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                            <th>Contact</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-student>
+                        <tr class="ui-selectable-row">
+                            <td>{{student.id}}</td>
+                            <td><a [routerLink]="['/student', student.id]">{{student.fullName}}</a></td>
+                            <td>{{student.birthday}}</td>
+                            <td>{{student.contactNumber}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" style="text-align:left">No students found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </mat-tab>
+            <mat-tab *ngIf="!isNewClass" label="Attendance">
+                <mat-selection-list #listStudent [(ngModel)]="selectedStudent" (ngModelChange)="onNgModelChange()">
+                    <mat-list-option *ngFor="let student of studentList" [value]="student">
+                        <div>
+                            <mat-label>{{student.fullName}} </mat-label>
+                            <mat-label> {{student.birthday}}</mat-label>
+                        </div>
+                    </mat-list-option>
+                </mat-selection-list>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+    <div mat-dialog-actions>
+        <button *ngIf="!isNewClass" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
+            <mat-icon>delete</mat-icon><span>Delete</span>
+        </button>
+        <!-- <button [disabled]="!isClassInfoChange && !isAttendanceChange" type="button" mat-raised-button color="accent"
         (click)="closeDialog('save')">
         <mat-icon>check_circle</mat-icon><span>Save</span>
-    </button>
+    </button> -->
+        <button type="button" mat-raised-button color="accent"
+            (click)="sendEvent(isNewClass?action.CREATE:action.EDIT)">
+            <mat-icon>check_circle</mat-icon><span>Save</span>
+        </button>
+    </div>
 </div>

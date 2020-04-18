@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Classes } from './class-service/classes-model';
-import { ClassService } from './class-service/class.service';
+import { ENTITY_ACTION } from 'src/app/shared/app-constant.service';
+import { CommonDialogService } from 'src/app/shared/components/common-detail-dialog/common-dialog.service';
+import { EntityActionEvent } from 'src/app/shared/components/common-detail-dialog/common-entity-dialog-interface';
 import { ClassDetailComponent } from './class-detail/class-detail.component';
+import { ClassService } from './class-service/class.service';
+import { Classes } from './class-service/classes-model';
 
 @Component({
   selector: 'app-class-management',
@@ -15,7 +17,7 @@ export class ClassManagementComponent implements OnInit {
   selectedClass: any;
   cols: any[];
 
-  constructor(public dialog: MatDialog, private classService: ClassService) { }
+  constructor(private readonly dialog: CommonDialogService, private classService: ClassService) { }
 
   ngOnInit(): void {
     this.cols = [{ field: 'id', header: 'Id' },
@@ -29,18 +31,31 @@ export class ClassManagementComponent implements OnInit {
   }
 
   showDialogToAdd() {
-    const dialogRef = this.dialog.open(ClassDetailComponent, { data: { title: 'New Class', clas: {} } });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.save(result, true);
-      }
-    });
+    const result = this.dialog.openDialog('New Class', ClassDetailComponent, {});
+    result.subscribe(this.updateTable);
   }
 
   delete(clas: any) {
     const index = this.classes.findIndex(cl => clas.id === cl.id);
     this.classes.splice(index, 1);
     this.classService.deleteClass(clas);
+  }
+
+  updateTable(event: EntityActionEvent<Classes>) {
+    switch (event?.action) {
+      case ENTITY_ACTION.CREATE:
+        this.classes.push(event.entity);
+        break;
+      case ENTITY_ACTION.EDIT:
+        const index = this.classes.findIndex(stu => event.entity.id === stu.id);
+        if (index >= 0) {
+          this.classes[index] = event.entity;
+        }
+        break;
+      case ENTITY_ACTION.DELETE:
+        this.classes.splice(this.classes.findIndex(stu => event.entity.id === stu.id), 1);
+        break;
+    }
   }
 
   save(result: any, isNewClasses?: boolean) {
@@ -79,12 +94,8 @@ export class ClassManagementComponent implements OnInit {
   }
 
   onRowSelect(event: any) {
-    const dialogRef = this.dialog.open(ClassDetailComponent, { data: { title: 'Class Detail', clas: { ...event.data } } });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this[result.action](result, false);
-      }
-    });
+    const result = this.dialog.openDialog('Class Detail', ClassDetailComponent, { ...event.data });
+    result.subscribe(this.updateTable);
   }
 
 }
