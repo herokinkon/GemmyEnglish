@@ -1,74 +1,79 @@
-<div mat-dialog-content>
-  <mat-tab-group animationDuration="0ms">
-    <mat-tab label="Student Info">
-      <form>
-        <mat-grid-list cols="3" rowHeight="2:1">
-          <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
-            <mat-form-field>
-              <mat-label>{{field.header}}</mat-label>
-              <input *ngIf="field.field !== 'birthday'; else elseBlock" name="{{field.field}}" matInput
-                [(ngModel)]="studentInfo[field.field]" [disabled]="field.field === 'id' && !isNewStudent">
+  <div class="student-detail">
+    <div class="content">
+      <mat-tab-group animationDuration="0ms" *ngIf="studentInfo">
+        <mat-tab label="Student Info">
+          <form>
+            <mat-grid-list cols="3" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
+                <mat-form-field>
+                  <mat-label>{{field.header}}</mat-label>
+                  <input *ngIf="field.field !== 'birthday'; else elseBlock" name="{{field.field}}" matInput
+                    [(ngModel)]="studentInfo[field.field]" [disabled]="field.field === 'id' && !isNewStudent"
+                    required={{field.required}}>
 
-              <ng-template #elseBlock>
-                <input matInput class="dateField" name="birthday" matInput [matDatepicker]="birthdayPicker"
-                  [(ngModel)]="studentInfo.birthday" (click)="birthdayPicker.open()">
-                <mat-datepicker #birthdayPicker></mat-datepicker>
-              </ng-template>
-            </mat-form-field>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </form>
-    </mat-tab>
-    <mat-tab label="Parent Info">
-      <mat-grid-list cols="3" rowHeight="2:1">
-        <mat-grid-tile>
-          <mat-form-field>
-            <mat-label>Parent Contact Number</mat-label>
-            <input matInput name="parentContactNumber" [(ngModel)]="studentInfo.parentContactNumber">
-          </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile colspan=2>
-          <mat-form-field>
-            <mat-label>Parent Email</mat-label>
-            <input matInput name="parentEmail" [(ngModel)]="studentInfo.parentEmail">
-          </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-tab>
-    <mat-tab label="Class">
-      <p-table [value]="classes" dataKey="status" [expandedRowKeys]="{'true': true}">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Class Code</th>
-            <th>Class Name</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded" let-columns="columns">
-          <tr class="ui-widget-header" *ngIf="rowIndex <= 1">
-            <td colspan="2">
-              <a href="#" [pRowToggler]="rowData">
-                <i [ngClass]="expanded ? 'pi pi-fw pi-chevron-circle-down' : 'pi pi-fw pi-chevron-circle-right'"
-                  style="vertical-align: middle;padding-bottom: .1em;"></i>
-                <span>{{rowIndex == 0 ? "Active class" : "Previous classes"}}</span>
-              </a>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
-          <tr>
-            <td><a [routerLink]="['/class', rowData.id]">{{rowData.classCode}}</a></td>
-            <td>{{rowData.className}}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </mat-tab>
-  </mat-tab-group>
-  <div mat-dialog-actions>
-    <button *ngIf="!isNewStudent" type="button" mat-raised-button color="warn" (click)="closeDialog('delete')">
-      <mat-icon>delete</mat-icon><span>Delete</span>
-    </button>
-    <button type="button" mat-raised-button color="accent" (click)="closeDialog('save')">
-      <mat-icon>check_circle</mat-icon><span>Save</span>
-    </button>
+                  <ng-template #elseBlock>
+                    <input matInput class="dateField" name="birthday" matInput [matDatepicker]="birthdayPicker"
+                      [(ngModel)]="studentInfo.birthday" (click)="birthdayPicker.open()" required>
+                    <mat-datepicker #birthdayPicker></mat-datepicker>
+                  </ng-template>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </form>
+        </mat-tab>
+        <mat-tab label="Parent Info">
+          <mat-grid-list cols="3" rowHeight="2:1">
+            <mat-grid-tile>
+              <mat-form-field>
+                <mat-label>Parent Contact Number</mat-label>
+                <input matInput name="parentContactNumber" [(ngModel)]="studentInfo.parentContactNumber">
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan=2>
+              <mat-form-field>
+                <mat-label>Parent Email</mat-label>
+                <input matInput name="parentEmail" [(ngModel)]="studentInfo.parentEmail">
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-tab>
+        <mat-tab label="Class">
+          <p-table [value]="classes" dataKey="status" [expandedRowKeys]="{'true': true}">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Class Code</th>
+                <th>Class Name</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
+              let-columns="columns">
+              <tr class="ui-widget-header" *ngIf="rowIndex <= 1">
+                <td colspan="2">
+                  <a href="#" [pRowToggler]="rowData">
+                    <i [ngClass]="expanded ? 'pi pi-fw pi-chevron-circle-down' : 'pi pi-fw pi-chevron-circle-right'"
+                      style="vertical-align: middle;padding-bottom: .1em;"></i>
+                    <span>{{rowIndex == 0 ? "Active class" : "Previous classes"}}</span>
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
+              <tr>
+                <td><a [routerLink]="['/class', rowData.id]">{{rowData.classCode}}</a></td>
+                <td>{{rowData.className}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="student-detail-actions">
+      <button *ngIf="!isNewStudent" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
+        <mat-icon>delete</mat-icon><span>Delete</span>
+      </button>
+      <button type="button" mat-raised-button color="accent"
+        (click)="sendEvent(isNewStudent?action.CREATE:action.EDIT)">
+        <mat-icon>check_circle</mat-icon><span>Save</span>
+      </button>
+    </div>
   </div>
-</div>

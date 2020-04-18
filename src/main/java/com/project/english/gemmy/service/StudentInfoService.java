@@ -3,17 +3,16 @@ package com.project.english.gemmy.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.project.english.gemmy.model.dto.StudentInfoDto;
-import com.project.english.gemmy.model.dto.UpdateInfoRequest;
-import com.project.english.gemmy.model.dto.UserInfoResponse;
+import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
+import com.project.english.gemmy.model.response.UserInfoResponse;
 
 @Service
 public class StudentInfoService {
@@ -24,59 +23,43 @@ public class StudentInfoService {
 	@Autowired
 	private UserAccountRepository userAccountRepo;
 
-	public List<StudentInfoDto> getAllStudent() {
-		List<StudentInfo> allUserAccount = studentInfoRepo.findAll();
-		if (allUserAccount != null && !allUserAccount.isEmpty()) {
-			List<StudentInfoDto> result = new ArrayList<>();
-			allUserAccount.stream().forEach(item -> {
-				StudentInfoDto temp = new StudentInfoDto(item);
-				result.add(temp);
-			});
-			return result;
+	public List<StudentDTO> getAllStudent() {
+		List<StudentInfo> students = studentInfoRepo.findAll();
+		if (students != null && !students.isEmpty()) {
+			return students.stream().map(StudentDTO::new).collect(Collectors.toList());
 		}
 		return null;
 	}
 
-	public StudentInfoDto getStudentInfoById(Long id) {
+	public StudentDTO getStudentInfoById(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-			StudentInfoDto result = new StudentInfoDto(studentInfo.get());
+			ModelMapper modelMapper = new ModelMapper();
+			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
 			return result;
 		}
 		return null;
 	}
 
-	public StudentInfoDto createNewStudent(UpdateInfoRequest updateInfoRequest) {
-		StudentInfo studentInfo = new StudentInfo();
-		studentInfo.setBirthday(updateInfoRequest.getBirthday());
-		studentInfo.setContactNumber(updateInfoRequest.getContactNumber());
-		studentInfo.setEmail(updateInfoRequest.getEmail());
-		studentInfo.setFacebook(updateInfoRequest.getFacebook());
-		studentInfo.setFullName(updateInfoRequest.getFullName());
-		studentInfo.setParentContactNumber(updateInfoRequest.getParentContactNumber());
-		studentInfo.setParentEmail(updateInfoRequest.getParentEmail());
+	public StudentDTO createNewStudent(StudentDTO updateInfoRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
-			return new StudentInfoDto(result);
+			return new StudentDTO(result);
 		}
 		return null;
 	}
 
 	// use for user
-	public StudentInfoDto updateStudent(UpdateInfoRequest updateInfoRequest) {
+	public StudentDTO updateStudent(StudentDTO updateInfoRequest) {
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getId());
 		if (temp.isPresent()) {
-			StudentInfo studentInfo = temp.get();
-			studentInfo.setBirthday(updateInfoRequest.getBirthday());
-			studentInfo.setContactNumber(updateInfoRequest.getContactNumber());
-			studentInfo.setEmail(updateInfoRequest.getEmail());
-			studentInfo.setFacebook(updateInfoRequest.getFacebook());
-			studentInfo.setFullName(updateInfoRequest.getFullName());
-			studentInfo.setParentContactNumber(updateInfoRequest.getParentContactNumber());
-			studentInfo.setParentEmail(updateInfoRequest.getParentEmail());
+			ModelMapper modelMapper = new ModelMapper();
+			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 			StudentInfo result = studentInfoRepo.save(studentInfo);
 			if (result != null) {
-				return new StudentInfoDto(result);
+				return new StudentDTO(result);
 			}
 		}
 		return null;
@@ -124,12 +107,12 @@ public class StudentInfoService {
 		return false;
 	}
 	
-	public List<StudentInfoDto> getStudentInfoByClass(Long id) {
+	public List<StudentDTO> getStudentInfoByClass(Long id) {
 		List<StudentInfo> allUserAccount = studentInfoRepo.findAll();
 		if (allUserAccount != null && !allUserAccount.isEmpty()) {
-			List<StudentInfoDto> result = new ArrayList<>();
+			List<StudentDTO> result = new ArrayList<>();
 			allUserAccount.stream().forEach(item -> {
-				StudentInfoDto temp = new StudentInfoDto(item);
+				StudentDTO temp = new StudentDTO(item);
 				result.add(temp);
 			});
 			return result;

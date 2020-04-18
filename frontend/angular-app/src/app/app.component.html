@@ -1,7 +1,8 @@
 <app-header (toggleSideMenu)="drawer.toggle()"></app-header>
-<mat-drawer-container class="main-container" autosize>
-  <mat-drawer #drawer class="main-sidenav" mode="side">
+<mat-drawer-container class="main-container">
+  <mat-drawer #drawer class="main-sidenav" mode="side" opened>
     <app-side-menu></app-side-menu>
   </mat-drawer>
   <router-outlet></router-outlet>
 </mat-drawer-container>
+<div class="footer">icon by <a target="_blank" href="https://icons8.com">Icons8</a></div>

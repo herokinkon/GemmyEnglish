@@ -5,6 +5,7 @@ export interface Student {
     email: string;
     facebook: string;
     contactNumber: string;
+    occupation: string;
     parentContactNumber: string;
     parentEmail: string;
 }

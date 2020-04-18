@@ -38,8 +38,9 @@
 		</dependency>
 		<!-- H2 Database -->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.0</version>
 		</dependency>
 
 		<dependency>
@@ -105,19 +106,9 @@
 						</configuration>
 
 						<executions>
-							<!-- execution>
-								<id>install node and npm</id>
-								<goals>
-									<goal>install-node-and-npm</goal>
-								</goals>
-							</execution>
-
-							<execution>
-								<id>npm install</id>
-								<goals>
-									<goal>npm</goal>
-								</goals>
-							</execution-->
+							<!-- execution> <id>install node and npm</id> <goals> <goal>install-node-and-npm</goal> 
+								</goals> </execution> <execution> <id>npm install</id> <goals> <goal>npm</goal> 
+								</goals> </execution -->
 
 							<execution>
 								<id>npm run build</id>

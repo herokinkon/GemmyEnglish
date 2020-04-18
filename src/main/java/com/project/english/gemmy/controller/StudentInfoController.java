@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.english.gemmy.model.dto.StudentInfoDto;
-import com.project.english.gemmy.model.dto.UpdateInfoRequest;
-import com.project.english.gemmy.model.jpa.StudentInfo;
+import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.service.StudentInfoService;
 
 @RestController
@@ -29,8 +26,8 @@ public class StudentInfoController {
 	private StudentInfoService studentInfoService;
 	
 	@GetMapping("/")
-	public ResponseEntity<List<StudentInfoDto>> getAllStudent() {
-		List<StudentInfoDto> studentInfoLst = studentInfoService.getAllStudent();
+	public ResponseEntity<List<StudentDTO>> getAllStudent() {
+		List<StudentDTO> studentInfoLst = studentInfoService.getAllStudent();
 		if (studentInfoLst != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
@@ -39,8 +36,8 @@ public class StudentInfoController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<StudentInfoDto> updateStudent(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfoDto result = studentInfoService.updateStudent(updateInfoRequest);
+	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO updateInfoRequest) {
+		StudentDTO result = studentInfoService.updateStudent(updateInfoRequest);
 		if (result != null) {
 			return ResponseEntity.ok(result);
 		}
@@ -49,8 +46,8 @@ public class StudentInfoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<StudentInfoDto> getStudentByStudentId(@PathVariable Long id) {
-		StudentInfoDto result = studentInfoService.getStudentInfoById(id);
+	public ResponseEntity<StudentDTO> getStudentByStudentId(@PathVariable Long id) {
+		StudentDTO result = studentInfoService.getStudentInfoById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
@@ -59,8 +56,8 @@ public class StudentInfoController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<StudentInfoDto> createStudentInfo(@RequestBody UpdateInfoRequest updateInfoRequest) {
-		StudentInfoDto studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
+	public ResponseEntity<StudentDTO> createStudentInfo(@RequestBody StudentDTO updateInfoRequest) {
+		StudentDTO studentInfo = studentInfoService.createNewStudent(updateInfoRequest);
 		if (studentInfo != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(studentInfo);
 		}
@@ -74,11 +71,5 @@ public class StudentInfoController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-	
-	@GetMapping("/getStudentListByClass")
-	public ResponseEntity<List<StudentInfo>> getStudentListByClass(@RequestParam("classId") Long classId) {
-		System.out.println("Receive request to get Student List by class");
-		return ResponseEntity.ok().body(studentInfoService.getStudentListByClass(classId));
 	}
 }

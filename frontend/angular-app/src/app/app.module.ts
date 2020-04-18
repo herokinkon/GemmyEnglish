@@ -28,6 +28,7 @@ import {MatSelectModule} from '@angular/material/select';
 
 // PrimeNG table
 import { TableModule } from 'primeng/table';
+import {InputTextModule} from 'primeng/inputtext';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Pages components
@@ -35,6 +36,7 @@ import { StudentManagementComponent } from './pages/student-management/student-m
 import { StudentDetailComponent } from './pages/student-management/student-detail/student-detail.component';
 import { ClassManagementComponent } from './pages/class-management/class-management.component';
 import { ClassDetailComponent } from './pages/class-management/class-detail/class-detail.component';
+import { CommonDetailDialogComponent } from './shared/components/common-detail-dialog/common-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { ClassDetailComponent } from './pages/class-management/class-detail/clas
     StudentManagementComponent,
     StudentDetailComponent,
     ClassManagementComponent,
-    ClassDetailComponent
+    ClassDetailComponent,
+    CommonDetailDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -67,8 +70,9 @@ import { ClassDetailComponent } from './pages/class-management/class-detail/clas
     FormsModule,
     TableModule,
     HttpClientModule,
-    MatSelectModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    InputTextModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
