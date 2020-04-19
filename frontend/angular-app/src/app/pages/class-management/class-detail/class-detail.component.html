@@ -1,31 +1,33 @@
-<div class="student-detail">
+<div class="class-detail">
     <div class="content">
-        <mat-tab-group animationDuration="1ms">
+        <mat-tab-group animationDuration="0ms" *ngIf="classInfo">
             <mat-tab label="Class Info">
                 <form>
-                    <mat-grid-list cols="2" rowHeight="3:1">
-                        <mat-grid-tile *ngFor="let field of fields">
+                    <mat-grid-list cols="2" rowHeight="100px">
+                        <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
                             <mat-form-field>
                                 <mat-label>{{field.header}}</mat-label>
                                 <input
-                                    *ngIf="field.field !== 'startDate' && field.field !== 'endDate' && field.field !== 'courseId'"
+                                    *ngIf="field.field !== 'startDate' && field.field !== 'endDate' && field.field !== 'courseId' && field.field !== 'fee'"
                                     name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
-                                    [disabled]="field.field === 'id'" (keyup)="onChange()">
+                                    [disabled]="field.field === 'id'" (keyup)="onChange()" required>
                                 <mat-select *ngIf="field.field === 'courseId'" [(value)]="classInfo[field.field]"
                                     (openedChange)="courseChange($event)">
                                     <mat-option *ngFor="let c of course" [value]="c.id">
                                         {{c.name}} - {{c.description}}
                                     </mat-option>
                                 </mat-select>
+                                <input *ngIf="field.field == 'fee'" name="{{field.field}}" matInput
+                                    [(ngModel)]="classInfo[field.field]" (keyup)="onChange()" required>
                                 <div *ngIf="field.field == 'startDate'">
                                     <input class="dateField" name="startDate" matInput [matDatepicker]="myDatepicker"
-                                        [(ngModel)]="classInfo.startDate">
+                                        [(ngModel)]="classInfo.startDate" required>
                                     <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
                                     <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
                                 </div>
                                 <div *ngIf="field.field == 'endDate'">
                                     <input class="dateField" name="endDate" matInput [matDatepicker]="myDatepicker"
-                                        [(ngModel)]="classInfo.endDate">
+                                        [(ngModel)]="classInfo.endDate" required>
                                     <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
                                     <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
                                 </div>
@@ -43,6 +45,7 @@
                             <th>Name</th>
                             <th>Birthday</th>
                             <th>Contact</th>
+                            <th>Attendance</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-student>
@@ -51,6 +54,10 @@
                             <td><a [routerLink]="['/student', student.id]">{{student.fullName}}</a></td>
                             <td>{{student.birthday}}</td>
                             <td>{{student.contactNumber}}</td>
+                            <td style="text-align:center">
+                                <mat-checkbox class="checkbox" [(ngModel)]="student.attendance"
+                                    (change)="attendanceChange()"></mat-checkbox>
+                            </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
@@ -60,29 +67,24 @@
                     </ng-template>
                 </p-table>
             </mat-tab>
-            <mat-tab *ngIf="!isNewClass" label="Attendance">
-                <mat-selection-list #listStudent [(ngModel)]="selectedStudent" (ngModelChange)="onNgModelChange()">
-                    <mat-list-option *ngFor="let student of studentList" [value]="student">
-                        <div>
-                            <mat-label>{{student.fullName}} </mat-label>
-                            <mat-label> {{student.birthday}}</mat-label>
-                        </div>
-                    </mat-list-option>
-                </mat-selection-list>
-            </mat-tab>
         </mat-tab-group>
     </div>
-    <div mat-dialog-actions>
-        <button *ngIf="!isNewClass" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
-            <mat-icon>delete</mat-icon><span>Delete</span>
-        </button>
-        <!-- <button [disabled]="!isClassInfoChange && !isAttendanceChange" type="button" mat-raised-button color="accent"
+    <div>
+        <!-- <div checkAttendance>
+            <mat-checkbox class="my-checkbox" [(ngModel)]="checkAttendance">Attendance</mat-checkbox>
+        </div> -->
+        <div mat-dialog-actions>
+            <button *ngIf="!isNewClass" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
+                <mat-icon>delete</mat-icon><span>Delete</span>
+            </button>
+            <!-- <button [disabled]="!isClassInfoChange && !isAttendanceChange" type="button" mat-raised-button color="accent"
         (click)="closeDialog('save')">
         <mat-icon>check_circle</mat-icon><span>Save</span>
     </button> -->
-        <button type="button" mat-raised-button color="accent"
-            (click)="sendEvent(isNewClass?action.CREATE:action.EDIT)">
-            <mat-icon>check_circle</mat-icon><span>Save</span>
-        </button>
+            <button [disabled]="!isClassInfoChange && !isAttendanceChange" type="button" mat-raised-button
+                color="accent" (click)="sendEvent(isNewClass?action.CREATE:action.EDIT)">
+                <mat-icon>check_circle</mat-icon><span>Save</span>
+            </button>
+        </div>
     </div>
 </div>

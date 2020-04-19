@@ -49,11 +49,11 @@ export class ClassService {
     return this.http.get<Course[]>(this.apiUrl + 'getCourse', this.httpOptions);
   }
 
-  updateClassAndAttendance(classes: Classes, attendance: Student[]): Observable<Classes> {
-    return this.http.put<Classes>(this.apiUrl + 'classAttendance', { classInfo: classes, studentInfo: attendance}, this.httpOptions);
+  updateClassAndAttendance(classes: Classes, studentList: Student[]): Observable<Classes> {
+    return this.http.put<Classes>(this.apiUrl + 'classAttendance', { classInfo: classes, studentInfo: studentList }, this.httpOptions);
   }
 
-  updateAttedance(classes: Classes, attendance: Student[]): Observable<Classes> {
-    return this.http.put<Classes>(this.apiUrl + 'attendance', { classInfo: classes, studentInfo: attendance}, this.httpOptions);
+  updateAttedance(classes: Classes, studentList: Student[]): Observable<Classes> {
+    return this.http.put<Classes>(this.apiUrl + 'attendance', { classInfo: classes, studentInfo: studentList} , this.httpOptions);
   }
 }

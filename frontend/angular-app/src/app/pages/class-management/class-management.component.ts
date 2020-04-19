@@ -58,41 +58,6 @@ export class ClassManagementComponent implements OnInit {
     }
   }
 
-  save(result: any, isNewClasses?: boolean) {
-    if (isNewClasses) {
-      this.classService.createClass(result.clas).subscribe(newClass => this.classes.push(newClass));
-    } else {
-      if (result.isClassInfoChange) {
-        if (result.attendance && result.attendance.length > 0) {
-          // Update class and attendance
-          console.log("update class and attendance");
-          this.classService.updateClassAndAttendance(result.clas, result.attendance).subscribe(item => {
-            const index = this.classes.findIndex(cl => item.id === cl.id);
-            if (index >= 0) {
-              this.classes[index] = item;
-            }
-          });
-
-        } else {
-          // Update class
-          console.log("update class");
-          this.classService.updateClass(result.clas).subscribe(item => {
-            const index = this.classes.findIndex(cl => item.id === cl.id);
-            if (index >= 0) {
-              this.classes[index] = item;
-            }
-          });
-        }
-      } else {
-        if (result.attendance.length > 0) {
-          console.log("update attendace");
-          // Update attendance
-          this.classService.updateAttedance(result.clas, result.attendance).subscribe();
-        }
-      }
-    }
-  }
-
   onRowSelect(event: any) {
     const result = this.dialog.openDialog('Class Detail', ClassDetailComponent, { ...event.data });
     result.subscribe(this.updateTable);

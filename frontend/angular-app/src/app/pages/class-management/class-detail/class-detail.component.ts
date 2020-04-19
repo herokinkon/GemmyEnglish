@@ -29,14 +29,15 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
   // Attendance 
   selectedStudent: Student[];
   isAttendanceChange: boolean = false;
+  checkAttendance = false;
 
   constructor(private classService: ClassService, private route: ActivatedRoute, private studentService: StudentService) {
-    this.fields = [{ field: 'className', header: 'Class Name', type: 'text' },
-    { field: 'classCode', header: 'Class Code', type: 'text' },
-    { field: 'startDate', header: 'Start Date', type: 'date' },
-    { field: 'endDate', header: 'End Date', type: 'date' },
-    { field: 'fee', header: 'Fee', type: 'text' },
-    { field: 'courseId', header: 'Course', type: 'text' }];
+    this.fields = [{ field: 'className', header: 'Class Name', cols: 1 },
+    { field: 'classCode', header: 'Class Code', cols: 1 },
+    { field: 'startDate', header: 'Start Date', cols: 1 },
+    { field: 'endDate', header: 'End Date', cols: 1 },
+    { field: 'fee', header: 'Fee', cols: 1 },
+    { field: 'courseId', header: 'Course', cols: 1 }];
   }
 
   setEntityDialogData(title: string, isNewEntity: boolean, entity: Classes): void {
@@ -83,7 +84,8 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
         this.classService.createClass(this.classInfo).subscribe();
         break;
       case ENTITY_ACTION.EDIT:
-        this.classService.updateClass(this.classInfo).subscribe();
+        this.save();
+        // this.classService.updateClass(this.classInfo).subscribe();
         break;
       case ENTITY_ACTION.DELETE:
         this.classService.deleteClass(this.classInfo.id).subscribe();
@@ -93,18 +95,38 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
     this.event.emit({ action, entity: this.classInfo });
   }
 
+  save() {
+    if (this.isClassInfoChange) {
+      if (this.isAttendanceChange) {
+        // Update class and attendance
+        console.log("update class and attendance");
+        this.classService.updateClassAndAttendance(this.classInfo, this.studentList).subscribe();
+      } else {
+        // Update class
+        console.log("update class");
+        this.classService.updateClass(this.classInfo).subscribe();
+      }
+    } else {
+      if (this.isAttendanceChange) {
+        console.log("update attendace");
+        // Update attendance
+        this.classService.updateAttedance(this.classInfo, this.studentList).subscribe();
+      }
+    }
+  }
+
   onChange() {
     this.isClassInfoChange = true;
   }
 
-  onNgModelChange() {
+  attendanceChange() {
     this.isAttendanceChange = true;
   }
 
   courseChange(event: any) {
     if (!this.isClassInfoChange && !this.isAttendanceChange) {
       if (!event && this.classInfo.courseId != this.courseId) {
-        this.isClassInfoChange = true;
+        this.onChange();
       }
     }
   }

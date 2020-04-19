@@ -24,7 +24,7 @@ public class StudentDTO {
 
 	private String parentEmail;
 	
-	private String attendance;
+	private boolean attendance;
 	
 	private String classCode;
 	
@@ -35,7 +35,6 @@ public class StudentDTO {
 	public StudentDTO(StudentInfo studentInfo) {
 		this.id = studentInfo.getId();
 		this.birthday = studentInfo.getBirthday();
-		this.attendance = studentInfo.getAttendance();
 		this.contactNumber = studentInfo.getContactNumber();
 		this.email = studentInfo.getEmail();
 		this.facebook = studentInfo.getFacebook();
@@ -117,11 +116,11 @@ public class StudentDTO {
 		this.parentEmail = parentEmail;
 	}
 
-	public String getAttendance() {
+	public boolean getAttendance() {
 		return attendance;
 	}
 
-	public void setAttendance(String attendance) {
+	public void setAttendance(boolean attendance) {
 		this.attendance = attendance;
 	}
 

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.english.gemmy.model.dto.ClassAttendance;
 import com.project.english.gemmy.model.dto.ClassesInfoDto;
+import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.service.ClassesService;
 import com.project.english.gemmy.service.CourseService;
@@ -100,23 +100,21 @@ public class ClassesController {
 	}
 	
 	@PutMapping("/classAttendance")
-	public ResponseEntity<ClassesInfoDto> updateClassAndAttendance(@RequestBody ClassAttendance request) {
-//		ClassesInfoDto classes = classesService.updateClassAndAttendance(request);
-//		if (classes != null) {
-//			return ResponseEntity.ok(classes);
-//		}
-//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> updateClassAndAttendance(@RequestBody UpdateClassAttendanceRequest request) {
+		boolean result = classesService.updateClassAndAttendance(request);
+		if (result) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PutMapping("/attendance")
-	public ResponseEntity<ClassesInfoDto> updateAttedance(@RequestBody ClassAttendance request) {
-//		ClassesInfoDto classes = classesService.updateAttedance(request);
-//		if (classes != null) {
-//			return ResponseEntity.ok(classes);
-//		}
-//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<ClassesInfoDto> updateAttedance(@RequestBody UpdateClassAttendanceRequest request) {
+		boolean result = classesService.updateAttedance(request.getClassInfo().getId(), request.getStudentInfo());
+		if (result) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

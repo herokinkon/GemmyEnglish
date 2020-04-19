@@ -1,12 +1,18 @@
 package com.project.english.gemmy.service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.project.english.gemmy.model.dto.Attendance;
 import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.model.dto.UpdateInfoRequest;
 import com.project.english.gemmy.model.dto.UserInfoResponse;
@@ -14,6 +20,8 @@ import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
+import com.project.english.gemmy.util.CommonConstant;
+import com.project.english.gemmy.util.CommonUtils;
 
 @Service
 public class StudentInfoService {
@@ -107,7 +115,7 @@ public class StudentInfoService {
 		}
 		return false;
 	}
-	
+
 	public List<StudentDTO> getStudentInfoByClass(Long id) {
 		List<StudentInfo> allUserAccount = studentInfoRepo.findAll();
 		if (allUserAccount != null && !allUserAccount.isEmpty()) {
@@ -120,9 +128,37 @@ public class StudentInfoService {
 		}
 		return null;
 	}
-	
-	public List<StudentInfo> getStudentListByClass(long classId){
-		return studentInfoRepo.findByClasses_id(classId);
+
+	public List<StudentDTO> getStudentListByClass(long classId) {
+		List<StudentInfo> studentInfoList = studentInfoRepo.findByClasses_id(classId);
+		List<StudentDTO> result = new ArrayList<>();
+		for (StudentInfo stu : studentInfoList) {
+			StudentDTO temp = new StudentDTO(stu);
+			if (stu.getAttendance() == null || stu.getAttendance().isEmpty()) {
+				temp.setAttendance(false);
+			} else {
+				Type userListType = new TypeToken<ArrayList<Attendance>>() {}.getType();
+				List<Attendance> atten = new Gson().fromJson(stu.getAttendance(), userListType);
+				for (Attendance ca : atten) {
+					if (ca.getClassId() == classId) {
+						String[] tmp = ca.getAttendance().split(CommonConstant.COMMA);
+						temp.setAttendance(false);
+						int i = 0;
+						while(i < tmp.length) {
+							String[] dateAtten = tmp[i].split(CommonConstant.SLASH);
+							if (dateAtten[0].equals(CommonUtils.getCurrentDate())) {
+								temp.setAttendance(Integer.valueOf(dateAtten[1]) == 1 ? true : false);
+								break;
+							}
+							i++;
+						}
+						break;
+					}
+				}
+			}
+			result.add(temp);
+		}
+		return result;
 	}
 
 }

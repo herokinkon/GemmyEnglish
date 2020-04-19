@@ -1,6 +1,6 @@
 package com.project.english.gemmy.model.dto;
 
-public class ClassAttendance {
+public class UpdateClassAttendanceRequest {
 
 	private ClassesInfoDto classInfo;
 	
@@ -21,5 +21,4 @@ public class ClassAttendance {
 	public void setStudentInfo(StudentDTO[] studentInfo) {
 		this.studentInfo = studentInfo;
 	}
-
 }
