@@ -32,7 +32,7 @@ export class ClassManagementComponent implements OnInit {
 
   showDialogToAdd() {
     const result = this.dialog.openDialog('New Class', ClassDetailComponent, {});
-    result.subscribe(this.updateTable);
+    result.subscribe(evt => this.updateTable(evt, this.classes));
   }
 
   delete(clas: any) {
@@ -41,26 +41,26 @@ export class ClassManagementComponent implements OnInit {
     this.classService.deleteClass(clas);
   }
 
-  updateTable(event: EntityActionEvent<Classes>) {
+  updateTable(event: EntityActionEvent<Classes>, classList: Classes[]) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
-        this.classes.push(event.entity);
+        classList.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
-        const index = this.classes.findIndex(stu => event.entity.id === stu.id);
+        const index = this.classes.findIndex(cl => event.entity.id === cl.id);
         if (index >= 0) {
-          this.classes[index] = event.entity;
+          classList[index] = event.entity;
         }
         break;
       case ENTITY_ACTION.DELETE:
-        this.classes.splice(this.classes.findIndex(stu => event.entity.id === stu.id), 1);
+        classList.splice(this.classes.findIndex(cl => event.entity.id === cl.id), 1);
         break;
     }
   }
 
   onRowSelect(event: any) {
     const result = this.dialog.openDialog('Class Detail', ClassDetailComponent, { ...event.data });
-    result.subscribe(this.updateTable);
+    result.subscribe(evt => this.updateTable(evt, this.classes));
   }
 
 }
