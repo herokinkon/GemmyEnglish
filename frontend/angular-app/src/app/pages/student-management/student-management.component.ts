@@ -32,7 +32,7 @@ export class StudentManagementComponent implements OnInit {
 
   showDialogToAdd() {
     const result = this.dialog.openDialog('New Student', StudentDetailComponent, {});
-    result.subscribe(this.updateTable);
+    result.subscribe(evt => this.updateTable(evt, this.students));
   }
 
   delete(student: any) {
@@ -41,25 +41,25 @@ export class StudentManagementComponent implements OnInit {
     this.studentService.deleteStudent(student);
   }
 
-  updateTable(event: EntityActionEvent<Student>) {
+  updateTable(event: EntityActionEvent<Student>, students: Student[]) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
-        this.students.push(event.entity);
+        students.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
         const index = this.students.findIndex(stu => event.entity.id === stu.id);
         if (index >= 0) {
-          this.students[index] = event.entity;
+          students[index] = event.entity;
         }
         break;
       case ENTITY_ACTION.DELETE:
-        this.students.splice(this.students.findIndex(stu => event.entity.id === stu.id), 1);
+        students.splice(this.students.findIndex(stu => event.entity.id === stu.id), 1);
         break;
     }
   }
 
   onRowSelect(event: any) {
-    const result = this.dialog.openDialog('Student Detail', StudentDetailComponent, {...event.data});
-    result.subscribe(this.updateTable);
+    const result = this.dialog.openDialog('Student Detail', StudentDetailComponent, { ...event.data });
+    result.subscribe(evt => this.updateTable(evt, this.students));
   }
 }
