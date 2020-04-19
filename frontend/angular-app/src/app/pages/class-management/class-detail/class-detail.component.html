@@ -1,6 +1,6 @@
 <div class="class-detail">
     <div class="content">
-        <mat-tab-group animationDuration="0ms" *ngIf="classInfo">
+        <mat-tab-group animationDuration="0ms" *ngIf="classInfo" class="mattabgroup">
             <mat-tab label="Class Info">
                 <form>
                     <mat-grid-list cols="2" rowHeight="100px">
@@ -41,7 +41,7 @@
                     [showCurrentPageReport]="true" [paginator]="true" [filterDelay]="0">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Id</th>
+                            <th style="width: 100px;">Id</th>
                             <th>Name</th>
                             <th>Birthday</th>
                             <th>Contact</th>
@@ -50,7 +50,7 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-student>
                         <tr class="ui-selectable-row">
-                            <td>{{student.id}}</td>
+                            <td style="text-align:center">{{student.id}}</td>
                             <td><a [routerLink]="['/student', student.id]">{{student.fullName}}</a></td>
                             <td>{{student.birthday}}</td>
                             <td>{{student.contactNumber}}</td>
