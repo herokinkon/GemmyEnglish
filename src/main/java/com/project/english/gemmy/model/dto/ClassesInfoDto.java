@@ -1,10 +1,10 @@
-package com.project.english.gemmy.model.response;
+package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
 
 import com.project.english.gemmy.model.jpa.Classes;
 
-public class ClassesInfoResponse {
+public class ClassesInfoDto {
 
 	private Long id;
 
@@ -22,11 +22,17 @@ public class ClassesInfoResponse {
 
 	private Boolean status;
 	
-	public ClassesInfoResponse() {
+	private Long courseId;
+	
+	private String courseName;
+	
+	private String courseDescription;
+	
+	public ClassesInfoDto() {
 		
 	}
 	
-	public ClassesInfoResponse(Classes classesInfo) {
+	public ClassesInfoDto(Classes classesInfo) {
 		this.id = classesInfo.getId();
 		this.className = classesInfo.getClassName();
 		this.classCode = classesInfo.getClassCode();
@@ -35,6 +41,9 @@ public class ClassesInfoResponse {
 		this.fee = classesInfo.getFee();
 		this.startDate = classesInfo.getStartDate();
 		this.status = classesInfo.getStatus();
+		this.courseId = classesInfo.getCourse().getId();
+		this.courseName = classesInfo.getCourse().getName();
+		this.courseDescription = classesInfo.getCourse().getDescription();
 	}
 
 	public Long getId() {
@@ -99,6 +108,30 @@ public class ClassesInfoResponse {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public Long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getCourseDescription() {
+		return courseDescription;
+	}
+
+	public void setCourseDescription(String courseDescription) {
+		this.courseDescription = courseDescription;
 	}
 
 }

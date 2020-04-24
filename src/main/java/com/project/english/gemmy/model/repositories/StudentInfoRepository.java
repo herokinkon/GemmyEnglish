@@ -13,4 +13,6 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
 
 	List<StudentInfo> findByUserAccount(UserAccount userAccount);
 	
+	List<StudentInfo> findByClasses_id(long classId);
+	
 }

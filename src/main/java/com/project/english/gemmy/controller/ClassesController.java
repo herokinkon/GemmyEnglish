@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.project.english.gemmy.model.request.ClassRequest;
-import com.project.english.gemmy.model.response.ClassesInfoResponse;
+import com.project.english.gemmy.model.dto.ClassesInfoDto;
+import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
+import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.service.ClassesService;
-import com.project.english.gemmy.service.StudentInfoService;
+import com.project.english.gemmy.service.CourseService;
 
 @RestController
 @RequestMapping("/api/classes")
@@ -28,10 +28,13 @@ public class ClassesController {
 
 	@Autowired
 	private ClassesService classesService;
+	
+	@Autowired
+	private CourseService courseService;
 
 	@GetMapping("/")
-	public ResponseEntity<List<ClassesInfoResponse>> getAllClasses() {
-		List<ClassesInfoResponse> classes = classesService.getAllClass();
+	public ResponseEntity<List<ClassesInfoDto>> getAllClasses() {
+		List<ClassesInfoDto> classes = classesService.getAllClass();
 		if (classes != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(classes);
@@ -40,8 +43,8 @@ public class ClassesController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ClassesInfoResponse> getClassById(@PathVariable Long id) {
-		ClassesInfoResponse result = classesService.getClassById(id);
+	public ResponseEntity<ClassesInfoDto> getClassById(@PathVariable Long id) {
+		ClassesInfoDto result = classesService.getClassById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
@@ -49,31 +52,25 @@ public class ClassesController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/{searchText}")
-	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
-		return null;
-	}
+//	@GetMapping("/{searchText}")
+//	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
+//		return null;
+//	}
 
 	@PostMapping("/")
-	public ResponseEntity<ClassesInfoResponse> createNewClass(@RequestBody ClassRequest request) {
-		ClassesInfoResponse classes = classesService.createNewClass(request);
+	public ResponseEntity<ClassesInfoDto> createNewClass(@RequestBody ClassesInfoDto request) {
+		ClassesInfoDto classes = classesService.createNewClass(request);
 		if (classes != null) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity
-					.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
-					.headers(httpHeaders).body(classes);
+			return ResponseEntity.status(HttpStatus.CREATED).body(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<ClassesInfoResponse> updateClass(@RequestBody ClassRequest request) {
-		ClassesInfoResponse classes = classesService.updateClass(request);
+	public ResponseEntity<ClassesInfoDto> updateClass(@RequestBody ClassesInfoDto request) {
+		ClassesInfoDto classes = classesService.updateClass(request);
 		if (classes != null) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity
-					.created(UriComponentsBuilder.fromPath("/{id}").buildAndExpand(classes.getId()).toUri())
-					.headers(httpHeaders).body(classes);
+			return ResponseEntity.ok(classes);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -88,8 +85,36 @@ public class ClassesController {
 	}
 
 	@GetMapping("/getClassByStudent")
-	public ResponseEntity<List<ClassesInfoResponse>> getClassByStudent(@RequestParam("studentId") Long studentId) {
+	public ResponseEntity<List<ClassesInfoDto>> getClassByStudent(@RequestParam("studentId") Long studentId) {
 		return ResponseEntity.ok().body(classesService.getClassesByStudent(studentId));
+	}
+	
+	@GetMapping("/getCourse")
+	public ResponseEntity<List<Course>> getCourses() {
+		List<Course> courses = courseService.getAllCourses();
+		if (courses != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(courses);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@PutMapping("/classAttendance")
+	public ResponseEntity<?> updateClassAndAttendance(@RequestBody UpdateClassAttendanceRequest request) {
+		boolean result = classesService.updateClassAndAttendance(request);
+		if (result) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PutMapping("/attendance")
+	public ResponseEntity<ClassesInfoDto> updateAttedance(@RequestBody UpdateClassAttendanceRequest request) {
+		boolean result = classesService.updateAttedance(request.getClassInfo().getId(), request.getStudentInfo());
+		if (result) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

@@ -8,4 +8,5 @@ export interface Student {
     occupation: string;
     parentContactNumber: string;
     parentEmail: string;
+    attendance: boolean;
 }

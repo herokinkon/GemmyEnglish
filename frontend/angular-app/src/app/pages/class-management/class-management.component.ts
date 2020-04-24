@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Classes } from './class-service/classes-model';
-import { ClassService } from './class-service/class.service';
+import { ENTITY_ACTION } from 'src/app/shared/app-constant.service';
+import { CommonDialogService } from 'src/app/shared/components/common-detail-dialog/common-dialog.service';
+import { EntityActionEvent } from 'src/app/shared/components/common-detail-dialog/common-entity-dialog-interface';
 import { ClassDetailComponent } from './class-detail/class-detail.component';
+import { ClassService } from './class-service/class.service';
+import { Classes } from './class-service/classes-model';
 
 @Component({
   selector: 'app-class-management',
@@ -15,7 +17,7 @@ export class ClassManagementComponent implements OnInit {
   selectedClass: any;
   cols: any[];
 
-  constructor(public dialog: MatDialog, private classService: ClassService) { }
+  constructor(private readonly dialog: CommonDialogService, private classService: ClassService) { }
 
   ngOnInit(): void {
     this.cols = [{ field: 'id', header: 'Id' },
@@ -26,12 +28,11 @@ export class ClassManagementComponent implements OnInit {
     { field: 'fee', header: 'Fee' }];
 
     this.classService.getClasses().subscribe(data => this.classes = data);
-
   }
 
   showDialogToAdd() {
-    const dialogRef = this.dialog.open(ClassDetailComponent, { data: { title: 'New Class', clas: {} } });
-    dialogRef.afterClosed().subscribe(data => { if (data) { this.save(data.clas, true); } });
+    const result = this.dialog.openDialog('New Class', ClassDetailComponent, {});
+    result.subscribe(evt => this.updateTable(evt, this.classes));
   }
 
   delete(clas: any) {
@@ -40,21 +41,26 @@ export class ClassManagementComponent implements OnInit {
     this.classService.deleteClass(clas);
   }
 
-  save(clas: any, isNewClasses?: boolean) {
-    if (isNewClasses) {
-      this.classService.createClass(clas).subscribe(newClass => this.classes.push(newClass));
-    } else {
-      this.classService.updateClass(clas).subscribe();
-      const index = this.classes.findIndex(cl => clas.id === cl.id);
-      if (index >= 0) {
-        this.classes[index] = clas;
-      }
+  updateTable(event: EntityActionEvent<Classes>, classList: Classes[]) {
+    switch (event?.action) {
+      case ENTITY_ACTION.CREATE:
+        classList.push(event.entity);
+        break;
+      case ENTITY_ACTION.EDIT:
+        const index = this.classes.findIndex(cl => event.entity.id === cl.id);
+        if (index >= 0) {
+          classList[index] = event.entity;
+        }
+        break;
+      case ENTITY_ACTION.DELETE:
+        classList.splice(this.classes.findIndex(cl => event.entity.id === cl.id), 1);
+        break;
     }
   }
 
   onRowSelect(event: any) {
-    const dialogRef = this.dialog.open(ClassDetailComponent, { data: { title: 'Class Detail', clas: { ...event.data } } });
-    dialogRef.afterClosed().subscribe(result => { if (result) { this[result.action](result.clas); } });
+    const result = this.dialog.openDialog('Class Detail', ClassDetailComponent, { ...event.data });
+    result.subscribe(evt => this.updateTable(evt, this.classes));
   }
 
 }

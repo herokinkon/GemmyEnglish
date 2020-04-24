@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.english.gemmy.model.request.CreateAccountRequest;
-import com.project.english.gemmy.model.response.ResponseModel;
+import com.project.english.gemmy.model.dto.CreateAccountRequest;
+import com.project.english.gemmy.model.dto.ResponseModel;
 import com.project.english.gemmy.service.StaffInfoService;
 import com.project.english.gemmy.service.StudentInfoService;
 import com.project.english.gemmy.service.UserAccountService;

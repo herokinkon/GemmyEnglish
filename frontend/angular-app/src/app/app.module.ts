@@ -24,6 +24,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 // PrimeNG table
 import { TableModule } from 'primeng/table';
@@ -70,7 +72,9 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     TableModule,
     HttpClientModule,
     FontAwesomeModule,
-    InputTextModule
+    InputTextModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

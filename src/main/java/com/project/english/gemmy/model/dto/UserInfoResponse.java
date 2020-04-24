@@ -1,14 +1,15 @@
-package com.project.english.gemmy.model.request;
+package com.project.english.gemmy.model.dto;
 
-public class CreateAccountRequest {
+import com.project.english.gemmy.model.jpa.StaffInfo;
+import com.project.english.gemmy.model.jpa.StudentInfo;
 
-	private String userName;
+public class UserInfoResponse {
 	
-	private String password;
-	
+	private Long userId;
+
 	private String fullName;
 	
-	private String birthday;
+	private String birthdate;
 	
 	private String email;
 	
@@ -20,23 +21,13 @@ public class CreateAccountRequest {
 	
 	private String parentContactNumber;
 
-	private String typeOfUSer;
-
-	public String getUserName() {
-		return userName;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	} 
 
 	public String getFullName() {
 		return fullName;
@@ -46,12 +37,12 @@ public class CreateAccountRequest {
 		this.fullName = fullName;
 	}
 
-	public String getBirthday() {
-		return birthday;
+	public String getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public String getEmail() {
@@ -94,11 +85,14 @@ public class CreateAccountRequest {
 		this.parentContactNumber = parentContactNumber;
 	}
 
-	public String getTypeOfUSer() {
-		return typeOfUSer;
+	public void convertEntityToStaffObject(StaffInfo staffInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void setTypeOfUSer(String typeOfUSer) {
-		this.typeOfUSer = typeOfUSer;
+	public void convertEntityToStudentObject(StudentInfo studentInfo) {
+		// TODO Auto-generated method stub
+		
 	}
+
 }

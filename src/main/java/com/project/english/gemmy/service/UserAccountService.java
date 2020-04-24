@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.english.gemmy.model.dto.CreateAccountRequest;
 import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
-import com.project.english.gemmy.model.request.CreateAccountRequest;
 import com.project.english.gemmy.util.CommonUtils;
 
 @Service

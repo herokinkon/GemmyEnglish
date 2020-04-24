@@ -1,20 +1,40 @@
-.mat-dialog-content {
-  display: contents;
+.class-detail {
+  max-width: 600px;
+  max-height: 600px;
+  min-height: 400px;
+  min-width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-mat-tab-group {
-  min-width: 500px;
-  min-height: 300px;
+.mattabgroup {
+  max-width: 600px;
+  max-height: 600px;
+  min-height: 400px;
+  min-width: 550px;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+mat-form-field {
+  width: 80%;
+}
+
+.mat-raised-button {
+  margin-left: 5px;
 }
 
 .mat-dialog-actions {
   float: right;
 }
 
-.mat-form-field-infix {
-  display: flex;
+.checkAttendance {
+  float: left;
 }
 
-.dateField {
-  width: 140px;
+.my-checkbox {
+  margin: 0 10px;
 }

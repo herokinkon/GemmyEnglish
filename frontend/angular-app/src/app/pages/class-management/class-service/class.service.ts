@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Observable } from 'rxjs';
-import { Classes } from './classes-model';
+import { Classes, Course } from './classes-model';
+import { Class } from './class';
+import { Student } from '../../student-management/student-service/student';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +38,22 @@ export class ClassService {
 
   updateClass(classes: Classes): Observable<Classes> {
     return this.http.put<Classes>(this.apiUrl, classes, this.httpOptions);
+  }
+
+  getClassByStudent(studentId: number): Observable<Class[]> {
+    const data = { ...this.httpOptions, params: { studentId: studentId.toString() } };
+    return this.http.get<Class[]>(this.apiUrl + 'getClassByStudent', data);
+  }
+
+  getCourse(): Observable<Course[]> {
+    return this.http.get<Course[]>(this.apiUrl + 'getCourse', this.httpOptions);
+  }
+
+  updateClassAndAttendance(classes: Classes, studentList: Student[]): Observable<Classes> {
+    return this.http.put<Classes>(this.apiUrl + 'classAttendance', { classInfo: classes, studentInfo: studentList }, this.httpOptions);
+  }
+
+  updateAttedance(classes: Classes, studentList: Student[]): Observable<Classes> {
+    return this.http.put<Classes>(this.apiUrl + 'attendance', { classInfo: classes, studentInfo: studentList} , this.httpOptions);
   }
 }
