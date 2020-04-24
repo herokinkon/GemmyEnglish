@@ -52,10 +52,10 @@ public class ClassesController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/{searchText}")
-	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
-		return null;
-	}
+//	@GetMapping("/{searchText}")
+//	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
+//		return null;
+//	}
 
 	@PostMapping("/")
 	public ResponseEntity<ClassesInfoDto> createNewClass(@RequestBody ClassesInfoDto request) {

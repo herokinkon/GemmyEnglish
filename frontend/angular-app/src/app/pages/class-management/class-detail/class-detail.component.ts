@@ -85,7 +85,6 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
         break;
       case ENTITY_ACTION.EDIT:
         this.save();
-        // this.classService.updateClass(this.classInfo).subscribe();
         break;
       case ENTITY_ACTION.DELETE:
         this.classService.deleteClass(this.classInfo.id).subscribe();
@@ -99,16 +98,13 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
     if (this.isClassInfoChange) {
       if (this.isAttendanceChange) {
         // Update class and attendance
-        console.log("update class and attendance");
         this.classService.updateClassAndAttendance(this.classInfo, this.studentList).subscribe();
       } else {
         // Update class
-        console.log("update class");
         this.classService.updateClass(this.classInfo).subscribe();
       }
     } else {
       if (this.isAttendanceChange) {
-        console.log("update attendace");
         // Update attendance
         this.classService.updateAttedance(this.classInfo, this.studentList).subscribe();
       }

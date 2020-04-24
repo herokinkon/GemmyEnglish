@@ -1,18 +1,18 @@
 .class-detail {
-  max-width: 900px;
+  max-width: 600px;
   max-height: 600px;
   min-height: 400px;
-  min-width: 700px;
+  min-width: 550px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
 .mattabgroup {
-  max-width: 900px;
+  max-width: 600px;
   max-height: 600px;
   min-height: 400px;
-  min-width: 700px;
+  min-width: 550px;
 }
 
 .content {
@@ -38,15 +38,3 @@ mat-form-field {
 .my-checkbox {
   margin: 0 10px;
 }
-
-/* :host ::ng-deep .ui-table-customers {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-  }
-
-  .ui-dropdown-label:not(.ui-placeholder) {
-      text-transform: uppercase;
-  }
-
-  .ui-table-tbody > tr > td .ui-column-title {
-      display: none;
-  } */

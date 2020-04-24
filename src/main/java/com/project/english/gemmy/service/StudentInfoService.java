@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 import com.project.english.gemmy.model.repositories.UserAccountRepository;
-import com.project.english.gemmy.util.CommonConstant;
 import com.project.english.gemmy.util.CommonUtils;
 
 @Service
@@ -44,6 +44,11 @@ public class StudentInfoService {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
 			ModelMapper modelMapper = new ModelMapper();
+			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
+			      protected void configure() {
+			          skip().getAttendance();
+			      }
+			    });
 			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
 			return result;
 		}
@@ -52,6 +57,11 @@ public class StudentInfoService {
 
 	public StudentDTO createNewStudent(StudentDTO updateInfoRequest) {
 		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.addMappings(new PropertyMap<StudentInfo, StudentDTO>() {
+		      protected void configure() {
+		          skip().getAttendance();
+		      }
+		    });
 		StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
@@ -66,6 +76,11 @@ public class StudentInfoService {
 		if (temp.isPresent()) {
 			ModelMapper modelMapper = new ModelMapper();
 			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
+			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
+			      protected void configure() {
+			          skip().getAttendance();
+			      }
+			    });
 			StudentInfo result = studentInfoRepo.save(studentInfo);
 			if (result != null) {
 				return new StudentDTO(result);
@@ -134,27 +149,15 @@ public class StudentInfoService {
 		List<StudentDTO> result = new ArrayList<>();
 		for (StudentInfo stu : studentInfoList) {
 			StudentDTO temp = new StudentDTO(stu);
-			if (stu.getAttendance() == null || stu.getAttendance().isEmpty()) {
-				temp.setAttendance(false);
-			} else {
+			if (stu.getAttendance() != null && !stu.getAttendance().isEmpty()) {
 				Type userListType = new TypeToken<ArrayList<Attendance>>() {}.getType();
 				List<Attendance> atten = new Gson().fromJson(stu.getAttendance(), userListType);
-				for (Attendance ca : atten) {
-					if (ca.getClassId() == classId) {
-						String[] tmp = ca.getAttendance().split(CommonConstant.COMMA);
-						temp.setAttendance(false);
-						int i = 0;
-						while(i < tmp.length) {
-							String[] dateAtten = tmp[i].split(CommonConstant.SLASH);
-							if (dateAtten[0].equals(CommonUtils.getCurrentDate())) {
-								temp.setAttendance(Integer.valueOf(dateAtten[1]) == 1 ? true : false);
-								break;
-							}
-							i++;
-						}
-						break;
+				String currentDate = CommonUtils.getCurrentDate();
+				atten.stream().forEach(ca -> {
+					if (ca.getClassId() == classId && ca.getAttendance().containsKey(currentDate)) {
+						temp.setAttendance(ca.getAttendance().get(currentDate) == 1 ? true : false);
 					}
-				}
+				});
 			}
 			result.add(temp);
 		}

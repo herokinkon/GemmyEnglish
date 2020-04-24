@@ -2,7 +2,9 @@ package com.project.english.gemmy.service;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +13,15 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.english.gemmy.model.dto.Attendance;
-import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.dto.ClassesInfoDto;
 import com.project.english.gemmy.model.dto.StudentDTO;
+import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
 import com.project.english.gemmy.model.repositories.CourseRepository;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
-import com.project.english.gemmy.util.CommonConstant;
 import com.project.english.gemmy.util.CommonUtils;
 
 @Service
@@ -136,45 +137,27 @@ public class ClassesService {
 	
 	public boolean updateAttedance(Long classId, StudentDTO[] studentList) {
 		try {
-			for(int i = 0; i < studentList.length; i++) {
-				StudentInfo studentInfo = studentInfoRepo.getOne(studentList[i].getId());
-				Attendance tmp = new Attendance();
-				tmp.setClassId(classId);
+			for (StudentDTO studentDTO : studentList) {
+				StudentInfo studentInfo = studentInfoRepo.getOne(studentDTO.getId());
+				String currentDate = CommonUtils.getCurrentDate();
+				Integer attStatus = studentDTO.getAttendance() ? 1 : 0;
 				if (studentInfo.getAttendance() == null || studentInfo.getAttendance().isEmpty()) {
 					List<Attendance> attList = new ArrayList<>();
-					String date = CommonUtils.getCurrentDate();
-					String attStatus = studentList[i].getAttendance() ? "1" : "0";
-					tmp.setAttendance(date + CommonConstant.SLASH + attStatus);
+					Attendance tmp = new Attendance();
+					Map<String, Integer> attMap = new HashMap<>();
+					attMap.put(currentDate, attStatus);
+					tmp.setAttendance(attMap);
+					tmp.setClassId(classId);
 					attList.add(tmp);
 					studentInfo.setAttendance(new Gson().toJson(attList));
 				} else {
 					Type userListType = new TypeToken<ArrayList<Attendance>>() {}.getType();
 					List<Attendance> atten = new Gson().fromJson(studentInfo.getAttendance(), userListType);
-					for (Attendance ca : atten) {
+					atten.stream().forEach(ca -> {
 						if (ca.getClassId() == classId) {
-							List<String> dateAttendance = new ArrayList<>();
-							String[] temp = ca.getAttendance().split(CommonConstant.COMMA);
-							int j = 0;
-							boolean isExist = false;
-							while(j < temp.length) {
-								String[] dateAtten = temp[j].split(CommonConstant.SLASH);
-								if (dateAtten[0].equals(CommonUtils.getCurrentDate())) {
-									dateAtten[1] = studentList[i].getAttendance() ? "1" : "0";
-									dateAttendance.add(dateAtten[0] + CommonConstant.SLASH + dateAtten[1]);
-									isExist = true;
-								} else {
-									dateAttendance.add(temp[j]);
-								}
-								j++;
-							}
-							if (!isExist) {
-								String attStatus = studentList[i].getAttendance() ? "1" : "0";
-								dateAttendance.add(CommonUtils.getCurrentDate() + CommonConstant.SLASH + attStatus);
-							}
-							ca.setAttendance(String.join(CommonConstant.COMMA, dateAttendance));
-							break;
+							ca.getAttendance().put(currentDate, attStatus);
 						}
-					}
+					});
 					studentInfo.setAttendance(new Gson().toJson(atten));
 				}
 				studentInfoRepo.save(studentInfo);
