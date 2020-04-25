@@ -26,6 +26,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
 
 // PrimeNG table
 import { TableModule } from 'primeng/table';
@@ -38,6 +39,8 @@ import { StudentDetailComponent } from './pages/student-management/student-detai
 import { ClassManagementComponent } from './pages/class-management/class-management.component';
 import { ClassDetailComponent } from './pages/class-management/class-detail/class-detail.component';
 import { CommonDetailDialogComponent } from './shared/components/common-detail-dialog/common-detail-dialog.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MainPageComponent } from './pages/main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     StudentDetailComponent,
     ClassManagementComponent,
     ClassDetailComponent,
-    CommonDetailDialogComponent
+    CommonDetailDialogComponent,
+    LoginComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,7 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     MatFormFieldModule,
     MatNativeDateModule,
     MatTabsModule,
+    MatCardModule,
     FormsModule,
     TableModule,
     HttpClientModule,

@@ -12,7 +12,7 @@
                     required={{field.required}}>
 
                   <ng-template #elseBlock>
-                    <input matInput class="dateField" name="birthday" matInput [matDatepicker]="birthdayPicker"
+                    <input matInput class="dateField" name="birthday" [matDatepicker]="birthdayPicker"
                       [(ngModel)]="studentInfo.birthday" (click)="birthdayPicker.open()" required>
                     <mat-datepicker #birthdayPicker></mat-datepicker>
                   </ng-template>
