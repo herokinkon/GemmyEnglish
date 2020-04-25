@@ -2,6 +2,9 @@ package com.project.english.gemmy.model.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -25,6 +28,7 @@ public class Exam implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to ExamResult
+	@JsonIgnore
 	@OneToMany(mappedBy="exam")
 	private List<ExamResult> examResults;
 

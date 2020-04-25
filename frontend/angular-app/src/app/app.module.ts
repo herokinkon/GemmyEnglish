@@ -38,6 +38,7 @@ import { StudentDetailComponent } from './pages/student-management/student-detai
 import { ClassManagementComponent } from './pages/class-management/class-management.component';
 import { ClassDetailComponent } from './pages/class-management/class-detail/class-detail.component';
 import { CommonDetailDialogComponent } from './shared/components/common-detail-dialog/common-detail-dialog.component';
+import { ExamManagementComponent } from './pages/exam-management/exam-management.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     StudentDetailComponent,
     ClassManagementComponent,
     ClassDetailComponent,
-    CommonDetailDialogComponent
+    CommonDetailDialogComponent,
+    ExamManagementComponent
   ],
   imports: [
     BrowserModule,
