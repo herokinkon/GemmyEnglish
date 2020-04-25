@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ClassService } from '../../class-management/class-service/class.service';
 import { Class } from '../../class-management/class-service/class';
 import { Student } from '../student-service/student';
+// tslint:disable-next-line:max-line-length
 import { CommonEntityDialogInterface, EntityActionEvent } from '../../../shared/components/common-detail-dialog/common-entity-dialog-interface';
 import { ENTITY_ACTION } from 'src/app/shared/app-constant.service';
 import { ActivatedRoute } from '@angular/router';

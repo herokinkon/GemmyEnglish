@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule } from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
 
 // PrimeNG table
 import { TableModule } from 'primeng/table';
@@ -38,6 +39,9 @@ import { StudentDetailComponent } from './pages/student-management/student-detai
 import { ClassManagementComponent } from './pages/class-management/class-management.component';
 import { ClassDetailComponent } from './pages/class-management/class-detail/class-detail.component';
 import { CommonDetailDialogComponent } from './shared/components/common-detail-dialog/common-detail-dialog.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MainPageComponent } from './pages/main-page/main-page.component';
+import { JwtInterceptor } from './shared/authentication/jwtInterceptor';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,9 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     StudentDetailComponent,
     ClassManagementComponent,
     ClassDetailComponent,
-    CommonDetailDialogComponent
+    CommonDetailDialogComponent,
+    LoginComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +74,7 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     MatFormFieldModule,
     MatNativeDateModule,
     MatTabsModule,
+    MatCardModule,
     FormsModule,
     TableModule,
     HttpClientModule,
@@ -76,7 +83,7 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
     MatSelectModule,
     MatCheckboxModule
   ],
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
