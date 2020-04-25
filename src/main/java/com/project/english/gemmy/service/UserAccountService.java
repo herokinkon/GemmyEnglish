@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +20,8 @@ import com.project.english.gemmy.model.repositories.UserAccountRepository;
 import com.project.english.gemmy.util.CommonUtils;
 
 @Service
-public class UserAccountService {
-	
+public class UserAccountService implements UserDetailsService {
+
 	@Autowired
 	private UserAccountRepository userAccountRepo;
 
@@ -31,7 +36,7 @@ public class UserAccountService {
 			if (createAccountRequest.getTypeOfUSer().equals("staff")) {
 				List<StaffInfo> staffInfos = new ArrayList<>();
 				StaffInfo staffInfo = new StaffInfo();
-	//			staffInfo.setBirthday(createAccountRequest.getBirthday());
+				// staffInfo.setBirthday(createAccountRequest.getBirthday());
 				staffInfo.setContactNumber(createAccountRequest.getContactNumber());
 				staffInfo.setEmail(createAccountRequest.getContactNumber());
 				staffInfo.setFacebook(createAccountRequest.getFacebook());
@@ -41,7 +46,7 @@ public class UserAccountService {
 			} else {
 				List<StudentInfo> studentInfos = new ArrayList<>();
 				StudentInfo studentInfo = new StudentInfo();
-	//			studentInfo.setBirthday(createAccountRequest.getBirthday());
+				// studentInfo.setBirthday(createAccountRequest.getBirthday());
 				studentInfo.setContactNumber(createAccountRequest.getContactNumber());
 				studentInfo.setEmail(createAccountRequest.getContactNumber());
 				studentInfo.setFacebook(createAccountRequest.getFacebook());
@@ -56,5 +61,13 @@ public class UserAccountService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		if ("admin".equals(username)) {
+			return new User("admin", new BCryptPasswordEncoder().encode("admin"), new ArrayList<>());
+		}
+		throw new UsernameNotFoundException(username);
 	}
 }
