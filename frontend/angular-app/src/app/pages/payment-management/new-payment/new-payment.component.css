@@ -1,0 +1,12 @@
+.dialog {
+    min-width: 450px;
+    min-height: 300px;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+mat-list-item {
+    margin-bottom: 10px;
+}

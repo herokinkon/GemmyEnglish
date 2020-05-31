@@ -164,4 +164,7 @@ public class StudentInfoService {
 		return result;
 	}
 
+	public List<StudentDTO> getStudentListByName(String name) {
+		return studentInfoRepo.findByFullNameContains(name);
+	}
 }

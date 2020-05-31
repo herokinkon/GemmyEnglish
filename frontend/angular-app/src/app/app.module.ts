@@ -32,6 +32,9 @@ import {MatCardModule} from '@angular/material/card';
 import { TableModule } from 'primeng/table';
 import {InputTextModule} from 'primeng/inputtext';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {DropdownModule} from 'primeng/dropdown';
+import {FieldsetModule} from 'primeng/fieldset';
 
 // Pages components
 import { StudentManagementComponent } from './pages/student-management/student-management.component';
@@ -42,6 +45,9 @@ import { CommonDetailDialogComponent } from './shared/components/common-detail-d
 import { LoginComponent } from './pages/login/login.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { JwtInterceptor } from './shared/authentication/jwtInterceptor';
+import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
+import { StudentPaymentListComponent } from './pages/payment-management/student-payment-list/student-payment-list.component';
+import { NewPaymentComponent } from './pages/payment-management/new-payment/new-payment.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +60,10 @@ import { JwtInterceptor } from './shared/authentication/jwtInterceptor';
     ClassDetailComponent,
     CommonDetailDialogComponent,
     LoginComponent,
-    MainPageComponent
+    MainPageComponent,
+    PaymentManagementComponent,
+    StudentPaymentListComponent,
+    NewPaymentComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +90,10 @@ import { JwtInterceptor } from './shared/authentication/jwtInterceptor';
     FontAwesomeModule,
     InputTextModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AutoCompleteModule,
+    DropdownModule,
+    FieldsetModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

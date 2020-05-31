@@ -3,6 +3,7 @@ package com.project.english.gemmy.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -117,4 +118,14 @@ public class ClassesController {
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@GetMapping("/getClassesListByName")
+	public ResponseEntity<List<ClassesInfoDto>> getClassesListByName(@RequestParam("name") String name,
+			@RequestParam("page") int page, @RequestParam("size") int size) {
+		List<ClassesInfoDto> result = classesService.getClassesListByName(name, PageRequest.of(page, size));
+		if (result != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(result);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 }

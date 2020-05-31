@@ -56,4 +56,9 @@ export class ClassService {
   updateAttedance(classes: Classes, studentList: Student[]): Observable<Classes> {
     return this.http.put<Classes>(this.apiUrl + 'attendance', { classInfo: classes, studentInfo: studentList} , this.httpOptions);
   }
+
+  getClassesListByName(name: string, { page, size }): Observable<Classes[]> {
+    const data = { ...this.httpOptions, params: { name, page, size } };
+    return this.http.get<Classes[]>(this.apiUrl + 'getClassesListByName', data);
+  }
 }

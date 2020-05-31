@@ -1,0 +1,26 @@
+<p-table #lsStudent [columns]="cols" [value]="payments" [paginator]="true" [rows]="10" [autoLayout]="true"
+    [hidden]="isHidden">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+            </th>
+
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns" [class]="col.header === currentMonth?'highlight-cell':null">
+                <ng-template [ngIf]="!col.type">
+                    {{rowData[col.field]}}
+                </ng-template>
+                <mat-icon *ngIf="col.type === 'date' && rowData[col.field]" class="green">check_circle</mat-icon>
+            </td>
+
+            <td>
+                <mat-icon color="primary" class="new-payment" (click)="newPayment(rowData)">add_circle</mat-icon>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

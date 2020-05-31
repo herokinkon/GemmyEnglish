@@ -1,0 +1,31 @@
+<mat-grid-list cols=5 rowHeight="1:2">
+    <mat-grid-tile class="show-overflow" colspan=2>
+        <p-fieldset legend="Search">
+            <mat-list>
+                <mat-list-item>
+                    <p-dropdown #dd [style]="{'min-width':'100px'}"
+                        [options]="[{label: 'Class', value: {field: 'className'}},{label: 'Student', value: {field: 'fullName'}}]"
+                        (onChange)="changeSearchCriteria(dd.label)">
+                    </p-dropdown>
+                    <p-autoComplete [(ngModel)]="selectedFilter" [suggestions]="results"
+                        (completeMethod)="search($event, dd.selectedOption)" [dropdown]="true"
+                        [field]="dd.selectedOption.value.field" [dropdownMode]="'current'"
+                        (onSelect)="fillSearchResults($event, dd.label)"></p-autoComplete>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-form-field>
+                        <label>{{aditionalLabel1}} </label>
+                        <input matInput name="Text" [disabled]=true value="{{aditionalField1}}" />
+                    </mat-form-field>
+                    <mat-form-field class="margin-left">
+                        <label>{{aditionalLabel2}}</label>
+                        <input matInput name="Text" [disabled]=true value="{{aditionalField2}}" />
+                    </mat-form-field>
+                </mat-list-item>
+            </mat-list>
+        </p-fieldset>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=3>
+        <app-student-payment-list [payments]=payments></app-student-payment-list>
+    </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,19 @@
+mat-list-item {
+    margin-top: 10px;
+}
+
+.margin-left {
+    margin-left: 20px;
+}
+
+mat-grid-tile {
+    overflow: unset;
+}
+
+.select-month-field {
+    padding-top: 10px;
+}
+
+.algin-center {
+    margin: 0 auto;
+}

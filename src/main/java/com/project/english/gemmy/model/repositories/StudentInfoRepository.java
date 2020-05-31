@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
 
@@ -14,5 +15,7 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
 	List<StudentInfo> findByUserAccount(UserAccount userAccount);
 	
 	List<StudentInfo> findByClasses_id(long classId);
+	
+	List<StudentDTO> findByFullNameContains(String name);
 	
 }

@@ -18,7 +18,8 @@
                                     </mat-option>
                                 </mat-select>
                                 <input *ngIf="field.field == 'fee'" name="{{field.field}}" matInput
-                                    [(ngModel)]="classInfo[field.field]" (keyup)="onChange()" required>
+                                    [ngModel]="classInfo[field.field] | currency: 'VND':true"
+                                    (ngModelChange)="classInfo[field.field]=$event" (keyup)="onChange()" required>
                                 <div *ngIf="field.field == 'startDate'">
                                     <input class="dateField" name="startDate" matInput [matDatepicker]="myDatepicker"
                                         [(ngModel)]="classInfo.startDate" required>

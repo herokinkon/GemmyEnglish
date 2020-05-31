@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -166,5 +167,13 @@ public class ClassesService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public List<ClassesInfoDto> getClassesListByName(String name, Pageable pageable) {
+		return classesRepo.findByClassNameContains(name, pageable);
+	}
+	
+	public ClassesInfoDto getActiveClassByStudentId(long studentId) {
+		return classesRepo.findByStudentInfos_idAndStatusTrue(studentId);
 	}
 }

@@ -4,42 +4,45 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the fee_payment database table.
  * 
  */
 @Entity
-@Table(name="fee_payment")
+@Table(name = "fee_payment")
 public class FeePayment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date date;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date paymentDate;
+	
 	private String discount;
 
-	@Column(name="kind_of_payment")
+	@Column(name = "kind_of_payment")
 	private String kindOfPayment;
 
-	private String month;
+	private byte month;
 
 	private String reason;
 
-	private Boolean status;
+	@Column(name = "amount")
+	private String amount;
 
-	//bi-directional many-to-one association to Class
+	// bi-directional many-to-one association to Class
 	@ManyToOne
-	@JoinColumn(name="classes_id")
+	@JoinColumn(name = "classes_id")
 	private Classes classes;
 
-	//bi-directional many-to-one association to StudentInfo
+	// bi-directional many-to-one association to StudentInfo
 	@ManyToOne
-	@JoinColumn(name="student_id")
+	@JoinColumn(name = "student_id")
 	private StudentInfo studentInfo;
 
 	public FeePayment() {
@@ -77,11 +80,11 @@ public class FeePayment implements Serializable {
 		this.kindOfPayment = kindOfPayment;
 	}
 
-	public String getMonth() {
+	public byte getMonth() {
 		return this.month;
 	}
 
-	public void setMonth(String month) {
+	public void setMonth(byte month) {
 		this.month = month;
 	}
 
@@ -91,14 +94,6 @@ public class FeePayment implements Serializable {
 
 	public void setReason(String reason) {
 		this.reason = reason;
-	}
-
-	public Boolean getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Boolean status) {
-		this.status = status;
 	}
 
 	public Classes getClasses() {
@@ -115,6 +110,22 @@ public class FeePayment implements Serializable {
 
 	public void setStudentInfo(StudentInfo studentInfo) {
 		this.studentInfo = studentInfo;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
 	}
 
 }

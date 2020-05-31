@@ -1,0 +1,15 @@
+mat-icon.new-payment {
+    cursor: pointer;
+}
+
+mat-icon.green {
+    color: #006060;
+}
+
+.highlight-cell {
+    background-color: #FFA500 !important;
+}
+
+td {
+    text-align: center;
+}

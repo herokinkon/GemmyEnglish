@@ -6,7 +6,7 @@ export interface Classes {
     endDate: Date;
     status: boolean;
     description: string;
-    fee: string
+    fee: string;
     courseId: number;
 }
 

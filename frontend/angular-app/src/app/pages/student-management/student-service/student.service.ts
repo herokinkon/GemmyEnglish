@@ -38,9 +38,14 @@ export class StudentService {
     return this.http.put<Student>(this.apiUrl, student, this.httpOptions);
   }
 
-  getStudentListByClass(classId: Number): Observable<Student[]> {
-    const data = { ...this.httpOptions, params: { classId: classId.toString() } };
+  getStudentListByClass(classId: any): Observable<Student[]> {
+    const data = { ...this.httpOptions, params: { classId } };
     return this.http.get<Student[]>(this.apiUrl + 'getStudentListByClass', data);
+  }
+
+  getStudentListByName(name: string, { page, size }): Observable<Student[]> {
+    const data = { ...this.httpOptions, params: { name, page, size } };
+    return this.http.get<Student[]>(this.apiUrl + 'getStudentListByName', data);
   }
 
 }

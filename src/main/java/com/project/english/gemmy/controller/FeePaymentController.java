@@ -1,26 +1,39 @@
 package com.project.english.gemmy.controller;
 
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.english.gemmy.model.dto.FeePaymentDTO;
+import com.project.english.gemmy.service.FeePaymentService;
+
 @RestController
-@RequestMapping("/fee")
+@RequestMapping("/api/fee")
 public class FeePaymentController {
 
-	@RequestMapping(value = "/updateFeePayment", method = RequestMethod.POST)
-	public ResponseEntity<Void> updateFeePayment() {
-		return null;
+	@Autowired
+	private FeePaymentService paymentService;
+	
+	@PostMapping
+	public void createPayment(@RequestBody FeePaymentDTO payment) {
+		paymentService.createNewPayment(payment);
+	}
+
+	@GetMapping("/getAllPaymentInClass")
+	public List<Map<String, String>> getPaymentsInClass(@RequestParam("classId") long classId) {
+		return paymentService.getPaymentInClass(classId);
 	}
 	
-	@RequestMapping(value = "/getFeePayment", method = RequestMethod.GET)
-	public ResponseEntity<Void> getFeePayment() {
-		return null;
+	@GetMapping("/getAllPaymentForStudent")
+	public Map<String, String> getPaymentsForStudent(@RequestParam("studentId") long studentId) {
+		return paymentService.getPaymentForStudent(studentId);
 	}
-	
-	@RequestMapping(value = "/getFeePaymentByStudentName", method = RequestMethod.GET)
-	public ResponseEntity<Void> getFeePaymentByStudentName() {
-		return null;
-	}
+
 }
