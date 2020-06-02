@@ -1,0 +1,27 @@
+<div class="exam-detail">
+  <div class="content">
+    <mat-tab-group animationDuration="0ms" *ngIf="examInfo" class="mattabgroup">
+      <mat-tab label="Exam Detail">
+        <form>
+          <mat-grid-list cols="2" rowHeight="3:1">
+            <mat-grid-tile *ngFor="let field of examFields" [colspan]="field.cols">
+              <mat-form-field>
+                <mat-label>{{field.header}}</mat-label>
+                <input name="{{field.field}}" matInput [(ngModel)]="examInfo[field.field]"
+                  [disabled]="field.field === 'id' && !isNewExam" required={{field.required}}>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="exam-detail-actions">
+    <button *ngIf="!isNewExam" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
+      <mat-icon>delete</mat-icon><span>Delete</span>
+    </button>
+    <button type="button" mat-raised-button color="accent" (click)="sendEvent(isNewExam?action.CREATE:action.EDIT)">
+      <mat-icon>check_circle</mat-icon><span>Save</span>
+    </button>
+  </div>
+</div>

@@ -16,13 +16,12 @@ export class ExamDetailComponent implements OnInit, CommonEntityDialogInterface<
     title: string;
     isNewExam: boolean;
     examFields: any[];
-    exams: Exam[];
     event: EventEmitter<EntityActionEvent<Exam>> = new EventEmitter();
     action = ENTITY_ACTION;
 
     constructor(private examService: ExamService, private route: ActivatedRoute) {
         this.examFields = [{ field: 'name', header: 'Name', cols: 2, required: 'true' },
-        { field: 'type', header: 'Type', cols: 1 },
+        { field: 'examType', header: 'Type', cols: 2 },
         { field: 'description', header: 'Description', cols: 2 }]
     }
 
@@ -30,27 +29,16 @@ export class ExamDetailComponent implements OnInit, CommonEntityDialogInterface<
         this.title = title;
         this.isNewExam = isNewEntity;
         this.examInfo = entity;
-        if (!this.isNewExam) {
-            this.examFields.unshift({ field: 'id', header: 'Exam Id', cols: 1 });
-        }
-        this.loadExamData();
     }
 
     ngOnInit(): void {
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
-            this.examService.getExam(+id).subscribe((exam: Exam) => {
+            this.examService.getExamById(+id).subscribe((exam: Exam) => {
                 this.examInfo = exam;
-                this.loadExamData();
             });
             this.isNewExam = false;
         }
-    }
-
-    loadExamData() {
-        // if (!this.exams && this.examInfo?.id) {
-        //     this.examService.getClassByStudent(this.examInfo.id).subscribe(result => this.exams = result);
-        // }
     }
 
     sendEvent(action: ENTITY_ACTION) {
@@ -65,7 +53,6 @@ export class ExamDetailComponent implements OnInit, CommonEntityDialogInterface<
                 this.examService.deleteExam(this.examInfo.id).subscribe();
                 break;
         }
-
         this.event.emit({ action, entity: this.examInfo });
     }
 

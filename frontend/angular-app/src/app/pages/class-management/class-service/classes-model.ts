@@ -1,3 +1,5 @@
+import { Student } from '../../student-management/student-service/student';
+
 export interface Classes {
     id: number;
     className: string;
@@ -8,6 +10,7 @@ export interface Classes {
     description: string;
     fee: string
     courseId: number;
+    studentInfos: Student[];
 }
 
 export class Course {

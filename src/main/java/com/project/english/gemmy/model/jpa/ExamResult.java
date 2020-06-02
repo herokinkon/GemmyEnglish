@@ -1,53 +1,67 @@
 package com.project.english.gemmy.model.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the exam_result database table.
  * 
  */
 @Entity
-@Table(name="exam_result")
+@Table(name = "exam_result")
 public class ExamResult implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="exam_date")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "exam_date")
 	private Date examDate;
 
 	private Double listening;
 
-	private Double overall;
-
 	private Double reading;
-
-	private String result;
 
 	private Double speaking;
 
 	private Double writing;
 
-	//bi-directional many-to-one association to Exam
+	private Double overall;
+
+	private Boolean result;
+
+	// bi-directional many-to-one association to Exam
 	@ManyToOne
 	private Exam exam;
 
-	//bi-directional many-to-one association to StudentInfo
+	// bi-directional many-to-one association to StudentInfo
 	@ManyToOne
-	@JoinColumn(name="student_id")
+	@JoinColumn(name = "student_id")
 	private StudentInfo studentInfo;
+
+	// bi-directional many-to-one association to StudentInfo
+	@ManyToOne
+	@JoinColumn(name = "class_id")
+	private Classes classes;
 
 	public ExamResult() {
 	}
 
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -55,7 +69,7 @@ public class ExamResult implements Serializable {
 	}
 
 	public Date getExamDate() {
-		return this.examDate;
+		return examDate;
 	}
 
 	public void setExamDate(Date examDate) {
@@ -63,39 +77,23 @@ public class ExamResult implements Serializable {
 	}
 
 	public Double getListening() {
-		return this.listening;
+		return listening;
 	}
 
 	public void setListening(Double listening) {
 		this.listening = listening;
 	}
 
-	public Double getOverall() {
-		return this.overall;
-	}
-
-	public void setOverall(Double overall) {
-		this.overall = overall;
-	}
-
 	public Double getReading() {
-		return this.reading;
+		return reading;
 	}
 
 	public void setReading(Double reading) {
 		this.reading = reading;
 	}
 
-	public String getResult() {
-		return this.result;
-	}
-
-	public void setResult(String result) {
-		this.result = result;
-	}
-
 	public Double getSpeaking() {
-		return this.speaking;
+		return speaking;
 	}
 
 	public void setSpeaking(Double speaking) {
@@ -103,11 +101,27 @@ public class ExamResult implements Serializable {
 	}
 
 	public Double getWriting() {
-		return this.writing;
+		return writing;
 	}
 
 	public void setWriting(Double writing) {
 		this.writing = writing;
+	}
+
+	public Double getOverall() {
+		return overall;
+	}
+
+	public void setOverall(Double overall) {
+		this.overall = overall;
+	}
+
+	public Boolean getResult() {
+		return result;
+	}
+
+	public void setResult(Boolean result) {
+		this.result = result;
 	}
 
 	public Exam getExam() {
@@ -124,6 +138,14 @@ public class ExamResult implements Serializable {
 
 	public void setStudentInfo(StudentInfo studentInfo) {
 		this.studentInfo = studentInfo;
+	}
+
+	public Classes getClasses() {
+		return classes;
+	}
+
+	public void setClasses(Classes classes) {
+		this.classes = classes;
 	}
 
 }

@@ -1,3 +1,5 @@
+import { Classes } from '../../class-management/class-service/classes-model';
+
 export interface Student {
     id: number;
     fullName: string;
@@ -9,4 +11,5 @@ export interface Student {
     parentContactNumber: string;
     parentEmail: string;
     attendance: boolean;
+    classes: Classes[];
 }

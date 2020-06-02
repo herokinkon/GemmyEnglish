@@ -1,0 +1,27 @@
+.exam-result {
+  max-width: 900px;
+  min-width: 800px;
+  max-height: 600px;
+  min-height: 500px;
+  width: 700px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.exam-result-actions {
+  float: right;
+}
+
+.mat-raised-button {
+  margin-left: 5px;
+}
+
+mat-form-field {
+  width: 80%;
+}
+
+.content {
+  flex-grow: 1;
+}

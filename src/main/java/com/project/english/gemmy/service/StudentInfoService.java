@@ -43,13 +43,14 @@ public class StudentInfoService {
 	public StudentDTO getStudentInfoById(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-			ModelMapper modelMapper = new ModelMapper();
-			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
-			      protected void configure() {
-			          skip().getAttendance();
-			      }
-			    });
-			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
+//			ModelMapper modelMapper = new ModelMapper();
+//			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
+//			      protected void configure() {
+//			          skip().getAttendance();
+//			      }
+//			    });
+//			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
+			StudentDTO result = new StudentDTO(studentInfo.get());
 			return result;
 		}
 		return null;
@@ -74,14 +75,22 @@ public class StudentInfoService {
 	public StudentDTO updateStudent(StudentDTO updateInfoRequest) {
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getId());
 		if (temp.isPresent()) {
-			ModelMapper modelMapper = new ModelMapper();
-			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
-			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
-			      protected void configure() {
-			          skip().getAttendance();
-			      }
-			    });
-			StudentInfo result = studentInfoRepo.save(studentInfo);
+//			ModelMapper modelMapper = new ModelMapper();
+//			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
+//			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
+//			      protected void configure() {
+//			          skip().getAttendance();
+//			      }
+//			    });
+			temp.get().setBirthday(updateInfoRequest.getBirthday());
+			temp.get().setContactNumber(updateInfoRequest.getContactNumber());
+			temp.get().setEmail(updateInfoRequest.getEmail());
+			temp.get().setFacebook(updateInfoRequest.getFacebook());
+			temp.get().setFullName(updateInfoRequest.getFullName());
+			temp.get().setOccupation(updateInfoRequest.getOccupation());
+			temp.get().setParentContactNumber(updateInfoRequest.getParentContactNumber());
+			temp.get().setParentEmail(updateInfoRequest.getParentEmail());
+			StudentInfo result = studentInfoRepo.save(temp.get());
 			if (result != null) {
 				return new StudentDTO(result);
 			}
@@ -162,6 +171,10 @@ public class StudentInfoService {
 			result.add(temp);
 		}
 		return result;
+	}
+	
+	public List<StudentDTO> getStudentInfoByName(String name) {
+		return studentInfoRepo.findByFullNameContains(name);
 	}
 
 }
