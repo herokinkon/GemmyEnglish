@@ -144,10 +144,10 @@
                             <td [style.color]="examResult.listening < 5 ? 'red' : 'green'">{{examResult.listening}}</td>
                             <td [style.color]="examResult.speaking < 5 ? 'red' : 'green'">{{examResult.speaking}}</td>
                             <td [style.color]="examResult.overall < 5 ? 'red' : 'green'">{{examResult.overall}}</td>
-                            <td *ngIf="examResult.id && examResult.result"
+                            <td *ngIf="examResult.result != null"
                                 [style.color]="examResult.result == true ? 'green' : 'red'">
                                 {{examResult.result ? 'PASS' : 'FAIL'}}</td>
-                            <td *ngIf="!examResult.id || !examResult.result"></td>
+                            <td *ngIf="examResult.result == null"></td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
@@ -258,10 +258,10 @@
                             <td [style.color]="examResult.listening < 5 ? 'red' : 'green'">{{examResult.listening}}</td>
                             <td [style.color]="examResult.speaking < 5 ? 'red' : 'green'">{{examResult.speaking}}</td>
                             <td [style.color]="examResult.overall < 5 ? 'red' : 'green'">{{examResult.overall}}</td>
-                            <td *ngIf="examResult.id && examResult.result"
+                            <td *ngIf="examResult.result != null"
                                 [style.color]="examResult.result == true ? 'green' : 'red'">
                                 {{examResult.result ? 'PASS' : 'FAIL'}}</td>
-                            <td *ngIf="!examResult.id || !examResult.result"></td>
+                            <td *ngIf="examResult.result == null"></td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">

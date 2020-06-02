@@ -1,13 +1,10 @@
 .exam-result {
-  max-width: 900px;
-  min-width: 800px;
+  max-width: 800px;
+  min-width: 600px;
   max-height: 600px;
-  min-height: 500px;
+  min-height: 400px;
   width: 700px;
   height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }
 
 .exam-result-actions {

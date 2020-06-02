@@ -22,6 +22,8 @@ export class ExamResultComponent implements OnInit, CommonEntityDialogInterface<
     suggestionStudents: Student[];
     studentData: Student;
 
+    selectedResult: string;
+
     constructor(private examService: ExamService, private route: ActivatedRoute) {
         this.examResultFields = [{ field: 'examDate', header: 'Exam Date' },
         { field: 'speaking', header: 'Speaking' },
@@ -38,6 +40,13 @@ export class ExamResultComponent implements OnInit, CommonEntityDialogInterface<
     setEntityDialogData(title: string, isNewEntity: boolean, entity: any): void {
         this.title = title;
         this.examResult = entity;
+        this.selectedResult = 'none'
+        if (this.examResult.result != null && this.examResult.result) {
+            this.selectedResult = 'pass'
+        } 
+        if (this.examResult.result != null && !this.examResult.result) {
+            this.selectedResult = 'fail'
+        }
     }
 
     ngOnInit(): void {
@@ -45,6 +54,9 @@ export class ExamResultComponent implements OnInit, CommonEntityDialogInterface<
     }
 
     updateExamResult(action: ENTITY_ACTION) {
+        if (this.selectedResult && this.selectedResult != 'none') {
+            this.examResult.result = this.selectedResult == 'pass' ? true : false;
+        }
         this.event.emit({ action, entity: this.examResult });
     }
 

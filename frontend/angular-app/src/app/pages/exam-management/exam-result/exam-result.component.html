@@ -14,9 +14,10 @@
               <mat-datepicker #examDatePicker></mat-datepicker>
             </div>
             <div *ngIf="field.field == 'result'">
-              <mat-select name="{{field.field}}" [(ngModel)]="examResult.result">
-                <option value="false">FAIL</option>
-                <option value="true">PASS</option>
+              <mat-select name="result" [(ngModel)]="selectedResult">
+                <mat-option value="none"></mat-option>
+                <mat-option value="pass">PASS</mat-option>
+                <mat-option value="fail">FAIL</mat-option>
               </mat-select>
             </div>
           </mat-form-field>
