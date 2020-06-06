@@ -8,13 +8,17 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ClassDetailComponent } from './pages/class-management/class-detail/class-detail.component';
 import { AuthGuardService } from './shared/authentication/auth-guard.service';
 import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
+import { StaffManagementComponent } from './pages/staff-management/staff-management.component';
+import { StaffDetailComponent } from './pages/staff-management/staff-detail/staff-detail.component';
 
 const childRoutes: Routes = [
   { path: 'students', component: StudentManagementComponent },
   { path: 'student/:id', component: StudentDetailComponent },
   { path: 'classes', component: ClassManagementComponent },
   { path: 'classes/:id', component: ClassDetailComponent },
-  { path: 'payment', component: PaymentManagementComponent }
+  { path: 'payment', component: PaymentManagementComponent },
+  { path: 'staffs', component: StaffManagementComponent },
+  { path: 'staff/:id', component: StaffDetailComponent },
 ];
 
 const routes: Routes = [

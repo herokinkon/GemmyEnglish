@@ -48,6 +48,8 @@ import { JwtInterceptor } from './shared/authentication/jwtInterceptor';
 import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
 import { StudentPaymentListComponent } from './pages/payment-management/student-payment-list/student-payment-list.component';
 import { NewPaymentComponent } from './pages/payment-management/new-payment/new-payment.component';
+import { StaffManagementComponent } from './pages/staff-management/staff-management.component';
+import { StaffDetailComponent } from './pages/staff-management/staff-detail/staff-detail.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { NewPaymentComponent } from './pages/payment-management/new-payment/new-
     PaymentManagementComponent,
     StudentPaymentListComponent,
     NewPaymentComponent,
+    StaffManagementComponent,
+    StaffDetailComponent,
   ],
   imports: [
     BrowserModule,

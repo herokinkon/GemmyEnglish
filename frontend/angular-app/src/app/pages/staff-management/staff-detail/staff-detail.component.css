@@ -1,0 +1,29 @@
+.staff-detail {
+  max-height: 600px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.staff-detail-actions {
+  float: right;
+}
+
+.mat-raised-button {
+  margin-left: 5px;
+}
+
+mat-form-field {
+  width: 100%;
+  padding-right: 20px;
+}
+
+.staff-info {
+  margin: 10px 25px;
+}
+
+.content {
+  flex-grow: 1;
+  width: 550px;
+}

@@ -63,7 +63,7 @@ public class StudentInfo implements Serializable {
 	// bi-directional many-to-one association to UserAccount
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "user_account_id")
+	@JoinColumn(name = "user_account_id", nullable = true)
 	private UserAccount userAccount;
 
 	private String attendance;

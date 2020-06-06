@@ -11,5 +11,10 @@ import com.project.english.gemmy.model.jpa.FeePayment;
 @Repository
 public interface FeePaymentRepository extends JpaRepository<FeePayment, Long> {
 	List<FeePaymentDTO> findByClasses_id(long classId);
-	List<FeePaymentDTO> findByStudentInfo_idAndClasses_status(long classId, boolean isActive);
+
+	List<FeePaymentDTO> findByStudentInfo_idAndClasses_status(long studentId, boolean isActive);
+
+	List<FeePaymentDTO> findByStudentInfo_idAndClasses_id(long studentId, long classId);
+	
+//	List<FeePaymentDTO> findByStudentInfo_FullNameContainsAndClasses_StatusTrue(String name, PageRequest page);
 }

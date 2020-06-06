@@ -1,7 +1,6 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPaymentComponent } from '../new-payment/new-payment.component';
-import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-student-payment-list',
@@ -11,7 +10,7 @@ import { EventEmitter } from 'protractor';
 export class StudentPaymentListComponent {
 
   cols: any;
-  // @Output() paymentChange: EventEmitter = new EventEmitter();
+  @Output() paymentChange: EventEmitter<any> = new EventEmitter();
   // tslint:disable-next-line:variable-name
   private _payments: any;
   private studentInfoCols = [{ field: 'fullName', header: 'Student Name' },
@@ -71,18 +70,21 @@ export class StudentPaymentListComponent {
     for (let i = 0; i < payment.months; i++) {
       payment[months[i].field] = 1;
     }
+    payment.canAdd = payment.months < months.length;
     return payment;
   }
 
   newPayment(rowData: any) {
-    let dialogData: any;
-    if (this.classInfo) {
-      dialogData = { ...this.classInfo, ...rowData };
-    } else {
-      dialogData = { ...this.studentInfo, ...rowData };
+    if (rowData.canAdd) {
+      let dialogData: any;
+      if (this.classInfo) {
+        dialogData = { ...this.classInfo, ...rowData };
+      } else {
+        dialogData = { ...this.studentInfo, ...rowData };
+      }
+      const dialog = this.dialog.open(NewPaymentComponent, { data: dialogData });
+      dialog.afterClosed().subscribe(() => this.paymentChange.emit());
     }
-    const dialog = this.dialog.open(NewPaymentComponent, { data: dialogData });
-    // dialog.afterClosed().subscribe(this.paymentChange.emit);
   }
 
   clearAllState(): void {

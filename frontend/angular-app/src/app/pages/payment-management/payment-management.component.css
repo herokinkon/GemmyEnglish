@@ -17,3 +17,7 @@ mat-grid-tile {
 .algin-center {
     margin: 0 auto;
 }
+
+fieldset {
+    max-width: 450px;
+}

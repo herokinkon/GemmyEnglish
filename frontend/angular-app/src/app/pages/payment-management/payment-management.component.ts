@@ -62,8 +62,4 @@ export class PaymentManagementComponent implements OnInit {
         payment => this.payments = { payment, student: $event });
     }
   }
-
-  // reload() {
-
-  // }
 }

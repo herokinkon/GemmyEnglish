@@ -1,0 +1,31 @@
+<p-table #lsStaff [columns]="cols" [value]="staffs" selectionMode="single" [paginator]="true"
+    [rows]="10" (onRowSelect)="onRowSelect($event)" [autoLayout]="true">
+    <ng-template pTemplate="caption">
+        Staff List
+        <div style="text-align: right">
+            <input type="text" pInputText placeholder="Search staff" (input)="lsStaff.filter($event.target.value, 'fullName', 'contains')">
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                {{col.field === 'birthday' ? (rowData[col.field] | date:'dd-MM-yyyy') :rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left">
+            <button type="button" mat-raised-button (click)="showDialogToAdd()" color="primary">
+                <mat-icon>add</mat-icon><span>Add</span>
+            </button>
+        </div>
+    </ng-template>
+</p-table>

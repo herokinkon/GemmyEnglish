@@ -20,7 +20,7 @@ public class FeePaymentController {
 
 	@Autowired
 	private FeePaymentService paymentService;
-	
+
 	@PostMapping
 	public void createPayment(@RequestBody FeePaymentDTO payment) {
 		paymentService.createNewPayment(payment);
@@ -30,10 +30,11 @@ public class FeePaymentController {
 	public List<Map<String, String>> getPaymentsInClass(@RequestParam("classId") long classId) {
 		return paymentService.getPaymentInClass(classId);
 	}
-	
+
 	@GetMapping("/getAllPaymentForStudent")
 	public Map<String, String> getPaymentsForStudent(@RequestParam("studentId") long studentId) {
 		return paymentService.getPaymentForStudent(studentId);
 	}
+
 
 }

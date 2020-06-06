@@ -2,51 +2,56 @@ package com.project.english.gemmy.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.english.gemmy.model.dto.UpdateInfoRequest;
-import com.project.english.gemmy.model.dto.UserInfoResponse;
+import com.project.english.gemmy.model.dto.StaffDTO;
 import com.project.english.gemmy.model.jpa.StaffInfo;
-import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StaffInfoRepository;
-import com.project.english.gemmy.model.repositories.UserAccountRepository;
 
 @Service
 public class StaffInfoService {
 
 	@Autowired
 	private StaffInfoRepository staffInfoRepo;
-	
-	@Autowired
-	private UserAccountRepository userAccountRepo;
-	
-	public UserInfoResponse getUserInfoByUserAccountId(Long userAccountId) {
-		Optional<UserAccount> userAccount = userAccountRepo.findById(userAccountId);
-		if (userAccount.isPresent()) {
-			UserInfoResponse userInfoRes = new UserInfoResponse();
-			List<StaffInfo> staffInfos = staffInfoRepo.findByUserAccount(userAccount.get());
-			if (staffInfos != null && !staffInfos.isEmpty()) {
-				userInfoRes.convertEntityToStaffObject(staffInfos.get(0));
-				return userInfoRes;
-			}
-		}
-		return null;
+
+	public List<StaffDTO> getAllStaff() {
+		List<StaffInfo> staffs = staffInfoRepo.findAll();
+		return staffs.stream().map(StaffDTO::new).collect(Collectors.toList());
 	}
-	
-	public boolean updateInfo(UpdateInfoRequest updateAccountRequest) {
-		StaffInfo staffInfo = new StaffInfo();
-		staffInfo.setId(updateAccountRequest.getId());
-		staffInfo.setBirthday(updateAccountRequest.getBirthday());
-		staffInfo.setContactNumber(updateAccountRequest.getContactNumber());
-		staffInfo.setEmail(updateAccountRequest.getEmail());
-		staffInfo.setFacebook(updateAccountRequest.getFacebook());
-		staffInfo.setFullName(updateAccountRequest.getFullName());
-		StaffInfo result = staffInfoRepo.save(staffInfo);
-		if (result != null) {
-			return true;
+
+	public StaffDTO getStaffById(long id) {
+		Optional<StaffInfo> result = staffInfoRepo.findById(id);
+		if (result.isPresent()) {
+			return new StaffDTO(result.get());
 		}
-		return false;
+		throw new EntityNotFoundException(String.format("Staff id does not exist: %s", id));
+	}
+
+	public void removeStaff(long id) {
+		if (this.getStaffById(id) != null) {
+			staffInfoRepo.deleteById(id);
+		}
+	}
+
+	public void updateStaff(StaffDTO staff) {
+		if (staffInfoRepo.existsById(staff.getId())) {
+			ModelMapper modelMapper = new ModelMapper();
+			StaffInfo staffInfo = modelMapper.map(staff, StaffInfo.class);
+			staffInfoRepo.save(staffInfo);
+		} else {
+			throw new EntityNotFoundException(String.format("Staff is not exist: %s", staff.toString()));
+		}
+	}
+
+	public StaffDTO createNewStaff(StaffDTO staff) {
+		ModelMapper modelMapper = new ModelMapper();
+		StaffInfo staffInfo = modelMapper.map(staff, StaffInfo.class);
+		return new StaffDTO(staffInfoRepo.save(staffInfo));
 	}
 }

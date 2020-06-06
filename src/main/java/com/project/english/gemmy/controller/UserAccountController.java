@@ -33,11 +33,11 @@ public class UserAccountController {
 			return new ResponseEntity<ResponseModel>(res, HttpStatus.BAD_REQUEST);
 		}
 		UserInfoResponse userInfoResult = new UserInfoResponse();
-		if (userInfoRequest.getTypeOfUser().equals("staff")) {
-			userInfoResult = staffInfoService.getUserInfoByUserAccountId(userInfoRequest.getUserId());
-		} else {
-			userInfoResult = studentInfoService.getUserInfoByUserAccountId(userInfoRequest.getUserId());
-		}
+//		if (userInfoRequest.getTypeOfUser().equals("staff")) {
+//			userInfoResult = staffInfoService.getUserInfoByUserAccountId(userInfoRequest.getUserId());
+//		} else {
+//			userInfoResult = studentInfoService.getUserInfoByUserAccountId(userInfoRequest.getUserId());
+//		}
 		if (userInfoResult == null) {
 			res.setMessage(MessageResponse.USER_INFO_ERROR);
 			return new ResponseEntity<ResponseModel>(res, HttpStatus.INTERNAL_SERVER_ERROR);

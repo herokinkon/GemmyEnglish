@@ -19,7 +19,8 @@
             </td>
 
             <td>
-                <mat-icon color="primary" class="new-payment" (click)="newPayment(rowData)">add_circle</mat-icon>
+                <mat-icon *ngIf="rowData.canAdd" color="primary" class="new-payment" (click)="newPayment(rowData)">
+                    add_circle</mat-icon>
             </td>
         </tr>
     </ng-template>

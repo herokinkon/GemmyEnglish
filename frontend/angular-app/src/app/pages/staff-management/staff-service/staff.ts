@@ -1,0 +1,14 @@
+import { Classes } from '../../class-management/class-service/classes-model';
+
+export interface Staff {
+    id: number;
+    fullName?: string;
+    birthday?: Date;
+    email?: string;
+    facebook?: string;
+    contactNumber?: string;
+    salary: string;
+    staffType: string;
+    workOfStaff: string;
+    classes: Classes[];
+}

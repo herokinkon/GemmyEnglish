@@ -2,6 +2,9 @@ package com.project.english.gemmy.model.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 
@@ -16,10 +19,10 @@ public class StaffInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
 	@Column(name="contact_number")
@@ -54,6 +57,7 @@ public class StaffInfo implements Serializable {
 	private List<Classes> classes;
 
 	//bi-directional many-to-one association to UserAccount
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="user_account_id")
 	private UserAccount userAccount;
