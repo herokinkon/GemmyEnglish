@@ -11,6 +11,6 @@ export interface Student {
     parentContactNumber?: string;
     parentEmail?: string;
     attendance?: boolean;
-    classes: Classes[];
+    classes?: Classes[];
 
 }
