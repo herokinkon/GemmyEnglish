@@ -7,8 +7,16 @@
             <mat-grid-tile *ngFor="let field of examFields" [colspan]="field.cols">
               <mat-form-field>
                 <mat-label>{{field.header}}</mat-label>
-                <input name="{{field.field}}" matInput [(ngModel)]="examInfo[field.field]"
-                  [disabled]="field.field === 'id' && !isNewExam" required={{field.required}}>
+                <input *ngIf="field.field != 'examType'" name="{{field.field}}" matInput
+                  [(ngModel)]="examInfo[field.field]" [disabled]="field.field === 'id' && !isNewExam"
+                  required={{field.required}}>
+                <div *ngIf="field.field == 'examType'">
+                  <mat-select name="examType" [(ngModel)]="examInfo[field.field]">
+                    <mat-option value="entrance">Entrance</mat-option>
+                    <mat-option value="midterm">Mid-term</mat-option>
+                    <mat-option value="final">Final</mat-option>
+                  </mat-select>
+                </div>
               </mat-form-field>
             </mat-grid-tile>
           </mat-grid-list>

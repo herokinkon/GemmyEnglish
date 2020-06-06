@@ -99,7 +99,6 @@ public class ExamController {
 	@GetMapping("/getListResult")
 	public ResponseEntity<List<ExamResult>> getListResult(@RequestParam("classId") String classId, 
 			@RequestParam("examId") String examId) {
-		System.out.println("getListResult");
 		Long classIdNumber = !classId.isEmpty() ? Long.valueOf(classId) : null;
 		Long examIdNumber = !examId.isEmpty() ? Long.valueOf(examId) : null;
 		List<ExamResult> examResult = examResultService.getListResult(classIdNumber, null, examIdNumber);

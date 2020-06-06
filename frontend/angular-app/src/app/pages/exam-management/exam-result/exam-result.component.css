@@ -1,10 +1,11 @@
 .exam-result {
-  max-width: 800px;
-  min-width: 600px;
-  max-height: 600px;
-  min-height: 400px;
-  width: 700px;
-  height: 500px;
+  max-width: 600px;
+  min-width: 400px;
+  max-height: 400px;
+  min-height: 200px;
+  width: 500px;
+  height: 300px;
+  flex-grow: 1;
 }
 
 .exam-result-actions {
@@ -17,8 +18,4 @@
 
 mat-form-field {
   width: 80%;
-}
-
-.content {
-  flex-grow: 1;
 }
