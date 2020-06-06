@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.english.gemmy.model.dto.ClassesInfoDto;
 import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.jpa.Course;
+import com.project.english.gemmy.model.repositories.ClassesRepository;
 import com.project.english.gemmy.service.ClassesService;
 import com.project.english.gemmy.service.CourseService;
 
@@ -32,6 +33,9 @@ public class ClassesController {
 	
 	@Autowired
 	private CourseService courseService;
+	
+	@Autowired
+	private ClassesRepository classRepo;
 
 	@GetMapping("/")
 	public ResponseEntity<List<ClassesInfoDto>> getAllClasses() {
@@ -52,11 +56,6 @@ public class ClassesController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-
-//	@GetMapping("/{searchText}")
-//	public ResponseEntity<Void> searchClassByName(@PathVariable String searchText) {
-//		return null;
-//	}
 
 	@PostMapping("/")
 	public ResponseEntity<ClassesInfoDto> createNewClass(@RequestBody ClassesInfoDto request) {
@@ -116,6 +115,16 @@ public class ClassesController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/searchClass")
+	public ResponseEntity<List<ClassesInfoDto>> searchClass(@RequestParam String searchText) {
+		List<ClassesInfoDto> classInfos = classRepo.findByClassNameContains(searchText);
+		if (classInfos != null && !classInfos.isEmpty()) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(classInfos);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping("/getClassesListByName")

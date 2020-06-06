@@ -15,4 +15,6 @@ public interface ClassesRepository extends JpaRepository<Classes, Long> {
 	List<ClassesInfoDto> findByStudentInfos_id(long studentId);
 	List<ClassesInfoDto> findByClassNameContains(String name, Pageable pageable);
 	ClassesInfoDto findByStudentInfos_idAndStatusTrue(long studentId);
+	
+	List<ClassesInfoDto> findByClassNameContains(String className);
 }

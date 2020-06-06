@@ -88,4 +88,14 @@ public class StudentInfoController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+		
+	@GetMapping("/searchStudent")
+	public ResponseEntity<List<StudentDTO>> searchStudent(@RequestParam String searchText) {
+		List<StudentDTO> studentInfo = studentInfoService.getStudentInfoByName(searchText);
+		if (studentInfo != null && !studentInfo.isEmpty()) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(studentInfo);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }

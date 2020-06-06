@@ -1,0 +1,284 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Exam List">
+        <p-table [columns]="examFields" [value]="exams" selectionMode="single" [(selection)]="selectedExam"
+            [paginator]="true" [rows]="15" (onRowSelect)="onRowSelect($event)" [autoLayout]="true">
+            <ng-template pTemplate="caption">
+                Exam List
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div style="text-align:center; padding-top: 30px;">
+            <button type="button" mat-raised-button (click)="showDialogToAdd()" color="primary">
+                <mat-icon>add</mat-icon><span>Add</span>
+            </button>
+        </div>
+    </mat-tab>
+    <mat-tab label="Result">
+        <div style="text-align: right; margin-top: 20px; margin-right: 20px;">
+            <p-selectButton [options]="searchOptions" [(ngModel)]="selectedType">
+            </p-selectButton>
+        </div>
+        <mat-grid-list cols="3" rowHeight="50px">
+            <mat-grid-tile rowspan="3">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <mat-label class="mat-label-style">Class</mat-label>
+                        <p-dropdown *ngIf="selectedType == 'Student'" [options]="filterClasses" [(ngModel)]="classData"
+                            optionLabel="className" editable="true" placeholder="Select Class"></p-dropdown>
+                        <p-autoComplete *ngIf="selectedType == 'Class'" [(ngModel)]="classData"
+                            [suggestions]="suggestionClasses" (completeMethod)="searchClass($event)" field="className"
+                            [size]="30" placeholder="Class Name" [minLength]="1" delay="3000"
+                            (onSelect)="addStudentToSelectBox($event)">
+                        </p-autoComplete>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div>
+                            <mat-label style="display: block;">Class Code</mat-label>
+                            <input *ngIf="classData" name="classCode" matInput [(ngModel)]="classData.classCode"
+                                disabled>
+                            <input *ngIf="!classData" name="classCode" matInput disabled>
+                        </div>
+                        <div class="info-box">
+                            <mat-label style="display: block;">Class Name</mat-label>
+                            <input *ngIf="classData" name="className" matInput [(ngModel)]="classData.className"
+                                disabled>
+                            <input *ngIf="!classData" name="className" matInput disabled>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+            <mat-grid-tile rowspan="3">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <mat-label class="mat-label-style">Exam</mat-label>
+                        <p-autoComplete [(ngModel)]="examData" [suggestions]="suggestionExams"
+                            (completeMethod)="searchExam($event)" field="name" [size]="30" placeholder="Exam Name"
+                            [minLength]="1">
+                        </p-autoComplete>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div>
+                            <mat-label style="display: block;">Exam Name </mat-label>
+                            <input *ngIf="examData" name="examName" matInput [(ngModel)]="examData.name" disabled>
+                            <input *ngIf="!examData" name="examName" matInput disabled>
+                        </div>
+                        <div class="info-box">
+                            <mat-label style="display: block;">Exam Type </mat-label>
+                            <input *ngIf="examData" name="examType" matInput [(ngModel)]="examData.examType" disabled>
+                            <input *ngIf="!examData" name="examType" matInput disabled>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+            <mat-grid-tile rowspan="3">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <mat-label class="mat-label-style">Student</mat-label>
+                        <p-dropdown *ngIf="selectedType == 'Class'" [options]="filterStudents" [(ngModel)]="studentData"
+                            optionLabel="fullName" editable="true" placeholder="Select Student"></p-dropdown>
+                        <p-autoComplete *ngIf="selectedType == 'Student'" [(ngModel)]="studentData"
+                            [suggestions]="suggestionStudents" (completeMethod)="searchStudent($event)" field="fullName"
+                            [size]="30" placeholder="Student Name" [minLength]="1" delay="3000"
+                            (onSelect)="addClassToSelectBox($event)">
+                        </p-autoComplete>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div>
+                            <mat-label style="display: block;">Full Name </mat-label>
+                            <input *ngIf="studentData" name="fullName" matInput [(ngModel)]="studentData.fullName"
+                                disabled>
+                            <input *ngIf="!studentData" name="fullName" matInput disabled>
+                        </div>
+                        <div class="info-box">
+                            <mat-label style="display: block;">Birthday </mat-label>
+                            <input *ngIf="studentData" name="birthday" matInput [(ngModel)]="studentData.birthday"
+                                disabled>
+                            <input *ngIf="!studentData" name="birthday" matInput disabled>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+                <button [disabled]="!classData || !examData" type="button" mat-raised-button (click)="searchResult()"
+                    color="primary">
+                    <span>Search</span>
+                </button>
+                <button [disabled]="!classData || !examData" style="margin-left: 20px;" type="button" mat-raised-button
+                    (click)="clearSearchData()" color="primary">
+                    <span>Clear</span>
+                </button>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3" rowspan="9">
+                <p-table class="table-style" [value]="examResults" dataKey="id" [rowHover]="true" [rows]="10"
+                    [autoLayout]="true" [showCurrentPageReport]="true" [paginator]="true" [filterDelay]="0">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Exam Date</th>
+                            <th>Reading</th>
+                            <th>Writing</th>
+                            <th>Listening</th>
+                            <th>Speaking</th>
+                            <th>Overall</th>
+                            <th>Result</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let let-rowIndex let-examResult>
+                        <tr class="ui-selectable-row" class="text-alignment">
+                            <td style="text-align: left;">{{examResult.examDate}}</td>
+                            <td [style.color]="examResult.reading < 5 ? 'red' : 'green'">{{examResult.reading}}</td>
+                            <td [style.color]="examResult.writing < 5 ? 'red' : 'green'">{{examResult.writing}}</td>
+                            <td [style.color]="examResult.listening < 5 ? 'red' : 'green'">{{examResult.listening}}</td>
+                            <td [style.color]="examResult.speaking < 5 ? 'red' : 'green'">{{examResult.speaking}}</td>
+                            <td [style.color]="examResult.overall < 5 ? 'red' : 'green'">{{examResult.overall}}</td>
+                            <td *ngIf="examResult.result != null"
+                                [style.color]="examResult.result == true ? 'green' : 'red'">
+                                {{examResult.result ? 'PASS' : 'FAIL'}}</td>
+                            <td *ngIf="examResult.result == null"></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="10" style="text-align:left">No results found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+                <div style="text-align:center">
+                    <button [disabled]="!examResults" style="margin-left: 20px;" type="button" mat-raised-button
+                        (click)="export()" color="primary">
+                        <span>Export</span>
+                    </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Add/Update">
+        <mat-grid-list cols="2" rowHeight="50px">
+            <mat-grid-tile rowspan="3">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <mat-label class="mat-label-style">Class</mat-label>
+                        <p-autoComplete [(ngModel)]="classData2" [suggestions]="suggestionClasses2"
+                            (completeMethod)="searchClass2($event)" field="className" [size]="30"
+                            placeholder="Class Name" [minLength]="1">
+                        </p-autoComplete>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div>
+                            <mat-label style="display: block;">Class Code</mat-label>
+                            <input *ngIf="classData2" name="classCode" matInput [(ngModel)]="classData2.classCode"
+                                disabled>
+                            <input *ngIf="!classData2" name="classCode" matInput disabled>
+                        </div>
+                        <div class="info-box">
+                            <mat-label style="display: block;">Class Name</mat-label>
+                            <input *ngIf="classData2" name="className" matInput [(ngModel)]="classData2.className"
+                                disabled>
+                            <input *ngIf="!classData2" name="className" matInput disabled>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+            <mat-grid-tile rowspan="3">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <mat-label class="mat-label-style">Exam</mat-label>
+                        <p-autoComplete [(ngModel)]="examData2" [suggestions]="suggestionExams2"
+                            (completeMethod)="searchExam2($event)" field="name" [size]="30" placeholder="Exam Name"
+                            [minLength]="1">
+                        </p-autoComplete>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <div>
+                            <mat-label style="display: block;">Exam Name </mat-label>
+                            <input *ngIf="examData2" name="examName" matInput [(ngModel)]="examData2.name" disabled>
+                            <input *ngIf="!examData2" name="examName" matInput disabled>
+                        </div>
+                        <div class="info-box">
+                            <mat-label style="display: block;">Exam Type </mat-label>
+                            <input *ngIf="examData2" name="examType" matInput [(ngModel)]="examData2.examType" disabled>
+                            <input *ngIf="!examData2" name="examType" matInput disabled>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2" style="width: 100%; height: 20px;">
+                <button [disabled]="!classData2 || !examData2" type="button" mat-raised-button (click)="searchResult2()"
+                    color="primary">
+                    <span>Search</span>
+                </button>
+                <button [disabled]="!classData2 || !examData2" style="margin-left: 20px;" type="button"
+                    mat-raised-button (click)="clearSearchData2()" color="primary">
+                    <span>Clear</span>
+                </button>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2" rowspan="9">
+                <p-table class="table-style" [value]="examResults2" selectionMode="single"
+                    [(selection)]="selectedResult" [paginator]="true" [rows]="10" (onRowSelect)="onRowSelect2($event)"
+                    [autoLayout]="true">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Birthday</th>
+                            <th>Exam Date</th>
+                            <th>Reading</th>
+                            <th>Writing</th>
+                            <th>Listening</th>
+                            <th>Speaking</th>
+                            <th>Overall</th>
+                            <th>Result</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let let-rowIndex let-examResult>
+                        <tr [pSelectableRow]="examResult" class="text-alignment">
+                            <td style="text-align: left;" *ngIf="examResult.studentInfo">
+                                {{examResult.studentInfo.fullName}}
+                            </td>
+                            <td *ngIf="examResult.studentInfo">{{examResult.studentInfo.birthday | date:'dd-MM-yyyy'}}
+                            </td>
+                            <td>{{examResult.examDate | date:'dd-MM-yyyy'}}</td>
+                            <!-- {{col.field === 'birthday' ? (rowData[col.field] | date:'dd-MM-yyyy') :rowData[col.field]}} -->
+                            <td [style.color]="examResult.reading < 5 ? 'red' : 'green'">{{examResult.reading}}</td>
+                            <td [style.color]="examResult.writing < 5 ? 'red' : 'green'">{{examResult.writing}}</td>
+                            <td [style.color]="examResult.listening < 5 ? 'red' : 'green'">{{examResult.listening}}</td>
+                            <td [style.color]="examResult.speaking < 5 ? 'red' : 'green'">{{examResult.speaking}}</td>
+                            <td [style.color]="examResult.overall < 5 ? 'red' : 'green'">{{examResult.overall}}</td>
+                            <td *ngIf="examResult.result != null"
+                                [style.color]="examResult.result == true ? 'green' : 'red'">
+                                {{examResult.result ? 'PASS' : 'FAIL'}}</td>
+                            <td *ngIf="examResult.result == null"></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="10" style="text-align:left">No results found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2">
+                <div style="text-align:center; margin-top: 20px;">
+                    <button [disabled]="!examResults2" style="margin-left: 20px;" type="button" mat-raised-button
+                        (click)="update()" color="primary">
+                        <span>Update</span>
+                    </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+</mat-tab-group>

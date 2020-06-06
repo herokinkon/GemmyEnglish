@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,21 +20,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatCardModule} from '@angular/material/card';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 // PrimeNG table
 import { TableModule } from 'primeng/table';
-import {InputTextModule} from 'primeng/inputtext';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {AutoCompleteModule} from 'primeng/autocomplete';
-import {DropdownModule} from 'primeng/dropdown';
-import {FieldsetModule} from 'primeng/fieldset';
+import { InputTextModule } from 'primeng/inputtext';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 // Pages components
 import { StudentManagementComponent } from './pages/student-management/student-management.component';
@@ -50,6 +49,9 @@ import { StudentPaymentListComponent } from './pages/payment-management/student-
 import { NewPaymentComponent } from './pages/payment-management/new-payment/new-payment.component';
 import { StaffManagementComponent } from './pages/staff-management/staff-management.component';
 import { StaffDetailComponent } from './pages/staff-management/staff-detail/staff-detail.component';
+import { ExamManagementComponent } from './pages/exam-management/exam-management.component';
+import { ExamDetailComponent } from './pages/exam-management/exam-detail/exam-detail.component';
+import { ExamResultComponent } from './pages/exam-management/exam-result/exam-result.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,9 @@ import { StaffDetailComponent } from './pages/staff-management/staff-detail/staf
     NewPaymentComponent,
     StaffManagementComponent,
     StaffDetailComponent,
+    ExamManagementComponent,
+    ExamDetailComponent,
+    ExamResultComponent
   ],
   imports: [
     BrowserModule,
@@ -91,15 +96,15 @@ import { StaffDetailComponent } from './pages/staff-management/staff-detail/staf
     FormsModule,
     TableModule,
     HttpClientModule,
-    FontAwesomeModule,
     InputTextModule,
     MatSelectModule,
     MatCheckboxModule,
     AutoCompleteModule,
     DropdownModule,
-    FieldsetModule
+    FieldsetModule,
+    SelectButtonModule
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

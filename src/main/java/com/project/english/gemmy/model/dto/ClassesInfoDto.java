@@ -1,8 +1,10 @@
 package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import com.project.english.gemmy.model.jpa.Classes;
+import com.project.english.gemmy.model.jpa.StudentInfo;
 
 public class ClassesInfoDto {
 
@@ -28,6 +30,8 @@ public class ClassesInfoDto {
 	
 	private String courseDescription;
 	
+	private List<StudentInfo> studentInfos;
+	
 	public ClassesInfoDto() {
 		
 	}
@@ -44,6 +48,7 @@ public class ClassesInfoDto {
 		this.courseId = classesInfo.getCourse().getId();
 		this.courseName = classesInfo.getCourse().getName();
 		this.courseDescription = classesInfo.getCourse().getDescription();
+		this.studentInfos = classesInfo.getStudentInfos();
 	}
 
 	public Long getId() {
@@ -132,6 +137,14 @@ public class ClassesInfoDto {
 
 	public void setCourseDescription(String courseDescription) {
 		this.courseDescription = courseDescription;
+	}
+
+	public List<StudentInfo> getStudentInfos() {
+		return studentInfos;
+	}
+
+	public void setStudentInfos(List<StudentInfo> studentInfos) {
+		this.studentInfos = studentInfos;
 	}
 
 }

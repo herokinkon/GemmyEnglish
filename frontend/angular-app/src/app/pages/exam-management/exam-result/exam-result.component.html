@@ -1,0 +1,29 @@
+<div class="exam-result">
+  <mat-grid-list cols="2" rowHeight="4:1">
+    <mat-grid-tile *ngFor="let field of examResultFields" [colspan]="1">
+      <mat-form-field>
+        <mat-label>{{field.header}}</mat-label>
+        <div *ngIf="field.field !== 'examDate' && field.field !== 'result'">
+          <input name="{{field.field}}" matInput [(ngModel)]="examResult[field.field]">
+        </div>
+        <div *ngIf="field.field == 'examDate'">
+          <input matInput class="dateField" name="{{field.field}}" [matDatepicker]="examDatePicker"
+            [(ngModel)]="examResult.examDate" (click)="examDatePicker.open()" required>
+          <mat-datepicker #examDatePicker></mat-datepicker>
+        </div>
+        <div *ngIf="field.field == 'result'">
+          <mat-select name="result" [(ngModel)]="selectedResult">
+            <mat-option value="none"></mat-option>
+            <mat-option value="pass">PASS</mat-option>
+            <mat-option value="fail">FAIL</mat-option>
+          </mat-select>
+        </div>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div class="exam-result-actions">
+    <button type="button" mat-raised-button color="accent" (click)="updateExamResult(action.EDIT)">
+      <mat-icon>check_circle</mat-icon><span>Save</span>
+    </button>
+  </div>
+</div>

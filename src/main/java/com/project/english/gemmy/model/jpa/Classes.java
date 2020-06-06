@@ -19,7 +19,7 @@ public class Classes implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name="class_name")
@@ -57,9 +57,13 @@ public class Classes implements Serializable {
 	private List<StaffInfo> staffInfos;
 
 	//bi-directional many-to-many association to StudentInfo
-	@JsonIgnore
 	@ManyToMany(mappedBy="classes")
 	private List<StudentInfo> studentInfos;
+	
+	// bi-directional many-to-one association to ExamResult
+	@JsonIgnore
+	@OneToMany(mappedBy = "classes")
+	private List<ExamResult> examResults;
 
 	public Classes() {
 	}
@@ -172,6 +176,28 @@ public class Classes implements Serializable {
 
 	public void setClassCode(String classCode) {
 		this.classCode = classCode;
+	}
+	
+	public List<ExamResult> getExamResults() {
+		return this.examResults;
+	}
+
+	public void setExamResults(List<ExamResult> examResults) {
+		this.examResults = examResults;
+	}
+
+	public ExamResult addExamResult(ExamResult examResult) {
+		getExamResults().add(examResult);
+		examResult.setClasses(this);
+
+		return examResult;
+	}
+
+	public ExamResult removeExamResult(ExamResult examResult) {
+		getExamResults().remove(examResult);
+		examResult.setClasses(null);
+
+		return examResult;
 	}
 
 }

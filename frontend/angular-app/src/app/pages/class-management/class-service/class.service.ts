@@ -1,10 +1,10 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Observable } from 'rxjs';
-import { Classes, Course } from './classes-model';
-import { Class } from './class';
+import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Student } from '../../student-management/student-service/student';
+import { Class } from './class';
+import { Classes, Course } from './classes-model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,11 +54,18 @@ export class ClassService {
   }
 
   updateAttedance(classes: Classes, studentList: Student[]): Observable<Classes> {
-    return this.http.put<Classes>(this.apiUrl + 'attendance', { classInfo: classes, studentInfo: studentList} , this.httpOptions);
+    return this.http.put<Classes>(this.apiUrl + 'attendance', { classInfo: classes, studentInfo: studentList }, this.httpOptions);
+  }
+
+  searchClass(searchText: string) {
+    const params = new HttpParams({ fromObject: { searchText } });
+    const data = { ...this.httpOptions, params: params };
+    return this.http.get<Classes[]>(this.apiUrl + 'searchClass', data)
   }
 
   getClassesListByName(name: string, { page, size }): Observable<Classes[]> {
     const data = { ...this.httpOptions, params: { name, page, size } };
     return this.http.get<Classes[]>(this.apiUrl + 'getClassesListByName', data);
   }
+
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { StudentManagementComponent } from './pages/student-management/student-management.component';
 import { ClassManagementComponent } from './pages/class-management/class-management.component';
+import { ExamManagementComponent } from './pages/exam-management/exam-management.component';
 import { StudentDetailComponent } from './pages/student-management/student-detail/student-detail.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
@@ -19,6 +20,7 @@ const childRoutes: Routes = [
   { path: 'payment', component: PaymentManagementComponent },
   { path: 'staffs', component: StaffManagementComponent },
   { path: 'staff/:id', component: StaffDetailComponent },
+  { path: 'exams', component: ExamManagementComponent }
 ];
 
 const routes: Routes = [

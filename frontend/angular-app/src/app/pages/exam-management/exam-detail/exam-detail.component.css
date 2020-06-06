@@ -1,0 +1,28 @@
+.exam-detail {
+    width: 700px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .exam-detail-actions {
+    float: right;
+  }
+  
+  .mat-raised-button {
+    margin-left: 5px;
+  }
+  
+  mat-form-field {
+    width: 80%;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }
+
+  .mattabgroup {
+    width: 700px;
+    height: 450px;
+  }

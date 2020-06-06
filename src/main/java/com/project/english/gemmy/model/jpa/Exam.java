@@ -2,6 +2,9 @@ package com.project.english.gemmy.model.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -14,17 +17,18 @@ public class Exam implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
-	private String description;
-
+	
+	private String name;
+	
 	@Column(name="exam_type")
 	private String examType;
 
-	private String name;
+	private String description;
 
 	//bi-directional many-to-one association to ExamResult
+	@JsonIgnore
 	@OneToMany(mappedBy="exam")
 	private List<ExamResult> examResults;
 
