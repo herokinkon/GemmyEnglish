@@ -8,7 +8,7 @@ export interface Payment {
     kindOfPayment: string;
     month: number;
     reason: string;
-    amount: string;
+    amount: number;
     status: boolean;
     studentInfo: Student;
     classes: Class;

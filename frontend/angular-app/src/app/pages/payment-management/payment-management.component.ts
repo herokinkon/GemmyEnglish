@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student-management/student-service/student.service';
 import { ClassService } from '../class-management/class-service/class.service';
 import { PaymentService } from './payment-service/payment.service';
-import { Class } from '../class-management/class-service/class';
+import { Payment } from './payment-service/payment';
+import { LazyLoadEvent } from 'primeng/api/primeng-api';
+import { NewPaymentComponent } from './new-payment/new-payment.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-payment-management',
@@ -19,11 +22,28 @@ export class PaymentManagementComponent implements OnInit {
 
   payments: any;
 
-  constructor(private studentService: StudentService, private classService: ClassService, private paymentservice: PaymentService) { }
+  paymentList: any;
+  cols: any;
+  totalRecords: number;
+  loading: boolean;
+
+  constructor(private studentService: StudentService, private classService: ClassService, private paymentservice: PaymentService,
+              public dialog: MatDialog) {
+    this.cols = [{ field: 'id', header: 'PaymentId' },
+    { field: 'date', header: 'Date' },
+    { field: 'full_name', header: 'Student Name' },
+    { field: 'class_name', header: 'Class Name' },
+    { field: 'kind_of_payment', header: 'Kind of Payment' },
+    { field: 'month', header: 'Months' },
+    { field: 'amount', header: 'Amount' }];
+
+  }
 
   ngOnInit(): void {
     this.aditionalLabel1 = 'Class Code';
     this.aditionalLabel2 = 'Class Name';
+
+    this.paymentservice.getAllPayment().subscribe(pay => this.paymentList = pay);
   }
 
   search($event: any, selectedOption: any) {
@@ -61,5 +81,18 @@ export class PaymentManagementComponent implements OnInit {
       this.paymentservice.getPaymentForStudent($event.id).subscribe(
         payment => this.payments = { payment, student: $event });
     }
+  }
+
+  onRowSelect($event) {
+    this.paymentservice.getPayment($event.data.id).subscribe(val => {
+      const dialogData = {
+        ...val, fullName: val.studentInfo.fullName, birthday: val.studentInfo.birthday,
+        classCode: val.classes.classCode, className: val.classes.className,
+        fee: val.classes.fee, isNewPayment: false,
+        discount: Math.round(val.amount / (val.classes.fee * val.month) * 100) / 100
+      };
+      const dialog = this.dialog.open(NewPaymentComponent, { data: dialogData });
+      dialog.afterClosed().subscribe(() => this.paymentservice.getAllPayment().subscribe(pay => this.paymentList = pay));
+    });
   }
 }

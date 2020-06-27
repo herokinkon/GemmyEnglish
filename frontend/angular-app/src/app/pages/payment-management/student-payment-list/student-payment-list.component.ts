@@ -37,7 +37,7 @@ export class StudentPaymentListComponent {
       if (payments.clazz) {
         this.classInfo = {
           classId: payments.clazz.id, classCode: payments.clazz.classCode,
-          className: payments.clazz.className, amount: payments.clazz.fee,
+          className: payments.clazz.className, fee: payments.clazz.fee,
           startDate: payments.clazz.startDate, endDate: payments.clazz.endDate
         };
         const months = this.getMonthsHeader(new Date(this.classInfo.startDate), new Date(this.classInfo.endDate));
@@ -78,9 +78,9 @@ export class StudentPaymentListComponent {
     if (rowData.canAdd) {
       let dialogData: any;
       if (this.classInfo) {
-        dialogData = { ...this.classInfo, ...rowData };
+        dialogData = { ...this.classInfo, ...rowData, isNewPayment: true };
       } else {
-        dialogData = { ...this.studentInfo, ...rowData };
+        dialogData = { ...this.studentInfo, ...rowData, isNewPayment: true };
       }
       const dialog = this.dialog.open(NewPaymentComponent, { data: dialogData });
       dialog.afterClosed().subscribe(() => this.paymentChange.emit());

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>New Payment</h1>
+<h1 mat-dialog-title>{{title}}</h1>
 <div mat-dialog-content class="dialog">
     <form>
         <mat-grid-list cols="1" rowHeight="70px">
@@ -25,16 +25,34 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <label>Pay</label>
-                    <mat-select #months value=1>
+                    <mat-select #months value={{data.month}}>
                         <mat-option value=1>1 month</mat-option>
-                        <mat-option value=3>3 months</mat-option>
-                        <mat-option value=6>6 months</mat-option>
+                        <mat-option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11]; let i=index" value={{i+2}}>{{i+2}}
+                            months
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="margin-left">
-                    <label>Amount</label>
-                    <input #amount matInput value="{{data.amount*months.value}}" name="amount" />
+                    <label>Discount</label>
+                    <mat-select #discount value={{data.discount}}>
+                        <mat-option value=1>None</mat-option>
+                        <mat-option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]; let i=index" value={{1-(i+1)*.05}}>
+                            {{(i+1)*5}} %
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <label>Fee</label>
+                    <input matInput value="{{data.fee | number}}" name="fee" [disabled]=true />
+                </mat-form-field>
+                <mat-form-field class="margin-left">
+                    <label>Total</label>
+                    <input matInput value="{{data.fee*months.value*discount.value | number:'1.0-0'}}" name="amount"
+                        [readonly]=true />
+                </mat-form-field>
+
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field>
@@ -55,7 +73,7 @@
 </div>
 <div mat-dialog-actions style="justify-content: center;">
     <button matDialogClose type="button" mat-raised-button color="accent" style="margin-bottom: 10px;"
-        (click)="save(months.value,amount.value)">
+        (click)="save(months.value, discount.value)">
         <mat-icon>check_circle</mat-icon><span> Save</span>
     </button>
 </div>

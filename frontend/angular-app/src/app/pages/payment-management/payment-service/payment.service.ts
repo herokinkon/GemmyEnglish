@@ -35,4 +35,21 @@ export class PaymentService {
     payment.date = new Date();
     return this.http.post(this.apiUrl, payment);
   }
+
+  getAllPayment() {
+    const data = { ...this.httpOptions };
+    return this.http.get<any>(this.apiUrl + 'getAll', data);
+  }
+
+  updatePayment(payment: Payment) {
+    return this.http.put<Payment>(this.apiUrl, payment, this.httpOptions);
+  }
+
+  deletePayment(id: string) {
+    return this.http.delete<Payment>(this.apiUrl + `${id}`, this.httpOptions);
+  }
+
+  getPayment(id: string) {
+    return this.http.get<Payment>(this.apiUrl + `${id}`, this.httpOptions);
+  }
 }
