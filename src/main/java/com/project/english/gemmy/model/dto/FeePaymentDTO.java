@@ -2,7 +2,9 @@ package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
 
+import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.FeePayment;
+import com.project.english.gemmy.model.jpa.StudentInfo;
 
 public class FeePaymentDTO {
 
@@ -27,8 +29,12 @@ public class FeePaymentDTO {
 		this.reason = feePayment.getReason();
 		this.month = feePayment.getMonth();
 		this.setAmount(feePayment.getAmount());
-		this.setStudentInfo(new StudentDTO(feePayment.getStudentInfo()));
-		this.setClasses(new ClassesInfoDto(feePayment.getClasses()));
+		StudentInfo student = feePayment.getStudentInfo();
+		student.setClasses(null);
+		this.setStudentInfo(new StudentDTO(student));
+		Classes clazz = feePayment.getClasses();
+		clazz.setStudentInfos(null);
+		this.setClasses(new ClassesInfoDto(clazz));
 	}
 
 	public long getId() {

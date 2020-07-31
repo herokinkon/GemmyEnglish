@@ -3,7 +3,10 @@ package com.project.english.gemmy.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +88,36 @@ public class FeePaymentService {
 		classInfo.put("endDate", clazz.getEndDate().toString());
 		classInfo.put("fee", clazz.getFee());
 		return classInfo;
+	}
+
+	public List<Map<String, Object>> getAll() {
+		return paymentRepo.findByClasses_status();
+	}
+
+	public void removePayment(long id) {
+		paymentRepo.deleteById(id);
+	}
+
+	public void updatePayment(FeePaymentDTO payment) {
+		if (paymentRepo.existsById(payment.getId())) {
+			ModelMapper modelMapper = new ModelMapper();
+			FeePayment paymentInfo = modelMapper.map(payment, FeePayment.class);
+			paymentRepo.save(paymentInfo);
+		} else {
+			throw new EntityNotFoundException(String.format("Payment is not exist: %s", payment.toString()));
+		}
+	}
+
+	public FeePaymentDTO getPayment(long id) {
+		Optional<FeePayment> payment = paymentRepo.findById(id);
+		if (payment.isPresent()) {
+			return new FeePaymentDTO(payment.get());
+		}
+		return null;
+	}
+
+	public int getAvailableMonth(long studentId, long classId) {
+		List<FeePaymentDTO> payments = paymentRepo.findByStudentInfo_idAndClasses_id(studentId, classId);
+
 	}
 }

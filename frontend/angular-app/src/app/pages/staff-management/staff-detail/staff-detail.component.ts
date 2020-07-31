@@ -20,6 +20,7 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
   classes: Class[];
   event: EventEmitter<EntityActionEvent<Staff>> = new EventEmitter();
   action = ENTITY_ACTION;
+  workOfStaff = [];
 
   constructor(private staffService: StaffService) {
     this.fields = [{ field: 'fullName', header: 'Full Name', cols: 2, required: 'true' },
@@ -27,9 +28,7 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
     { field: 'email', header: 'Email', cols: 2 },
     { field: 'contactNumber', header: 'Phone Number', cols: 1 },
     { field: 'facebook', header: 'Facebook', cols: 2 },
-    { field: 'salary', header: 'Salary', cols: 1 },
-    { field: 'staffType', header: 'Staff Type', cols: 1 },
-    { field: 'workOfStaff', header: 'Work Of Staff', cols: 1 }];
+    { field: 'salary', header: 'Salary', cols: 1 }];
   }
 
   ngOnInit(): void {
@@ -39,6 +38,9 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
     this.title = title;
     this.isNewStaff = isNewEntity;
     this.staffInfo = entity;
+    if (this.staffInfo.workOfStaff) {
+      this.workOfStaff = this.staffInfo.workOfStaff.split(',');
+    }
     if (!this.isNewStaff) {
       this.fields.unshift({ field: 'id', header: 'StaffId', cols: 1 });
     }
@@ -62,5 +64,13 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
 
   getEvent(): EventEmitter<EntityActionEvent<Staff>> {
     return this.event;
+  }
+
+  updateWorkOfStaff(works: string[]) {
+    this.staffInfo.workOfStaff = works.join();
+  }
+
+  getWorkOfStaff() {
+    return this.staffInfo.workOfStaff.split(',');
   }
 }

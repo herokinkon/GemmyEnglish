@@ -1,27 +1,48 @@
 <div class="Staff-detail">
-    <div class="content">
-      <mat-tab-group animationDuration="0ms" *ngIf="staffInfo">
-        <mat-tab label="Staff Info">
-          <form class="staff-info">
-            <mat-grid-list cols="3" rowHeight="80px">
-              <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
-                <mat-form-field>
-                  <mat-label>{{field.header}}</mat-label>
-                  <input *ngIf="field.field !== 'birthday'; else elseBlock" name="{{field.field}}" matInput
-                    [(ngModel)]="staffInfo[field.field]" [disabled]="field.field === 'id' && !isNewStaff"
-                    required={{field.required}}>
+  <div class="content">
+    <mat-tab-group animationDuration="0ms" *ngIf="staffInfo">
+      <mat-tab label="Staff Info">
+        <form class="staff-info">
+          <mat-grid-list cols="3" rowHeight="80px">
+            <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
+              <mat-form-field>
+                <mat-label>{{field.header}}</mat-label>
+                <input *ngIf="field.field !== 'birthday'; else elseBlock" name="{{field.field}}" matInput
+                  [(ngModel)]="staffInfo[field.field]" [disabled]="field.field === 'id' && !isNewStaff"
+                  required={{field.required}}>
 
-                  <ng-template #elseBlock>
-                    <input matInput class="dateField" name="birthday" [matDatepicker]="birthdayPicker"
-                      [(ngModel)]="staffInfo.birthday" (click)="birthdayPicker.open()" required>
-                    <mat-datepicker #birthdayPicker></mat-datepicker>
-                  </ng-template>
-                </mat-form-field>
-              </mat-grid-tile>
-            </mat-grid-list>
-          </form>
-        </mat-tab>
-        <!-- <mat-tab label="Class">
+                <ng-template #elseBlock>
+                  <input matInput class="dateField" name="birthday" [matDatepicker]="birthdayPicker"
+                    [(ngModel)]="staffInfo.birthday" (click)="birthdayPicker.open()" required>
+                  <mat-datepicker #birthdayPicker></mat-datepicker>
+                </ng-template>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field>
+                <mat-label>Staff Type</mat-label>
+                <mat-select [(ngModel)]="staffInfo.staffType" name="staffType">
+                  <mat-option value="PT">PT</mat-option>
+                  <mat-option value="FT">FT</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field>
+                <mat-label>Work Of Staff</mat-label>
+                <mat-select [value]="workOfStaff" name="workOfStaff" (valueChange)="updateWorkOfStaff($event)" multiple>
+                  <mat-option value="Salesperson">Salesperson</mat-option>
+                  <mat-option value="Assistant">Assistant</mat-option>
+                  <mat-option value="Teacher">Teacher</mat-option>
+                  <mat-option value="Office">Office</mat-option>
+                  <mat-option value="Academic">Academic</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </form>
+      </mat-tab>
+      <!-- <mat-tab label="Class">
           <p-table [value]="classes" dataKey="status" [expandedRowKeys]="{'true': true}">
             <ng-template pTemplate="header">
               <tr>
@@ -49,15 +70,14 @@
             </ng-template>
           </p-table>
         </mat-tab> -->
-      </mat-tab-group>
-    </div>
-    <div class="staff-detail-actions">
-      <button *ngIf="!isNewStaff" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
-        <mat-icon>delete</mat-icon><span>Delete</span>
-      </button>
-      <button type="button" mat-raised-button color="accent"
-        (click)="sendEvent(isNewStaff?action.CREATE:action.EDIT)">
-        <mat-icon>check_circle</mat-icon><span>Save</span>
-      </button>
-    </div>
+    </mat-tab-group>
   </div>
+  <div class="staff-detail-actions">
+    <button *ngIf="!isNewStaff" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
+      <mat-icon>delete</mat-icon><span>Delete</span>
+    </button>
+    <button type="button" mat-raised-button color="accent" (click)="sendEvent(isNewStaff?action.CREATE:action.EDIT)">
+      <mat-icon>check_circle</mat-icon><span>Save</span>
+    </button>
+  </div>
+</div>
