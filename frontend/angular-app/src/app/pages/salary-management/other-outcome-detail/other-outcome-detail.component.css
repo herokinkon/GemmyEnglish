@@ -1,0 +1,30 @@
+.other-outcome-detail {
+    width: 600px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .tab-group {
+    min-width: 500px;
+    min-height: 300px;
+    width: 600px;
+    height: 500px;
+  }
+  
+  .other-outcome-detail-actions {
+    float: right;
+  }
+  
+  .mat-raised-button {
+    margin-left: 5px;
+  }
+  
+  mat-form-field {
+    width: 80%;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }

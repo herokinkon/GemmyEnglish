@@ -1,0 +1,43 @@
+<div class="other-outcome-detail">
+  <div class="content">
+    <mat-tab-group class="tab-group" animationDuration="0ms" *ngIf="otherOutcomeInfo">
+      <mat-tab label="Other Outcome Info">
+        <form>
+          <mat-grid-list cols="3" rowHeight="2:1">
+            <mat-grid-tile *ngIf="isNewOutcome" colspan="3">
+              <p-autoComplete [(ngModel)]="staffData" [suggestions]="suggestionStaff" name="searchBox"
+                (completeMethod)="searchStaff($event)" field="fullName" [size]="30" placeholder="Staff Name"
+                [minLength]="1" delay="3000" (onSelect)="addStaffToTextBox($event)">
+              </p-autoComplete>
+            </mat-grid-tile>
+            <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
+              <mat-form-field>
+                <mat-label>{{field.header}}</mat-label>
+                <input *ngIf="field.field !== 'birthday' && field.field !== 'usedDate'" name="{{field.field}}" matInput
+                  [(ngModel)]="otherOutcomeInfo[field.field]" required>
+                <div *ngIf="field.field == 'birthday'">
+                  <input class="dateField" name="birthday" matInput [matDatepicker]="birthdayPicker"
+                    [(ngModel)]="otherOutcomeInfo[field.field]" (click)="birthdayPicker.open()" required>
+                  <mat-datepicker #birthdayPicker></mat-datepicker>
+                </div>
+                <div *ngIf="field.field == 'usedDate'">
+                  <input class="dateField" name="usedDate" matInput [matDatepicker]="usedDatePicker"
+                    [(ngModel)]="otherOutcomeInfo.usedDate" (click)="usedDatePicker.open()" required>
+                  <mat-datepicker #usedDatePicker></mat-datepicker>
+                </div>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="other-outcome-detail-actions">
+    <button *ngIf="!isNewOutcome" type="button" mat-raised-button color="warn" (click)="sendEvent(action.DELETE)">
+      <mat-icon>delete</mat-icon><span>Delete</span>
+    </button>
+    <button type="button" mat-raised-button color="accent" (click)="sendEvent(isNewOutcome?action.CREATE:action.EDIT)">
+      <mat-icon>check_circle</mat-icon><span>Save</span>
+    </button>
+  </div>
+</div>

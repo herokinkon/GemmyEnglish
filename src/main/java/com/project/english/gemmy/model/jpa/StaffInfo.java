@@ -61,6 +61,11 @@ public class StaffInfo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="user_account_id")
 	private UserAccount userAccount;
+	
+	// bi-directional many-to-one association to OthersOutcome
+	@JsonIgnore
+	@OneToMany(mappedBy = "staffInfo")
+	private List<OthersOutcome> othersOutcome;
 
 	public StaffInfo() {
 	}
@@ -151,6 +156,14 @@ public class StaffInfo implements Serializable {
 
 	public void setWorkOfStaff(String workOfStaff) {
 		this.workOfStaff = workOfStaff;
+	}
+
+	public List<OthersOutcome> getOthersOutcome() {
+		return othersOutcome;
+	}
+
+	public void setOthersOutcome(List<OthersOutcome> othersOutcome) {
+		this.othersOutcome = othersOutcome;
 	}
 
 }

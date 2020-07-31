@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Staff } from './staff';
 import { Observable } from 'rxjs';
@@ -37,5 +37,11 @@ export class StaffService {
 
   updateStaff(staff: Staff): Observable<Staff> {
     return this.http.put<Staff>(this.apiUrl, staff, this.httpOptions);
+  }
+
+  searchStaff(searchText: string) {
+    const params = new HttpParams({ fromObject: { searchText } });
+    const data = { ...this.httpOptions, params: params };
+    return this.http.get<Staff[]>(this.apiUrl + 'searchStaff', data)
   }
 }

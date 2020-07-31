@@ -1,0 +1,92 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Full Time">
+        <p-table #listSalary [columns]="fullTimeHeader" [value]="fullTimeSalaries" selectionMode="single" [(selection)]="selectedFullTimeSalary"
+            [paginator]="true" [rows]="15" [autoLayout]="true">
+            <ng-template pTemplate="caption">
+                Full Time Staff Salary
+                <div style="text-align: right">
+                    <input type="text" pInputText placeholder="Search staff" (input)="listSalary.filter($event.target.value, 'fullName', 'contains')">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        {{col.field === 'birthday' ? (rowData[col.field] | date:'dd-MM-yyyy') :rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <!-- <div style="text-align:center; padding-top: 30px;">
+            <button type="button" mat-raised-button (click)="showDialogToAdd()" color="primary">
+                <mat-icon>add</mat-icon><span>Add</span>
+            </button>
+        </div> -->
+    </mat-tab>
+    <!-- <mat-tab label="Part time">
+        <p-table [columns]="partTimeHeader" [value]="partTimeSalaries" selectionMode="single" [(selection)]="selectedPartTimeSalary"
+            [paginator]="true" [rows]="15" [autoLayout]="true">
+            <ng-template pTemplate="caption">
+                Part Time Staff Salary
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div style="text-align:center; padding-top: 30px;">
+            <button type="button" mat-raised-button (click)="showDialogToAdd()" color="primary">
+                <mat-icon>add</mat-icon><span>Add</span>
+            </button>
+        </div>
+    </mat-tab> -->
+    <mat-tab label="Others">
+        <p-table #listOtherOutcome [columns]="othersHeader" [value]="othersOutcome" selectionMode="single" [(selection)]="selectedOutcome"
+            [paginator]="true" [rows]="15" (onRowSelect)="otherOutcomeSelect($event)" [autoLayout]="true">
+            <ng-template pTemplate="caption">
+                Others Outcome
+                <div style="text-align: right">
+                    <input type="text" pInputText placeholder="Search staff" (input)="listOtherOutcome.filter($event.target.value, 'fullName', 'contains')">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        {{col.field === 'usedDate' ? (rowData[col.field] | date:'dd-MM-yyyy') :rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div style="text-align:center; padding-top: 30px;">
+            <button type="button" mat-raised-button (click)="showDialogToAddOtherOutcome()" color="primary">
+                <mat-icon>add</mat-icon><span>Add</span>
+            </button>
+        </div>
+    </mat-tab>
+</mat-tab-group>

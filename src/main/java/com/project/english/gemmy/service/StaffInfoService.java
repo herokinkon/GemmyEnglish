@@ -54,4 +54,22 @@ public class StaffInfoService {
 		StaffInfo staffInfo = modelMapper.map(staff, StaffInfo.class);
 		return new StaffDTO(staffInfoRepo.save(staffInfo));
 	}
+	
+	public StaffInfo getStaffInfoById(long id) {
+		Optional<StaffInfo> result = staffInfoRepo.findById(id);
+		if (result.isPresent()) {
+			return result.get();
+		}
+		throw new EntityNotFoundException(String.format("Staff id does not exist: %s", id));
+	}
+	
+	public List<StaffDTO> getFullTimeStaffSalary() {
+		List<StaffInfo> staffs = staffInfoRepo.findByStaffType("FT");
+		return staffs.stream().map(StaffDTO::new).collect(Collectors.toList());
+	}
+	
+	public List<StaffDTO> getPartTimeStaffSalary() {
+		List<StaffInfo> staffs = staffInfoRepo.findByStaffType("PT");
+		return staffs.stream().map(StaffDTO::new).collect(Collectors.toList());
+	}
 }

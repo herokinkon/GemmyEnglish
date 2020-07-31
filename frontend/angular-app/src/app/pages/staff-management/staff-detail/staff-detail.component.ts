@@ -42,7 +42,6 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
     if (!this.isNewStaff) {
       this.fields.unshift({ field: 'id', header: 'StaffId', cols: 1 });
     }
-    // this.loadClassData();
   }
 
   sendEvent(action: ENTITY_ACTION) {

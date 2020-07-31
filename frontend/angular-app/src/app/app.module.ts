@@ -52,6 +52,8 @@ import { StaffDetailComponent } from './pages/staff-management/staff-detail/staf
 import { ExamManagementComponent } from './pages/exam-management/exam-management.component';
 import { ExamDetailComponent } from './pages/exam-management/exam-detail/exam-detail.component';
 import { ExamResultComponent } from './pages/exam-management/exam-result/exam-result.component';
+import { SalaryManagementComponent } from './pages/salary-management/salary-management.component';
+import { OtherOutcomeDetailComponent } from './pages/salary-management/other-outcome-detail/other-outcome-detail.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,9 @@ import { ExamResultComponent } from './pages/exam-management/exam-result/exam-re
     StaffDetailComponent,
     ExamManagementComponent,
     ExamDetailComponent,
-    ExamResultComponent
+    ExamResultComponent,
+    SalaryManagementComponent,
+    OtherOutcomeDetailComponent
   ],
   imports: [
     BrowserModule,

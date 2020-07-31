@@ -1,5 +1,6 @@
 package com.project.english.gemmy.model.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,11 @@ public class StaffDTO {
 		this.setSalary(staffInfo.getSalary());
 		this.setStaffType(staffInfo.getStaffType());
 		this.setWorkOfStaff(staffInfo.getWorkOfStaff());
-		this.setClasses(staffInfo.getClasses().stream().map(ClassesInfoDto::new).collect(Collectors.toList()));
+		if (staffInfo.getClasses() != null) {
+			this.setClasses(staffInfo.getClasses().stream().map(ClassesInfoDto::new).collect(Collectors.toList()));
+		} else {
+			this.setClasses(new ArrayList<>());
+		}
 	}
 
 	public Long getId() {

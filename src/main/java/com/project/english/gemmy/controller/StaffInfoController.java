@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.english.gemmy.model.dto.StaffDTO;
+import com.project.english.gemmy.model.repositories.StaffInfoRepository;
 import com.project.english.gemmy.service.StaffInfoService;
 
 @RestController
@@ -24,6 +26,9 @@ public class StaffInfoController {
 
 	@Autowired
 	private StaffInfoService staffService;
+	
+	@Autowired
+	private StaffInfoRepository staffRepo;
 
 	@GetMapping("/")
 	public ResponseEntity<List<StaffDTO>> getAllStaff() {
@@ -62,4 +67,15 @@ public class StaffInfoController {
 		StaffDTO newStaff = staffService.createNewStaff(staff);
 		return new ResponseEntity<StaffDTO>(newStaff, HttpStatus.CREATED);
 	}
+	
+	@GetMapping("/searchStaff")
+	public ResponseEntity<List<StaffDTO>> searchStaff(@RequestParam String searchText) {
+		List<StaffDTO> staffInfos = staffRepo.findByFullNameContains(searchText);
+		if (staffInfos != null && !staffInfos.isEmpty()) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(staffInfos);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
 }
