@@ -116,8 +116,8 @@ public class FeePaymentService {
 		return null;
 	}
 
-	public int getAvailableMonth(long studentId, long classId) {
-		List<FeePaymentDTO> payments = paymentRepo.findByStudentInfo_idAndClasses_id(studentId, classId);
-
-	}
+//	public int getAvailableMonth(long studentId, long classId) {
+//		List<FeePaymentDTO> payments = paymentRepo.findByStudentInfo_idAndClasses_id(studentId, classId);
+//
+//	}
 }

@@ -1,7 +1,7 @@
 package com.project.english.gemmy.model.dto;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.StudentInfo;
@@ -30,7 +30,7 @@ public class ClassesInfoDto {
 	
 	private String courseDescription;
 	
-	private List<StudentInfo> studentInfos;
+	private Set<StudentInfo> studentInfos;
 	
 	public ClassesInfoDto() {
 		
@@ -139,11 +139,11 @@ public class ClassesInfoDto {
 		this.courseDescription = courseDescription;
 	}
 
-	public List<StudentInfo> getStudentInfos() {
+	public Set<StudentInfo> getStudentInfos() {
 		return studentInfos;
 	}
 
-	public void setStudentInfos(List<StudentInfo> studentInfos) {
+	public void setStudentInfos(Set<StudentInfo> studentInfos) {
 		this.studentInfos = studentInfos;
 	}
 

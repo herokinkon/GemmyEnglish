@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.english.gemmy.model.dto.ClassesInfoDto;
+import com.project.english.gemmy.model.dto.StudentClassUpdateRequestDto;
+import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
@@ -136,5 +138,16 @@ public class ClassesController {
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@PutMapping("/updateStudentClass")
+	public ResponseEntity<StudentDTO> updateStudentList(@RequestBody StudentClassUpdateRequestDto studentClass) {
+		boolean result = classesService.updateStudentClass(studentClass.getStudentSource(),
+				studentClass.getStudentTarget(), studentClass.getClassSourceId(), studentClass.getClassTargetId());
+		if (result) {
+			return ResponseEntity.ok(null);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 	}
 }

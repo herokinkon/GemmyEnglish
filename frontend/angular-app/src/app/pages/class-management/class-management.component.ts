@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ENTITY_ACTION } from 'src/app/shared/app-constant.service';
 import { CommonDialogService } from 'src/app/shared/components/common-detail-dialog/common-dialog.service';
 import { EntityActionEvent } from 'src/app/shared/components/common-detail-dialog/common-entity-dialog-interface';
+import { Student } from '../student-management/student-service/student';
+import { StudentService } from '../student-management/student-service/student.service';
 import { ClassDetailComponent } from './class-detail/class-detail.component';
 import { ClassService } from './class-service/class.service';
 import { Classes } from './class-service/classes-model';
@@ -17,7 +19,15 @@ export class ClassManagementComponent implements OnInit {
   selectedClass: any;
   cols: any[];
 
-  constructor(private readonly dialog: CommonDialogService, private classService: ClassService) { }
+  class1: Classes;
+  class2: Classes;
+  suggestionClasses1: Classes[];
+  suggestionClasses2: Classes[];
+  studentList1: Student[];
+  studentList2: Student[];
+  isChange: boolean;
+
+  constructor(private readonly dialog: CommonDialogService, private classService: ClassService, private studentService: StudentService) { }
 
   ngOnInit(): void {
     this.cols = [{ field: 'id', header: 'Id' },
@@ -61,6 +71,53 @@ export class ClassManagementComponent implements OnInit {
   onRowSelect(event: any) {
     const result = this.dialog.openDialog('Class Detail', ClassDetailComponent, { ...event.data });
     result.subscribe(evt => this.updateTable(evt, this.classes));
+  }
+
+  searchClass(event: any, isSourceClass: boolean) {
+    this.classService.searchClass(event.query).subscribe(data => {
+      if (isSourceClass) {
+        if (data) {
+          this.suggestionClasses1 = data;
+        } else {
+          this.suggestionClasses1 = [];
+          this.class1 = null;
+        }
+      } else {
+        if (data) {
+          this.suggestionClasses2 = data;
+        } else {
+          this.suggestionClasses2 = [];
+          this.class2 = null;
+        }
+      }
+    });
+  }
+
+  updateStudentList(event: Classes, isSource: boolean) {
+    if (isSource) {
+      this.studentList1 = event.studentInfos;
+    } else {
+      this.studentList2 = event.studentInfos;
+    }
+  }
+
+  updateStudentClass() {
+    this.classService.updateStudentClass(this.studentList1, this.studentList2, this.class1.id, this.class2.id).subscribe();
+    this.isChange = false;
+  }
+
+  changeList() {
+    this.isChange = true;
+  }
+
+  clearSearchData() {
+    this.suggestionClasses1 = null;
+    this.suggestionClasses2 = null;
+    this.class1 = null;
+    this.class2 = null;
+    this.studentList1 = null;
+    this.studentList2 = null;
+    this.isChange = false;
   }
 
 }

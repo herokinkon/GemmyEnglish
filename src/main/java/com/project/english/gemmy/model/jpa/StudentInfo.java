@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistent class for the student_info database table.
@@ -55,10 +56,8 @@ public class StudentInfo implements Serializable {
 
 	// bi-directional many-to-many association to Class
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "student_classes", joinColumns = { @JoinColumn(name = "student_info_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "classes_id") })
-	private List<Classes> classes;
+	@ManyToMany(mappedBy="studentInfos")
+	private Set<Classes> classes;
 
 	// bi-directional many-to-one association to UserAccount
 	@JsonIgnore
@@ -187,11 +186,11 @@ public class StudentInfo implements Serializable {
 		return feePayment;
 	}
 
-	public List<Classes> getClasses() {
+	public Set<Classes> getClasses() {
 		return this.classes;
 	}
 
-	public void setClasses(List<Classes> classes) {
+	public void setClasses(Set<Classes> classes) {
 		this.classes = classes;
 	}
 

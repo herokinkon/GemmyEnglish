@@ -2,7 +2,9 @@ package com.project.english.gemmy.service;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -175,5 +177,22 @@ public class ClassesService {
 	
 	public ClassesInfoDto getActiveClassByStudentId(long studentId) {
 		return classesRepo.findByStudentInfos_idAndStatusTrue(studentId);
+	}
+	
+	public boolean updateStudentClass(StudentInfo[] studentSourceList, StudentInfo[] studentTargetList, Long classSourceId,
+			Long classTargetId) {
+		Optional<Classes> classSource = classesRepo.findById(classSourceId);
+		if (!classSource.isPresent()) {
+			return false;
+		}
+		classSource.get().setStudentInfos(new HashSet<>(Arrays.asList(studentSourceList)));
+		Optional<Classes> classTarget = classesRepo.findById(classTargetId);
+		if (!classTarget.isPresent()) {
+			return false;
+		}
+		classTarget.get().setStudentInfos(new HashSet<>(Arrays.asList(studentTargetList)));
+		Classes source = classesRepo.save(classSource.get());
+		Classes target = classesRepo.save(classTarget.get());
+		return source != null && target != null;
 	}
 }
