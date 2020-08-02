@@ -1,8 +1,9 @@
 package com.project.english.gemmy.model.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the fee_payment database table.
@@ -20,9 +21,6 @@ public class FeePayment implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date paymentDate;
-	
 	private String discount;
 
 	@Column(name = "kind_of_payment")
@@ -118,14 +116,6 @@ public class FeePayment implements Serializable {
 
 	public void setAmount(String amount) {
 		this.amount = amount;
-	}
-
-	public Date getPaymentDate() {
-		return paymentDate;
-	}
-
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
 	}
 
 }

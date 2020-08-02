@@ -1,25 +1,19 @@
-<h1 mat-dialog-title>{{title}}</h1>
 <div mat-dialog-content class="dialog">
     <form>
         <mat-grid-list cols="1" rowHeight="70px">
             <mat-grid-tile>
                 <mat-form-field>
-                    <label>Student Name</label>
-                    <input matInput [disabled]=true value="{{data.fullName}}" name="fullName" />
-                </mat-form-field>
-                <mat-form-field class="margin-left">
-                    <label>Birthday</label>
-                    <input matInput [disabled]=true value="{{data.birthday}}" name="birthday" />
+                    <input matInput placeholder="Title" value="{{data.title}}" name="title" />
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field>
-                    <label>Class Code</label>
-                    <input matInput [disabled]=true value="{{data.classCode}}" name="classCode" />
+                    <input matInput class="dateField" name="date" [matDatepicker]="birthdayPicker"
+                        [(ngModel)]="data.date" (click)="birthdayPicker.open()" required>
+                    <mat-datepicker #birthdayPicker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="margin-left">
-                    <label>Class Name</label>
-                    <input matInput [disabled]=true value="{{data.className}}" name="className" />
+                    <app-time-picker></app-time-picker>
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
@@ -73,12 +67,10 @@
     </form>
 </div>
 <div mat-dialog-actions style="justify-content: center;">
-    <button matDialogClose type="button" mat-raised-button color="warn" style="margin-bottom: 10px;"
-        (click)="delete()">
+    <button matDialogClose type="button" mat-raised-button color="warn" style="margin-bottom: 10px;" (click)="delete()">
         <mat-icon>delete</mat-icon><span> Delete</span>
     </button>
-    <button matDialogClose type="button" mat-raised-button color="accent" style="margin-bottom: 10px;"
-        (click)="save(months.value, discount.value)">
+    <button matDialogClose type="button" mat-raised-button color="accent" style="margin-bottom: 10px;" (click)="save()">
         <mat-icon>check_circle</mat-icon><span> Save</span>
     </button>
 </div>

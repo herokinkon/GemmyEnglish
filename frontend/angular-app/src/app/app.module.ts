@@ -34,6 +34,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { FullCalendarModule } from 'primeng/fullcalendar';
+import { CalendarModule } from 'primeng/calendar';
 
 // Pages components
 import { StudentManagementComponent } from './pages/student-management/student-management.component';
@@ -52,6 +54,9 @@ import { StaffDetailComponent } from './pages/staff-management/staff-detail/staf
 import { ExamManagementComponent } from './pages/exam-management/exam-management.component';
 import { ExamDetailComponent } from './pages/exam-management/exam-detail/exam-detail.component';
 import { ExamResultComponent } from './pages/exam-management/exam-result/exam-result.component';
+import { AssistantTimelineComponent } from './pages/assistant-timeline/assistant-timeline.component';
+import { TimelineDetailComponent } from './pages/assistant-timeline/timeline-detail/timeline-detail.component';
+import { TimePickerComponent } from './shared/components/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +77,10 @@ import { ExamResultComponent } from './pages/exam-management/exam-result/exam-re
     StaffDetailComponent,
     ExamManagementComponent,
     ExamDetailComponent,
-    ExamResultComponent
+    ExamResultComponent,
+    AssistantTimelineComponent,
+    TimelineDetailComponent,
+    TimePickerComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +110,9 @@ import { ExamResultComponent } from './pages/exam-management/exam-result/exam-re
     AutoCompleteModule,
     DropdownModule,
     FieldsetModule,
-    SelectButtonModule
+    SelectButtonModule,
+    FullCalendarModule,
+    CalendarModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

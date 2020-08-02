@@ -71,6 +71,7 @@ export class StudentPaymentListComponent {
       payment[months[i].field] = 1;
     }
     payment.canAdd = payment.months < months.length;
+    payment.availableMonth = months.length - payment.months;
     return payment;
   }
 

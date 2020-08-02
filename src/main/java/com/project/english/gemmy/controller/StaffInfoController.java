@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.english.gemmy.model.dto.StaffDTO;
@@ -61,5 +62,15 @@ public class StaffInfoController {
 	public ResponseEntity<StaffDTO> createStaffInfo(@RequestBody StaffDTO staff) {
 		StaffDTO newStaff = staffService.createNewStaff(staff);
 		return new ResponseEntity<StaffDTO>(newStaff, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/searchStaff")
+	public ResponseEntity<List<StaffDTO>> searchStudent(@RequestParam String searchText, @RequestParam String type) {
+		List<StaffDTO> staffList = staffService.getStaffByNameAndType(searchText, type);
+		if (!staffList.isEmpty()) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(staffList);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

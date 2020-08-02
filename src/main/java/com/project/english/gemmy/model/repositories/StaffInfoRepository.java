@@ -12,4 +12,6 @@ import com.project.english.gemmy.model.jpa.UserAccount;
 public interface StaffInfoRepository extends JpaRepository<StaffInfo, Long> {
 
 	List<StaffInfo> findByUserAccount(UserAccount userAccount);
+
+	List<StaffInfo> findBystaffTypeAndFullNameContains(String type, String fullName);
 }

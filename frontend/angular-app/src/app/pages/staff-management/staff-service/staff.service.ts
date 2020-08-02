@@ -38,4 +38,9 @@ export class StaffService {
   updateStaff(staff: Staff): Observable<Staff> {
     return this.http.put<Staff>(this.apiUrl, staff, this.httpOptions);
   }
+
+  searchStaff(searchText: string, type: string) {
+    const data = { ...this.httpOptions, params: { searchText, type } };
+    return this.http.get<Staff[]>(this.apiUrl + 'searchStaff', data);
+  }
 }

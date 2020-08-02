@@ -61,9 +61,4 @@ public class FeePaymentController {
 		paymentService.updatePayment(payment);
 		return ResponseEntity.ok(null);
 	}
-
-	@GetMapping("getAvailableMonth")
-	public int getAvailableMonth(@RequestParam("studentId") long studentId, @RequestParam("classId") long classId) {
-		paymentService.getAvailableMonth(long studentId, long classId);
-	}
 }

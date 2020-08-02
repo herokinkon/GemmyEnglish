@@ -11,6 +11,7 @@ import { AuthGuardService } from './shared/authentication/auth-guard.service';
 import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
 import { StaffManagementComponent } from './pages/staff-management/staff-management.component';
 import { StaffDetailComponent } from './pages/staff-management/staff-detail/staff-detail.component';
+import { AssistantTimelineComponent } from './pages/assistant-timeline/assistant-timeline.component';
 
 const childRoutes: Routes = [
   { path: 'students', component: StudentManagementComponent },
@@ -20,7 +21,8 @@ const childRoutes: Routes = [
   { path: 'payment', component: PaymentManagementComponent },
   { path: 'staffs', component: StaffManagementComponent },
   { path: 'staff/:id', component: StaffDetailComponent },
-  { path: 'exams', component: ExamManagementComponent }
+  { path: 'exams', component: ExamManagementComponent },
+  { path: 'timeline', component: AssistantTimelineComponent }
 ];
 
 const routes: Routes = [

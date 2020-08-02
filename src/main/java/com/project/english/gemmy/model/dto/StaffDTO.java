@@ -23,6 +23,11 @@ public class StaffDTO {
 
 	}
 
+	public StaffDTO(long id, String fullName) {
+		this.id = id;
+		this.fullName = fullName;
+	}
+
 	public StaffDTO(StaffInfo staffInfo) {
 		this.id = staffInfo.getId();
 		this.birthday = staffInfo.getBirthday();

@@ -1,5 +1,6 @@
 package com.project.english.gemmy.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,5 +54,14 @@ public class StaffInfoService {
 		ModelMapper modelMapper = new ModelMapper();
 		StaffInfo staffInfo = modelMapper.map(staff, StaffInfo.class);
 		return new StaffDTO(staffInfoRepo.save(staffInfo));
+	}
+
+	public List<StaffDTO> getStaffByNameAndType(String searchText, String type) {
+		List<StaffInfo> staffs = staffInfoRepo.findBystaffTypeAndFullNameContains(type, searchText);
+		if (!staffs.isEmpty()) {
+			return staffs.stream().map(staff -> new StaffDTO(staff.getId(), staff.getFullName()))
+					.collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 }

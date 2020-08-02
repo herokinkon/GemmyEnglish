@@ -1,4 +1,4 @@
-mat-icon.new-payment {
+mat-icon.new-payment:hover {
     cursor: pointer;
 }
 
@@ -13,3 +13,4 @@ mat-icon.green {
 td {
     text-align: center;
 }
+
