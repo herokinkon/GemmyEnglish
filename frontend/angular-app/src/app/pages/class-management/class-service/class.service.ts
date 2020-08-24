@@ -68,4 +68,8 @@ export class ClassService {
     return this.http.get<Classes[]>(this.apiUrl + 'getClassesListByName', data);
   }
 
+  updateStudentClass(studentSource: Student[], studentTarget: Student[], classSourceId: number, classTargetId: number): Observable<Student[]> {
+    return this.http.put<Student[]>(this.apiUrl + 'updateStudentClass', { studentSource: studentSource, studentTarget: studentTarget, classSourceId: classSourceId, classTargetId: classTargetId }, this.httpOptions);
+  }
+
 }

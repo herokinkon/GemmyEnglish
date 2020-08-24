@@ -98,4 +98,14 @@ public class StudentInfoController {
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/getNewStudents")
+	public ResponseEntity<List<StudentDTO>> getNewStudents() {
+		List<StudentDTO> studentInfoLst = studentInfoService.getNewStudentList();
+		if (studentInfoLst != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }
