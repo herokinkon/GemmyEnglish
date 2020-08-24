@@ -10,13 +10,13 @@ public class FeePaymentDTO {
 
 	private long id;
 	private Date date;
-	private Date paymentDate;
 	private String kindOfPayment;
 	private String reason;
 	private String amount;
 	private byte month;
 	private StudentDTO studentInfo;
 	private ClassesInfoDto classes;
+	private int availableMonth;
 
 	public FeePaymentDTO() {
 	}
@@ -24,7 +24,6 @@ public class FeePaymentDTO {
 	public FeePaymentDTO(FeePayment feePayment) {
 		this.id = feePayment.getId();
 		this.date = feePayment.getDate();
-		this.paymentDate = feePayment.getPaymentDate();
 		this.kindOfPayment = feePayment.getKindOfPayment();
 		this.reason = feePayment.getReason();
 		this.month = feePayment.getMonth();
@@ -93,19 +92,19 @@ public class FeePaymentDTO {
 		this.classes = classes;
 	}
 
-	public Date getPaymentDate() {
-		return paymentDate;
-	}
-
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
-	}
-
 	public String getAmount() {
 		return amount;
 	}
 
 	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+
+	public int getAvailableMonth() {
+		return availableMonth;
+	}
+
+	public void setAvailableMonth(int availableMonth) {
+		this.availableMonth = availableMonth;
 	}
 }

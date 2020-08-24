@@ -73,7 +73,7 @@ export class OtherOutcomeDetailComponent implements OnInit, CommonEntityDialogIn
     }
 
     searchStaff(event: any) {
-        this.staffService.searchStaff(event.query).subscribe(data => {
+        this.staffService.searchStaffByName(event.query).subscribe(data => {
             if (data) {
                 this.suggestionStaff = data;
             } else {

@@ -31,4 +31,8 @@ export class NewPaymentComponent {
     }
   }
 
+  delete() {
+    this.paymentService.deletePayment(this.data.id).subscribe();
+  }
+
 }

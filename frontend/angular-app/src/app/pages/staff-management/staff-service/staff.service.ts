@@ -39,9 +39,14 @@ export class StaffService {
     return this.http.put<Staff>(this.apiUrl, staff, this.httpOptions);
   }
 
-  searchStaff(searchText: string) {
+  searchStaffByName(searchText: string) {
     const params = new HttpParams({ fromObject: { searchText } });
     const data = { ...this.httpOptions, params: params };
-    return this.http.get<Staff[]>(this.apiUrl + 'searchStaff', data)
+    return this.http.get<Staff[]>(this.apiUrl + 'searchStaffByName', data)
+  }
+
+  searchStaff(searchText: string, type: string) {
+    const data = { ...this.httpOptions, params: { searchText, type } };
+    return this.http.get<Staff[]>(this.apiUrl + 'searchStaff', data);
   }
 }

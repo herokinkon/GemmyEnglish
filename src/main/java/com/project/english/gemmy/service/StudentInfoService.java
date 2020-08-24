@@ -180,4 +180,15 @@ public class StudentInfoService {
 	public List<StudentDTO> getStudentListByName(String name) {
 		return studentInfoRepo.findByFullNameContains(name);
 	}
+	
+	public List<StudentDTO> getNewStudentList() {
+		List<StudentInfo> students = studentInfoRepo.findAll();
+		List<StudentInfo> result = students.stream()
+                .filter(s -> s.getClasses().isEmpty())
+                .collect(Collectors.toList());  
+		if (students != null && !students.isEmpty()) {
+			return result.stream().map(StudentDTO::new).collect(Collectors.toList());
+		}
+		return null;
+	}
 }

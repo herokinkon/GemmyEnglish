@@ -82,10 +82,10 @@ import { SideMenuComponent } from './shared/components/side-menu/side-menu.compo
     ExamManagementComponent,
     ExamDetailComponent,
     ExamResultComponent,
+    AssistantTimelineComponent,
+    TimelineDetailComponent,
     SalaryManagementComponent,
     OtherOutcomeDetailComponent
-    AssistantTimelineComponent,
-    TimelineDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { AuthGuardService } from './shared/authentication/auth-guard.service';
 import { PaymentManagementComponent } from './pages/payment-management/payment-management.component';
 import { StaffManagementComponent } from './pages/staff-management/staff-management.component';
 import { StaffDetailComponent } from './pages/staff-management/staff-detail/staff-detail.component';
+import { AssistantTimelineComponent } from './pages/assistant-timeline/assistant-timeline.component';
 import { SalaryManagementComponent } from './pages/salary-management/salary-management.component';
 
 const childRoutes: Routes = [
@@ -22,7 +23,8 @@ const childRoutes: Routes = [
   { path: 'staffs', component: StaffManagementComponent },
   { path: 'staff/:id', component: StaffDetailComponent },
   { path: 'exams', component: ExamManagementComponent },
-  { path: 'salary', component: SalaryManagementComponent },
+  { path: 'timeline', component: AssistantTimelineComponent },
+  { path: 'salary', component: SalaryManagementComponent }
 ];
 
 const routes: Routes = [

@@ -1,0 +1,15 @@
+<p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true">
+    <ng-template pTemplate>
+        <button type="button" mat-raised-button color="primary">
+            <mat-icon>search</mat-icon>
+        </button>
+    </ng-template>
+</p-overlayPanel>
+
+<div style="margin-top: 20px;width: 70%;margin-left: auto;margin-right: auto;display: flex;">
+    <button type="button" mat-raised-button color="primary" style="align-self: baseline;margin-right: 10px;"
+        (click)="op.toggle($event)">
+        <mat-icon>search</mat-icon>
+    </button>
+    <p-fullCalendar [events]="events" [options]="options"></p-fullCalendar>
+</div>

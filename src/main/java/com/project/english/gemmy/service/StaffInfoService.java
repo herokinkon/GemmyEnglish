@@ -1,5 +1,6 @@
 package com.project.english.gemmy.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,6 +62,15 @@ public class StaffInfoService {
 			return result.get();
 		}
 		throw new EntityNotFoundException(String.format("Staff id does not exist: %s", id));
+	}
+
+	public List<StaffDTO> getStaffByNameAndType(String searchText, String type) {
+		List<StaffInfo> staffs = staffInfoRepo.findBystaffTypeAndFullNameContains(type, searchText);
+		if (!staffs.isEmpty()) {
+			return staffs.stream().map(staff -> new StaffDTO(staff.getId(), staff.getFullName()))
+					.collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 	
 	public List<StaffDTO> getFullTimeStaffSalary() {

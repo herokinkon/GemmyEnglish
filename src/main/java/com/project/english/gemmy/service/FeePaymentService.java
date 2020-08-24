@@ -1,5 +1,7 @@
 package com.project.english.gemmy.service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.project.english.gemmy.model.dto.ClassesInfoDto;
 import com.project.english.gemmy.model.dto.FeePaymentDTO;
 import com.project.english.gemmy.model.dto.StudentDTO;
+import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.FeePayment;
 import com.project.english.gemmy.model.repositories.FeePaymentRepository;
 
@@ -111,13 +114,25 @@ public class FeePaymentService {
 	public FeePaymentDTO getPayment(long id) {
 		Optional<FeePayment> payment = paymentRepo.findById(id);
 		if (payment.isPresent()) {
-			return new FeePaymentDTO(payment.get());
+			FeePaymentDTO paymentDto = new FeePaymentDTO(payment.get());
+			paymentDto.setAvailableMonth(this.getAvailableMonth(payment.get()));
+			return paymentDto;
 		}
 		return null;
 	}
 
-	public int getAvailableMonth(long studentId, long classId) {
-		List<FeePaymentDTO> payments = paymentRepo.findByStudentInfo_idAndClasses_id(studentId, classId);
+	private int getAvailableMonth(FeePayment payment) {
+		Classes clazz = payment.getClasses();
+		LocalDate start = LocalDate.parse(clazz.getStartDate().toString());
+		LocalDate end = LocalDate.parse(clazz.getEndDate().toString());
+		Period duration = Period.between(start, end);
 
+		List<FeePaymentDTO> payments = paymentRepo.findByStudentInfo_idAndClasses_id(payment.getStudentInfo().getId(),
+				clazz.getId());
+		int months = 0;
+		if (!payments.isEmpty()) {
+			months = payments.stream().map(pay -> pay.getMonth()).collect(Collectors.summingInt(Byte::toUnsignedInt));
+		}
+		return (duration.getYears() * 12 + duration.getMonths()) - months;
 	}
 }

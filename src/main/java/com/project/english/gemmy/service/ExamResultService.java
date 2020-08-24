@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class ExamResultService {
 		if (classId != null) {
 			Optional<Classes> classes = classRepo.findById(classId);
 			if (classes.isPresent()) {
-				List<StudentInfo> studentList = classes.get().getStudentInfos();
+				Set<StudentInfo> studentList =  classes.get().getStudentInfos();
 				List<ExamResult> newResult = new ArrayList<>();
 				for (StudentInfo student : studentList) {
 					boolean exist = false;
