@@ -28,6 +28,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 // PrimeNG table
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TableModule } from 'primeng/table';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -101,7 +102,8 @@ import { SideMenuComponent } from './shared/components/side-menu/side-menu.compo
     DropdownModule,
     FieldsetModule,
     SelectButtonModule,
-    PickListModule
+    PickListModule,
+    ToggleButtonModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -54,4 +54,8 @@ export class StudentService {
     return this.http.get<Student[]>(this.apiUrl + 'searchStudent', data)
   }
 
+  getNewStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(this.apiUrl + 'getNewStudents', this.httpOptions);
+  }
+
 }

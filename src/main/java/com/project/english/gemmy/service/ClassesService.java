@@ -181,18 +181,28 @@ public class ClassesService {
 	
 	public boolean updateStudentClass(StudentInfo[] studentSourceList, StudentInfo[] studentTargetList, Long classSourceId,
 			Long classTargetId) {
-		Optional<Classes> classSource = classesRepo.findById(classSourceId);
-		if (!classSource.isPresent()) {
-			return false;
+		if (studentSourceList == null || classSourceId == null) {
+			Optional<Classes> classTarget = classesRepo.findById(classTargetId);
+			if (!classTarget.isPresent()) {
+				return false;
+			}
+			classTarget.get().setStudentInfos(new HashSet<>(Arrays.asList(studentTargetList)));
+			Classes target = classesRepo.save(classTarget.get());
+			return target != null;
+		} else {
+			Optional<Classes> classSource = classesRepo.findById(classSourceId);
+			if (!classSource.isPresent()) {
+				return false;
+			}
+			classSource.get().setStudentInfos(new HashSet<>(Arrays.asList(studentSourceList)));
+			Optional<Classes> classTarget = classesRepo.findById(classTargetId);
+			if (!classTarget.isPresent()) {
+				return false;
+			}
+			classTarget.get().setStudentInfos(new HashSet<>(Arrays.asList(studentTargetList)));
+			Classes source = classesRepo.save(classSource.get());
+			Classes target = classesRepo.save(classTarget.get());
+			return source != null && target != null;
 		}
-		classSource.get().setStudentInfos(new HashSet<>(Arrays.asList(studentSourceList)));
-		Optional<Classes> classTarget = classesRepo.findById(classTargetId);
-		if (!classTarget.isPresent()) {
-			return false;
-		}
-		classTarget.get().setStudentInfos(new HashSet<>(Arrays.asList(studentTargetList)));
-		Classes source = classesRepo.save(classSource.get());
-		Classes target = classesRepo.save(classTarget.get());
-		return source != null && target != null;
 	}
 }

@@ -27,6 +27,8 @@ export class ClassManagementComponent implements OnInit {
   studentList2: Student[];
   isChange: boolean;
 
+  isMoveStudent: boolean;
+
   constructor(private readonly dialog: CommonDialogService, private classService: ClassService, private studentService: StudentService) { }
 
   ngOnInit(): void {
@@ -36,7 +38,7 @@ export class ClassManagementComponent implements OnInit {
     { field: 'startDate', header: 'Start Date' },
     { field: 'endDate', header: 'End Date' },
     { field: 'fee', header: 'Fee' }];
-
+    this.isMoveStudent = true;
     this.classService.getClasses().subscribe(data => this.classes = data);
   }
 
@@ -102,7 +104,11 @@ export class ClassManagementComponent implements OnInit {
   }
 
   updateStudentClass() {
-    this.classService.updateStudentClass(this.studentList1, this.studentList2, this.class1.id, this.class2.id).subscribe();
+    if (this.isMoveStudent) {
+      this.classService.updateStudentClass(this.studentList1, this.studentList2, this.class1.id, this.class2.id).subscribe();
+    } else {
+      this.classService.updateStudentClass(null, this.studentList2, null, this.class2.id).subscribe();
+    }
     this.isChange = false;
   }
 
@@ -118,6 +124,14 @@ export class ClassManagementComponent implements OnInit {
     this.studentList1 = null;
     this.studentList2 = null;
     this.isChange = false;
+  }
+
+  handleChange(event: any) {
+    console.log(event)
+    // event.checked = true -> move student
+    // event.checked = false -> add student
+    this.isMoveStudent = event.checked;
+    this.studentService.getNewStudents().subscribe(data => this.studentList1 = data);
   }
 
 }
