@@ -10,3 +10,12 @@
 mat-list-item {
     margin-bottom: 10px;
 }
+
+.dateField {
+    width: 75px;
+    margin-left: 10px;
+}
+
+mat-form-field {
+    margin-right: auto;
+}

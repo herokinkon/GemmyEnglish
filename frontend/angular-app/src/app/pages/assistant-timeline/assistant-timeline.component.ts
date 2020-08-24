@@ -3,11 +3,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Staff } from '../staff-management/staff-service/staff';
-import { HttpClient } from '@angular/common/http';
 import { StaffService } from '../staff-management/staff-service/staff.service';
-import { CommonDialogService } from 'src/app/shared/components/common-detail-dialog/common-dialog.service';
 import { TimelineDetailComponent } from './timeline-detail/timeline-detail.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TimelineService } from './timeline-service/timeline.service';
 
 @Component({
   selector: 'app-assistant-timeline',
@@ -21,12 +20,11 @@ export class AssistantTimelineComponent {
   results: Staff[];
 
 
-  constructor(private http: HttpClient, private staffService: StaffService, public dialog: MatDialog) {
-    this.http.get('/assets/scheduleevents.json').subscribe(res => this.events = res['data']);
+  constructor(private staffService: StaffService, public dialog: MatDialog, private timelineServ: TimelineService) {
+    this.timelineServ.getTimelines().subscribe(res => this.events = res);
 
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: '2020-07-12',
       header: {
         left: 'prev,next, today',
         center: 'title',
@@ -43,7 +41,7 @@ export class AssistantTimelineComponent {
       selectable: true,
       dateClick: (event: any) => {
         console.log(event);
-        const dialog = this.dialog.open(TimelineDetailComponent, { data: 'dialogData' });
+        const dialog = this.dialog.open(TimelineDetailComponent, { data: { date: event.date } });
       }
     };
   }

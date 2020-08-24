@@ -27,6 +27,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 // PrimeNG table
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -36,6 +38,9 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FullCalendarModule } from 'primeng/fullcalendar';
 import { CalendarModule } from 'primeng/calendar';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+// Others
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // Pages components
 import { StudentManagementComponent } from './pages/student-management/student-management.component';
@@ -56,7 +61,6 @@ import { ExamDetailComponent } from './pages/exam-management/exam-detail/exam-de
 import { ExamResultComponent } from './pages/exam-management/exam-result/exam-result.component';
 import { AssistantTimelineComponent } from './pages/assistant-timeline/assistant-timeline.component';
 import { TimelineDetailComponent } from './pages/assistant-timeline/timeline-detail/timeline-detail.component';
-import { TimePickerComponent } from './shared/components/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -79,8 +83,7 @@ import { TimePickerComponent } from './shared/components/time-picker/time-picker
     ExamDetailComponent,
     ExamResultComponent,
     AssistantTimelineComponent,
-    TimelineDetailComponent,
-    TimePickerComponent
+    TimelineDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -112,7 +115,10 @@ import { TimePickerComponent } from './shared/components/time-picker/time-picker
     FieldsetModule,
     SelectButtonModule,
     FullCalendarModule,
-    CalendarModule
+    CalendarModule,
+    NgxMaterialTimepickerModule,
+    MatSlideToggleModule,
+    OverlayPanelModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
