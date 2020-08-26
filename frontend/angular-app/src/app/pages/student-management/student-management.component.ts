@@ -20,7 +20,7 @@ export class StudentManagementComponent implements OnInit {
   constructor(private readonly dialog: CommonDialogService, private studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.cols = [{ field: 'id', header: 'StudentId' },
+    this.cols = [
     { field: 'fullName', header: 'Full Name' },
     { field: 'birthday', header: 'Birthday' },
     { field: 'email', header: 'Email' },
@@ -32,7 +32,7 @@ export class StudentManagementComponent implements OnInit {
 
   showDialogToAdd() {
     const result = this.dialog.openDialog('New Student', StudentDetailComponent, {});
-    result.subscribe(evt => this.updateTable(evt, this.students));
+    result.subscribe(evt => this.updateTable(evt));
   }
 
   delete(student: any) {
@@ -41,25 +41,29 @@ export class StudentManagementComponent implements OnInit {
     this.studentService.deleteStudent(student);
   }
 
-  updateTable(event: EntityActionEvent<Student>, students: Student[]) {
+  updateTable(event: EntityActionEvent<Student>) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
-        students.push(event.entity);
+        if (!this.students) {
+          this.students = [];
+        } 
+        this.students.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
         const index = this.students.findIndex(stu => event.entity.id === stu.id);
         if (index >= 0) {
-          students[index] = event.entity;
+          this.students[index] = event.entity;
         }
         break;
       case ENTITY_ACTION.DELETE:
-        students.splice(this.students.findIndex(stu => event.entity.id === stu.id), 1);
+        let startIndex = this.students.findIndex(stu => event.entity.id === stu.id);
+        this.students.splice(startIndex, 1);
         break;
     }
   }
 
   onRowSelect(event: any) {
     const result = this.dialog.openDialog('Student Detail', StudentDetailComponent, { ...event.data });
-    result.subscribe(evt => this.updateTable(evt, this.students));
+    result.subscribe(evt => this.updateTable(evt));
   }
 }

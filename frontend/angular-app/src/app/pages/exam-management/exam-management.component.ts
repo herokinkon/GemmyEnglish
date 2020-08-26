@@ -77,7 +77,7 @@ export class ExamManagementComponent implements OnInit {
   /******************* TAB 1 *******************/
   showDialogToAdd() {
     const result = this.dialog.openDialog('New Exam', ExamDetailComponent, {});
-    result.subscribe(evt => this.updateTable(evt, this.exams));
+    result.subscribe(evt => this.updateTable(evt));
   }
 
   delete(exam: Exam) {
@@ -86,26 +86,30 @@ export class ExamManagementComponent implements OnInit {
     this.examService.deleteExam(exam.id);
   }
 
-  updateTable(event: EntityActionEvent<Exam>, exams: Exam[]) {
+  updateTable(event: EntityActionEvent<Exam>) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
-        exams.push(event.entity);
+        if (!this.exams) {
+          this.exams = [];
+        }
+        this.exams.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
         const index = this.exams.findIndex(ex => event.entity.id === ex.id);
         if (index >= 0) {
-          exams[index] = event.entity;
+          this.exams[index] = event.entity;
         }
         break;
       case ENTITY_ACTION.DELETE:
-        exams.splice(this.exams.findIndex(ex => event.entity.id === ex.id), 1);
+        let startIndex = this.exams.findIndex(ex => event.entity.id === ex.id)
+        this.exams.splice(startIndex, 1);
         break;
     }
   }
 
   onRowSelect(event: any) {
     const result = this.dialog.openDialog('Exam Detail', ExamDetailComponent, { ...event.data });
-    result.subscribe(evt => this.updateTable(evt, this.exams));
+    result.subscribe(evt => this.updateTable(evt));
   }
 
   /******************* TAB 2 *******************/

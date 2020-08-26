@@ -45,9 +45,11 @@ public class ClassesInfoDto {
 		this.fee = classesInfo.getFee();
 		this.startDate = classesInfo.getStartDate();
 		this.status = classesInfo.getStatus();
-		this.courseId = classesInfo.getCourse().getId();
-		this.courseName = classesInfo.getCourse().getName();
-		this.courseDescription = classesInfo.getCourse().getDescription();
+		if (classesInfo.getCourse() != null) {
+			this.courseId = classesInfo.getCourse().getId();
+			this.courseName = classesInfo.getCourse().getName();
+			this.courseDescription = classesInfo.getCourse().getDescription();
+		}
 		this.studentInfos = classesInfo.getStudentInfos();
 	}
 

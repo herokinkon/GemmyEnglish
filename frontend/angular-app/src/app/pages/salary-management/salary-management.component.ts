@@ -89,27 +89,31 @@ export class SalaryManagementComponent implements OnInit {
   ///////////// Other Outcome tab
   showDialogToAddOtherOutcome() {
     const result = this.dialog.openDialog('New Other Outcome', OtherOutcomeDetailComponent, {});
-    result.subscribe(evt => this.updateOtherOutcomeTable(evt, this.othersOutcome));
+    result.subscribe(evt => this.updateOtherOutcomeTable(evt));
   }
 
   otherOutcomeSelect(event: any) {
     const result = this.dialog.openDialog('Other Outcome Detail', OtherOutcomeDetailComponent, { ...event.data });
-    result.subscribe(evt => this.updateOtherOutcomeTable(evt, this.othersOutcome));
+    result.subscribe(evt => this.updateOtherOutcomeTable(evt));
   }
 
-  updateOtherOutcomeTable(event: EntityActionEvent<OtherOutcome>, othersOutcome: OtherOutcome[]) {
+  updateOtherOutcomeTable(event: EntityActionEvent<OtherOutcome>) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
-        othersOutcome.push(event.entity);
+        if (!this.othersOutcome) {
+          this.othersOutcome = [];
+        }
+        this.othersOutcome.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
         const index = this.othersOutcome.findIndex(stu => event.entity.id === stu.id);
         if (index >= 0) {
-          othersOutcome[index] = event.entity;
+          this.othersOutcome[index] = event.entity;
         }
         break;
       case ENTITY_ACTION.DELETE:
-        othersOutcome.splice(this.othersOutcome.findIndex(stu => event.entity.id === stu.id), 1);
+        let startIndex = this.othersOutcome.findIndex(stu => event.entity.id === stu.id)
+        this.othersOutcome.splice(startIndex, 1);
         break;
     }
   }

@@ -32,7 +32,7 @@ export class ClassManagementComponent implements OnInit {
   constructor(private readonly dialog: CommonDialogService, private classService: ClassService, private studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.cols = [{ field: 'id', header: 'Id' },
+    this.cols = [
     { field: 'className', header: 'Class Name' },
     { field: 'classCode', header: 'Class Code' },
     { field: 'startDate', header: 'Start Date' },
@@ -44,7 +44,7 @@ export class ClassManagementComponent implements OnInit {
 
   showDialogToAdd() {
     const result = this.dialog.openDialog('New Class', ClassDetailComponent, {});
-    result.subscribe(evt => this.updateTable(evt, this.classes));
+    result.subscribe(evt => this.updateTable(evt));
   }
 
   delete(clas: any) {
@@ -53,26 +53,30 @@ export class ClassManagementComponent implements OnInit {
     this.classService.deleteClass(clas);
   }
 
-  updateTable(event: EntityActionEvent<Classes>, classList: Classes[]) {
+  updateTable(event: EntityActionEvent<Classes>) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
-        classList.push(event.entity);
+        if (!this.classes) {
+          this.classes = [];
+        }
+        this.classes.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
         const index = this.classes.findIndex(cl => event.entity.id === cl.id);
         if (index >= 0) {
-          classList[index] = event.entity;
+          this.classes[index] = event.entity;
         }
         break;
       case ENTITY_ACTION.DELETE:
-        classList.splice(this.classes.findIndex(cl => event.entity.id === cl.id), 1);
+        let startIndex = this.classes.findIndex(cl => event.entity.id === cl.id);
+        this.classes.splice(startIndex, 1);
         break;
     }
   }
 
   onRowSelect(event: any) {
     const result = this.dialog.openDialog('Class Detail', ClassDetailComponent, { ...event.data });
-    result.subscribe(evt => this.updateTable(evt, this.classes));
+    result.subscribe(evt => this.updateTable(evt));
   }
 
   searchClass(event: any, isSourceClass: boolean) {

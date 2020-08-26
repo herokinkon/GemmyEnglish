@@ -43,14 +43,14 @@ public class StudentInfoService {
 	public StudentDTO getStudentInfoById(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-//			ModelMapper modelMapper = new ModelMapper();
-//			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
-//			      protected void configure() {
-//			          skip().getAttendance();
-//			      }
-//			    });
-//			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
-			StudentDTO result = new StudentDTO(studentInfo.get());
+			ModelMapper modelMapper = new ModelMapper();
+			modelMapper.addMappings(new PropertyMap<StudentInfo, StudentDTO>() {
+				@Override
+				protected void configure() {
+					skip(destination.getAttendance());
+			      }
+			    });
+			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
 			return result;
 		}
 		return null;
@@ -58,39 +58,47 @@ public class StudentInfoService {
 
 	public StudentDTO createNewStudent(StudentDTO updateInfoRequest) {
 		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.addMappings(new PropertyMap<StudentInfo, StudentDTO>() {
-		      protected void configure() {
-		          skip().getAttendance();
+		modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
+			@Override
+			protected void configure() {
+				skip(destination.getAttendance());
 		      }
 		    });
 		StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
-			return new StudentDTO(result);
+			modelMapper.addMappings(new PropertyMap<StudentInfo, StudentDTO>() {
+				@Override
+				protected void configure() {
+					skip(destination.getAttendance());
+			      }
+			    });
+			return modelMapper.map(result, StudentDTO.class);
 		}
 		return null;
 	}
 
 	// use for user
 	public StudentDTO updateStudent(StudentDTO updateInfoRequest) {
+		ModelMapper modelMapper = new ModelMapper();
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getId());
 		if (temp.isPresent()) {
-//			ModelMapper modelMapper = new ModelMapper();
-//			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
-//			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
-//			      protected void configure() {
-//			          skip().getAttendance();
-//			      }
-//			    });
-			temp.get().setBirthday(updateInfoRequest.getBirthday());
-			temp.get().setContactNumber(updateInfoRequest.getContactNumber());
-			temp.get().setEmail(updateInfoRequest.getEmail());
-			temp.get().setFacebook(updateInfoRequest.getFacebook());
-			temp.get().setFullName(updateInfoRequest.getFullName());
-			temp.get().setOccupation(updateInfoRequest.getOccupation());
-			temp.get().setParentContactNumber(updateInfoRequest.getParentContactNumber());
-			temp.get().setParentEmail(updateInfoRequest.getParentEmail());
-			StudentInfo result = studentInfoRepo.save(temp.get());
+			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
+			@Override
+			protected void configure() {
+				skip(destination.getAttendance());
+		      }
+		    });
+			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
+//			temp.get().setBirthday(updateInfoRequest.getBirthday());
+//			temp.get().setContactNumber(updateInfoRequest.getContactNumber());
+//			temp.get().setEmail(updateInfoRequest.getEmail());
+//			temp.get().setFacebook(updateInfoRequest.getFacebook());
+//			temp.get().setFullName(updateInfoRequest.getFullName());
+//			temp.get().setOccupation(updateInfoRequest.getOccupation());
+//			temp.get().setParentContactNumber(updateInfoRequest.getParentContactNumber());
+//			temp.get().setParentEmail(updateInfoRequest.getParentEmail());
+			StudentInfo result = studentInfoRepo.save(studentInfo);
 			if (result != null) {
 				return new StudentDTO(result);
 			}

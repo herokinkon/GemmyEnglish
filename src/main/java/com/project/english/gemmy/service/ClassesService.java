@@ -92,9 +92,11 @@ public class ClassesService {
 		classInfo.setId(classRequest.getId());
 		classInfo.setClassName(classRequest.getClassName() != null ? classRequest.getClassName() : "");
 		classInfo.setClassCode(classRequest.getClassCode() != null ? classRequest.getClassCode() : "");
-		Optional<Course> course = courseRepo.findById(classRequest.getCourseId());
-		if (course.isPresent()) {
-			classInfo.setCourse(course.get());
+		if (classRequest.getCourseId() != null) {
+			Optional<Course> course = courseRepo.findById(classRequest.getCourseId());
+			if (course.isPresent()) {
+				classInfo.setCourse(course.get());
+			}
 		}
 		classInfo.setDescription(classRequest.getDescription());
 		classInfo.setEndDate(classRequest.getEndDate());

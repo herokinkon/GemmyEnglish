@@ -19,7 +19,7 @@ export class StaffManagementComponent implements OnInit {
   constructor(private readonly dialog: CommonDialogService, private staffservice: StaffService) { }
 
   ngOnInit(): void {
-    this.cols = [{ field: 'id', header: 'StaffId' },
+    this.cols = [
     { field: 'fullName', header: 'Full Name' },
     { field: 'birthday', header: 'Birthday' },
     { field: 'email', header: 'Email' },
@@ -32,6 +32,9 @@ export class StaffManagementComponent implements OnInit {
   updateTable(event: EntityActionEvent<Staff>) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
+        if (!this.staffs) {
+          this.staffs = [];
+        }
         this.staffs.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
@@ -41,7 +44,8 @@ export class StaffManagementComponent implements OnInit {
         }
         break;
       case ENTITY_ACTION.DELETE:
-        this.staffs.splice(this.staffs.findIndex(staff => event.entity.id === staff.id), 1);
+        let startIndex = this.staffs.findIndex(staff => event.entity.id === staff.id);
+        this.staffs.splice(startIndex, 1);
         break;
     }
   }

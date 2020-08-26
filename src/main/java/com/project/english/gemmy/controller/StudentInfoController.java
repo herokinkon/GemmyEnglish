@@ -62,7 +62,7 @@ public class StudentInfoController {
 		if (studentInfo != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(studentInfo);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@DeleteMapping("/{id}")

@@ -29,7 +29,7 @@ export class PaymentManagementComponent implements OnInit {
 
   constructor(private studentService: StudentService, private classService: ClassService, private paymentservice: PaymentService,
               public dialog: MatDialog) {
-    this.cols = [{ field: 'id', header: 'PaymentId' },
+    this.cols = [
     { field: 'date', header: 'Date' },
     { field: 'full_name', header: 'Student Name' },
     { field: 'class_name', header: 'Class Name' },
