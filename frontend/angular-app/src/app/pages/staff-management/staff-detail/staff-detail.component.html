@@ -3,8 +3,8 @@
     <mat-tab-group animationDuration="0ms" *ngIf="staffInfo">
       <mat-tab label="Staff Info">
         <form class="staff-info">
-          <mat-grid-list cols="3" rowHeight="80px">
-            <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
+          <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let field of fields">
               <mat-form-field>
                 <mat-label>{{field.header}}</mat-label>
                 <input *ngIf="field.field !== 'birthday'; else elseBlock" name="{{field.field}}" matInput
@@ -41,6 +41,21 @@
             </mat-grid-tile>
           </mat-grid-list>
         </form>
+      </mat-tab>
+      <mat-tab label="Other Info">
+        <mat-grid-list cols="2" rowHeight="2:1">
+          <mat-grid-tile *ngFor="let field of otherInfo">
+            <mat-form-field>
+              <mat-label>{{field.header}}</mat-label>
+              <input *ngIf="field.field !== 'othersCertificate'; else elseBlock" name="{{field.field}}" matInput
+                [(ngModel)]="staffInfo[field.field]" required={{field.required}}>
+              <ng-template #elseBlock>
+                <textarea matInput class="otherCertificate" name="otherCertificate" rows="5" cols="30" pInputTextarea
+                  autoResize="autoResize" [(ngModel)]="staffInfo.othersCertificate"></textarea>
+              </ng-template>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
       </mat-tab>
       <!-- <mat-tab label="Class">
           <p-table [value]="classes" dataKey="status" [expandedRowKeys]="{'true': true}">

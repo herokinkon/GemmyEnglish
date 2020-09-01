@@ -11,4 +11,9 @@ export interface Staff {
     staffType: string;
     workOfStaff: string;
     classes: Classes[];
+    bankAccount: string;
+    bankName: string;
+    bankBranch: string;
+    ieltsScore: number;
+    othersCertificate: string;
 }

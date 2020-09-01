@@ -42,6 +42,21 @@ public class StaffInfo implements Serializable {
 
 	@Column(name="work_of_staff")
 	private String workOfStaff;
+	
+	@Column(name="bank_account")
+	private String bankAccount;
+	
+	@Column(name="bank_name")
+	private String bankName;
+	
+	@Column(name="bank_branch")
+	private String bankBranch;
+	
+	@Column(name="ielts_score")
+	private Double ieltsScore;
+	
+	@Column(name="others_certificate")
+	private String othersCertificate;
 
 	//bi-directional many-to-many association to Class
 	@ManyToMany
@@ -164,6 +179,46 @@ public class StaffInfo implements Serializable {
 
 	public void setOthersOutcome(List<OthersOutcome> othersOutcome) {
 		this.othersOutcome = othersOutcome;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public Double getIeltsScore() {
+		return ieltsScore;
+	}
+
+	public void setIeltsScore(Double ieltsScore) {
+		this.ieltsScore = ieltsScore;
+	}
+
+	public String getOthersCertificate() {
+		return othersCertificate;
+	}
+
+	public void setOthersCertificate(String othersCertificate) {
+		this.othersCertificate = othersCertificate;
+	}
+
+	public String getBankBranch() {
+		return bankBranch;
+	}
+
+	public void setBankBranch(String bankBranch) {
+		this.bankBranch = bankBranch;
 	}
 
 }
