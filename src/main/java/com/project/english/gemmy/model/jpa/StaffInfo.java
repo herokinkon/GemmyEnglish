@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -58,18 +59,10 @@ public class StaffInfo implements Serializable {
 	@Column(name="others_certificate")
 	private String othersCertificate;
 
-	//bi-directional many-to-many association to Class
-	@ManyToMany
-	@JoinTable(
-		name="classes_has_staff_info"
-		, joinColumns={
-			@JoinColumn(name="staff_info_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="classes_id")
-			}
-		)
-	private List<Classes> classes;
+	// bi-directional many-to-many association to Class
+	@JsonIgnore
+	@ManyToMany(mappedBy="staffInfos")
+	private Set<Classes> classes;
 
 	//bi-directional many-to-one association to UserAccount
 	@JsonIgnore
@@ -133,11 +126,11 @@ public class StaffInfo implements Serializable {
 		this.fullName = fullName;
 	}
 
-	public List<Classes> getClasses() {
+	public Set<Classes> getClasses() {
 		return this.classes;
 	}
 
-	public void setClasses(List<Classes> classes) {
+	public void setClasses(Set<Classes> classes) {
 		this.classes = classes;
 	}
 

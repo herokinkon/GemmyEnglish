@@ -47,7 +47,7 @@
             <div style="margin-right: auto;">
                 <p-autoComplete [(ngModel)]="selectedStaff" [suggestions]="staffSuggestion" [size]=40
                     [placeholder]="'Enter staff name'" (completeMethod)="searchStaff($event)" [field]="'fullName'"
-                    [dropdownMode]="'current'"></p-autoComplete>
+                    [dropdownMode]="'current'" appendTo="body"></p-autoComplete>
             </div>
         </mat-grid-tile>
         <mat-grid-tile [rowspan]="3">

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 import com.project.english.gemmy.model.jpa.Classes;
+import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 
 public class ClassesInfoDto {
@@ -38,6 +39,8 @@ public class ClassesInfoDto {
 	
 	private Set<StudentInfo> studentInfos;
 	
+	private Set<StaffInfo> staffInfos;
+	
 	public ClassesInfoDto() {
 		
 	}
@@ -57,6 +60,7 @@ public class ClassesInfoDto {
 			this.courseDescription = classesInfo.getCourse().getDescription();
 		}
 		this.studentInfos = classesInfo.getStudentInfos();
+		this.staffInfos = classesInfo.getStaffInfos();
 	}
 
 	public Long getId() {
@@ -177,6 +181,14 @@ public class ClassesInfoDto {
 
 	public void setRoom(String room) {
 		this.room = room;
+	}
+
+	public Set<StaffInfo> getStaffInfos() {
+		return staffInfos;
+	}
+
+	public void setStaffInfos(Set<StaffInfo> staffInfos) {
+		this.staffInfos = staffInfos;
 	}
 
 }

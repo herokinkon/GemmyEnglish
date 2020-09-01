@@ -42,7 +42,7 @@
                         <p-autoComplete *ngIf="selectedType == 'Class'" [(ngModel)]="classData"
                             [suggestions]="suggestionClasses" (completeMethod)="searchClass($event)" field="className"
                             [size]="30" placeholder="Class Name" [minLength]="1" delay="3000"
-                            (onSelect)="addStudentToSelectBox($event)">
+                            (onSelect)="addStudentToSelectBox($event)" appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
                     <mat-list-item role="listitem">
@@ -67,7 +67,7 @@
                         <mat-label class="mat-label-style">Exam</mat-label>
                         <p-autoComplete [(ngModel)]="examData" [suggestions]="suggestionExams"
                             (completeMethod)="searchExam($event)" field="name" [size]="30" placeholder="Exam Name"
-                            [minLength]="1">
+                            [minLength]="1" appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
                     <mat-list-item role="listitem">
@@ -93,7 +93,7 @@
                         <p-autoComplete *ngIf="selectedType == 'Student'" [(ngModel)]="studentData"
                             [suggestions]="suggestionStudents" (completeMethod)="searchStudent($event)" field="fullName"
                             [size]="30" placeholder="Student Name" [minLength]="1" delay="3000"
-                            (onSelect)="addClassToSelectBox($event)">
+                            (onSelect)="addClassToSelectBox($event)" appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
                     <mat-list-item role="listitem">
@@ -175,7 +175,7 @@
                         <mat-label class="mat-label-style">Class</mat-label>
                         <p-autoComplete [(ngModel)]="classData2" [suggestions]="suggestionClasses2"
                             (completeMethod)="searchClass2($event)" field="className" [size]="30"
-                            placeholder="Class Name" [minLength]="1">
+                            placeholder="Class Name" [minLength]="1" appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
                     <mat-list-item role="listitem">
@@ -200,7 +200,7 @@
                         <mat-label class="mat-label-style">Exam</mat-label>
                         <p-autoComplete [(ngModel)]="examData2" [suggestions]="suggestionExams2"
                             (completeMethod)="searchExam2($event)" field="name" [size]="30" placeholder="Exam Name"
-                            [minLength]="1">
+                            [minLength]="1" appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
                     <mat-list-item role="listitem">

@@ -5,6 +5,7 @@ import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Student } from '../../student-management/student-service/student';
 import { Class } from './class';
 import { Classes, Course } from './classes-model';
+import { Staff } from '../../staff-management/staff-service/staff';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,10 @@ export class ClassService {
 
   updateStudentClass(studentSource: Student[], studentTarget: Student[], classSourceId: number, classTargetId: number): Observable<Student[]> {
     return this.http.put<Student[]>(this.apiUrl + 'updateStudentClass', { studentSource: studentSource, studentTarget: studentTarget, classSourceId: classSourceId, classTargetId: classTargetId }, this.httpOptions);
+  }
+
+  updateStaffClass(staffSource: Staff[], staffTarget: Staff[], classSourceId: number, classTargetId: number): Observable<Staff[]> {
+    return this.http.put<Staff[]>(this.apiUrl + 'updateStaffClass', { staffSource: staffSource, staffTarget: staffTarget, classSourceId: classSourceId, classTargetId: classTargetId }, this.httpOptions);
   }
 
 }

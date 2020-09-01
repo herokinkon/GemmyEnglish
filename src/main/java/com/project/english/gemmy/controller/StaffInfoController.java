@@ -93,5 +93,14 @@ public class StaffInfoController {
 		return ResponseEntity.ok().body(staffService.getStaffListByClass(classId));
 	}
 
+	@GetMapping("/getNewStaffs")
+	public ResponseEntity<List<StaffDTO>> getNewStaffs() {
+		List<StaffDTO> staffLst = staffService.getNewStaffList();
+		if (staffLst != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			return ResponseEntity.ok().headers(httpHeaders).body(staffLst);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 
 }

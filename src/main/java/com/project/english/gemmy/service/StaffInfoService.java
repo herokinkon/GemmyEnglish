@@ -87,4 +87,12 @@ public class StaffInfoService {
 		List<StaffInfo> staffInfoList = staffInfoRepo.findByClasses_id(classId);
 		return staffInfoList.stream().map(StaffDTO::new).collect(Collectors.toList());
 	}
+	
+	public List<StaffDTO> getNewStaffList() {
+		List<StaffInfo> staffs = staffInfoRepo.findAll();
+		if (staffs != null && !staffs.isEmpty()) {
+			return staffs.stream().map(StaffDTO::new).collect(Collectors.toList());
+		}
+		return null;
+	}
 }
