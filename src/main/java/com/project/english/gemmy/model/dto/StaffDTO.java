@@ -19,6 +19,16 @@ public class StaffDTO {
 	private String staffType;
 	private String workOfStaff;
 	private List<ClassesInfoDto> classes;
+	
+	private String bankAccount;
+	
+	private String bankName;
+	
+	private String bankBranch;
+	
+	private Double ieltsScore;
+	
+	private String othersCertificate;
 
 	public StaffDTO() {
 
@@ -44,6 +54,12 @@ public class StaffDTO {
 		} else {
 			this.setClasses(new ArrayList<>());
 		}
+		this.bankAccount = staffInfo.getBankAccount();
+		this.bankBranch = staffInfo.getBankBranch();
+		this.bankName = staffInfo.getBankName();
+		this.ieltsScore = staffInfo.getIeltsScore();
+		this.othersCertificate = staffInfo.getOthersCertificate();
+		
 	}
 
 	public Long getId() {
@@ -129,5 +145,45 @@ public class StaffDTO {
 	@Override
 	public String toString() {
 		return String.format("Id: %s, Name: %s, birthday: %s", this.id, this.fullName, this.birthday);
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getBankBranch() {
+		return bankBranch;
+	}
+
+	public void setBankBranch(String bankBranch) {
+		this.bankBranch = bankBranch;
+	}
+
+	public Double getIeltsScore() {
+		return ieltsScore;
+	}
+
+	public void setIeltsScore(Double ieltsScore) {
+		this.ieltsScore = ieltsScore;
+	}
+
+	public String getOthersCertificate() {
+		return othersCertificate;
+	}
+
+	public void setOthersCertificate(String othersCertificate) {
+		this.othersCertificate = othersCertificate;
 	}
 }

@@ -21,6 +21,7 @@ import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.Course;
+import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
 import com.project.english.gemmy.model.repositories.CourseRepository;
@@ -202,6 +203,33 @@ public class ClassesService {
 				return false;
 			}
 			classTarget.get().setStudentInfos(new HashSet<>(Arrays.asList(studentTargetList)));
+			Classes source = classesRepo.save(classSource.get());
+			Classes target = classesRepo.save(classTarget.get());
+			return source != null && target != null;
+		}
+	}
+	
+	public boolean updateStaffClass(StaffInfo[] staffSourceList, StaffInfo[] staffTargetList, Long classSourceId,
+			Long classTargetId) {
+		if (staffSourceList == null || classSourceId == null) {
+			Optional<Classes> classTarget = classesRepo.findById(classTargetId);
+			if (!classTarget.isPresent()) {
+				return false;
+			}
+			classTarget.get().setStaffInfos(new HashSet<>(Arrays.asList(staffTargetList)));
+			Classes target = classesRepo.save(classTarget.get());
+			return target != null;
+		} else {
+			Optional<Classes> classSource = classesRepo.findById(classSourceId);
+			if (!classSource.isPresent()) {
+				return false;
+			}
+			classSource.get().setStaffInfos(new HashSet<>(Arrays.asList(staffSourceList)));
+			Optional<Classes> classTarget = classesRepo.findById(classTargetId);
+			if (!classTarget.isPresent()) {
+				return false;
+			}
+			classTarget.get().setStaffInfos(new HashSet<>(Arrays.asList(staffTargetList)));
 			Classes source = classesRepo.save(classSource.get());
 			Classes target = classesRepo.save(classTarget.get());
 			return source != null && target != null;

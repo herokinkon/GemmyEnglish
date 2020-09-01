@@ -49,4 +49,13 @@ export class StaffService {
     const data = { ...this.httpOptions, params: { searchText, type } };
     return this.http.get<Staff[]>(this.apiUrl + 'searchStaff', data);
   }
+
+  getStaffListByClass(classId: any): Observable<Staff[]> {
+    const data = { ...this.httpOptions, params: { classId } };
+    return this.http.get<Staff[]>(this.apiUrl + 'getStaffListByClass', data);
+  }
+
+  getNewStaffs(): Observable<Staff[]> {
+    return this.http.get<Staff[]>(this.apiUrl + 'getNewStaffs', this.httpOptions);
+  }
 }

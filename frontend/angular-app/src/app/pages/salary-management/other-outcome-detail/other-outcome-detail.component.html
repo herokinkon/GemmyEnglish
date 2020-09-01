@@ -7,7 +7,7 @@
             <mat-grid-tile *ngIf="isNewOutcome" colspan="3">
               <p-autoComplete [(ngModel)]="staffData" [suggestions]="suggestionStaff" name="searchBox"
                 (completeMethod)="searchStaff($event)" field="fullName" [size]="30" placeholder="Staff Name"
-                [minLength]="1" delay="3000" (onSelect)="addStaffToTextBox($event)">
+                [minLength]="1" delay="3000" (onSelect)="addStaffToTextBox($event)" appendTo="body">
               </p-autoComplete>
             </mat-grid-tile>
             <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">

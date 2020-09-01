@@ -15,6 +15,7 @@ export class StaffManagementComponent implements OnInit {
 
   staffs: Staff[];
   cols: any[];
+  otherInfo: any[];
 
   constructor(private readonly dialog: CommonDialogService, private staffservice: StaffService) { }
 

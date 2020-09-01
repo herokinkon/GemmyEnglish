@@ -42,6 +42,12 @@ public class Classes implements Serializable {
 	private Date startDate;
 
 	private Boolean status;
+	
+	private String basis;
+	
+	private String address;
+	
+	private String room;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
@@ -53,9 +59,10 @@ public class Classes implements Serializable {
 	private List<FeePayment> feePayments;
 
 	//bi-directional many-to-many association to StaffInfo
-	@JsonIgnore
-	@ManyToMany(mappedBy="classes")
-	private List<StaffInfo> staffInfos;
+	@ManyToMany
+	@JoinTable(name = "classes_has_staff_info", joinColumns = { @JoinColumn(name = "classes_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "staff_info_id") })
+	private Set<StaffInfo> staffInfos;
 
 	//bi-directional many-to-many association to StudentInfo
 	@ManyToMany
@@ -149,11 +156,11 @@ public class Classes implements Serializable {
 		return feePayment;
 	}
 
-	public List<StaffInfo> getStaffInfos() {
+	public Set<StaffInfo> getStaffInfos() {
 		return this.staffInfos;
 	}
 
-	public void setStaffInfos(List<StaffInfo> staffInfos) {
+	public void setStaffInfos(Set<StaffInfo> staffInfos) {
 		this.staffInfos = staffInfos;
 	}
 
@@ -201,6 +208,30 @@ public class Classes implements Serializable {
 		examResult.setClasses(null);
 
 		return examResult;
+	}
+
+	public String getBasis() {
+		return basis;
+	}
+
+	public void setBasis(String basis) {
+		this.basis = basis;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getRoom() {
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
 	}
 
 }

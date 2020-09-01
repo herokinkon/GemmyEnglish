@@ -22,13 +22,24 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
   action = ENTITY_ACTION;
   workOfStaff = [];
 
+  otherInfo: any[];
+
   constructor(private staffService: StaffService) {
-    this.fields = [{ field: 'fullName', header: 'Full Name', cols: 2, required: 'true' },
-    { field: 'birthday', header: 'Birthday', cols: 1 },
-    { field: 'email', header: 'Email', cols: 2 },
-    { field: 'contactNumber', header: 'Phone Number', cols: 1 },
-    { field: 'facebook', header: 'Facebook', cols: 2 },
-    { field: 'salary', header: 'Salary', cols: 1 }];
+    this.fields = [{ field: 'fullName', header: 'Full Name', required: 'true' },
+    { field: 'birthday', header: 'Birthday' },
+    { field: 'email', header: 'Email' },
+    { field: 'contactNumber', header: 'Phone Number' },
+    { field: 'facebook', header: 'Facebook' },
+    { field: 'salary', header: 'Salary' }];
+
+    // Other tab
+    this.otherInfo = [
+      { field: 'bankAccount', header: 'Bank Account' },
+      { field: 'bankName', header: 'Bank Name' },
+      { field: 'bankBranch', header: 'Bank Branch' },
+      { field: 'ieltsScore', header: 'Ielts Score' },
+      { field: 'othersCertificate', header: 'Other Certificate' }];
+
   }
 
   ngOnInit(): void {
@@ -41,9 +52,9 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
     if (this.staffInfo.workOfStaff) {
       this.workOfStaff = this.staffInfo.workOfStaff.split(',');
     }
-    if (!this.isNewStaff) {
-      this.fields.unshift({ field: 'id', header: 'StaffId', cols: 1 });
-    }
+    // if (!this.isNewStaff) {
+    //   this.fields.unshift({ field: 'id', header: 'StaffId', cols: 1 });
+    // }
   }
 
   sendEvent(action: ENTITY_ACTION) {
