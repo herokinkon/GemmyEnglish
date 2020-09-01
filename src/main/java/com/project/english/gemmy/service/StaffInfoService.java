@@ -82,4 +82,9 @@ public class StaffInfoService {
 		List<StaffInfo> staffs = staffInfoRepo.findByStaffType("PT");
 		return staffs.stream().map(StaffDTO::new).collect(Collectors.toList());
 	}
+	
+	public List<StaffDTO> getStaffListByClass(long classId) {
+		List<StaffInfo> staffInfoList = staffInfoRepo.findByClasses_id(classId);
+		return staffInfoList.stream().map(StaffDTO::new).collect(Collectors.toList());
+	}
 }

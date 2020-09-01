@@ -36,9 +36,9 @@ export class StudentDetailComponent implements OnInit, CommonEntityDialogInterfa
     this.title = title;
     this.isNewStudent = isNewEntity;
     this.studentInfo = entity;
-    if (!this.isNewStudent) {
-      this.fields.unshift({ field: 'id', header: 'StudentId', cols: 1 });
-    }
+    // if (!this.isNewStudent) {
+    //   this.fields.unshift({ field: 'id', header: 'StudentId', cols: 1 });
+    // }
     this.loadClassData();
   }
 
@@ -47,7 +47,7 @@ export class StudentDetailComponent implements OnInit, CommonEntityDialogInterfa
     if (id) {
       this.studentService.getStudent(+id).subscribe((student: Student) => {
         this.studentInfo = student;
-        this.loadClassData();
+        // this.loadClassData();
       });
       this.isNewStudent = false;
     }

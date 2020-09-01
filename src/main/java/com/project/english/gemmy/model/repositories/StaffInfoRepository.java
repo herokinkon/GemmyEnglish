@@ -16,4 +16,5 @@ public interface StaffInfoRepository extends JpaRepository<StaffInfo, Long> {
 	List<StaffInfo> findByStaffType(String staffType);
 	List<StaffDTO> findByFullNameContains(String name);
 	List<StaffInfo> findBystaffTypeAndFullNameContains(String type, String fullName);
+	List<StaffInfo> findByClasses_id(long classId);
 }

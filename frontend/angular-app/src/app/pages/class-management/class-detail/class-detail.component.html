@@ -4,7 +4,7 @@
             <mat-tab label="Class Info">
                 <form>
                     <mat-grid-list cols="2" rowHeight="100px">
-                        <mat-grid-tile *ngFor="let field of fields" [colspan]="field.cols">
+                        <mat-grid-tile *ngFor="let field of fields">
                             <mat-form-field>
                                 <mat-label>{{field.header}}</mat-label>
                                 <input
@@ -18,8 +18,8 @@
                                     </mat-option>
                                 </mat-select>
                                 <input *ngIf="field.field == 'fee'" name="{{field.field}}" matInput
-                                    [ngModel]="classInfo[field.field]"
-                                    (ngModelChange)="classInfo[field.field]=$event" (keyup)="onChange()" required>
+                                    [ngModel]="classInfo[field.field]" (ngModelChange)="classInfo[field.field]=$event"
+                                    (keyup)="onChange()" required>
                                 <div *ngIf="field.field == 'startDate'">
                                     <input class="dateField" name="startDate" matInput [matDatepicker]="myDatepicker"
                                         [(ngModel)]="classInfo.startDate" required>
@@ -37,12 +37,22 @@
                     </mat-grid-list>
                 </form>
             </mat-tab>
+            <mat-tab label="Other Info">
+                <mat-grid-list cols="2" rowHeight="100px">
+                    <mat-grid-tile *ngFor="let field of otherInfo">
+                        <mat-form-field>
+                            <mat-label>{{field.header}}</mat-label>
+                            <input name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
+                                (keyup)="onChange()" required={{field.required}}>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </mat-tab>
             <mat-tab *ngIf="!isNewClass" label="Student List">
                 <p-table #dt [value]="studentList" dataKey="id" [rowHover]="true" [rows]="10" [autoLayout]="true"
                     [showCurrentPageReport]="true" [paginator]="true" [filterDelay]="0">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width: 100px;">Id</th>
                             <th>Name</th>
                             <th>Birthday</th>
                             <th>Contact</th>
@@ -51,7 +61,6 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-student>
                         <tr class="ui-selectable-row">
-                            <td style="text-align:center">{{student.id}}</td>
                             <td><a [routerLink]="['/student', student.id]">{{student.fullName}}</a></td>
                             <td>{{student.birthday}}</td>
                             <td>{{student.contactNumber}}</td>
@@ -64,6 +73,30 @@
                     <ng-template pTemplate="emptymessage">
                         <tr>
                             <td colspan="8" style="text-align:left">No students found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </mat-tab>
+            <mat-tab *ngIf="!isNewClass" label="Staff List">
+                <p-table #dt [value]="staffList" dataKey="id" [rowHover]="true" [rows]="10" [autoLayout]="true"
+                    [showCurrentPageReport]="true" [paginator]="true" [filterDelay]="0">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                            <th>Contact</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-staff>
+                        <tr class="ui-selectable-row">
+                            <td><a [routerLink]="['/staff', staff.id]">{{staff.fullName}}</a></td>
+                            <td>{{staff.birthday}}</td>
+                            <td>{{staff.contactNumber}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" style="text-align:left">No staff found.</td>
                         </tr>
                     </ng-template>
                 </p-table>

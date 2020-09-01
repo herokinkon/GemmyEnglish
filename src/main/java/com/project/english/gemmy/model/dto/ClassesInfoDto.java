@@ -30,6 +30,12 @@ public class ClassesInfoDto {
 	
 	private String courseDescription;
 	
+	private String basis;
+	
+	private String address;
+	
+	private String room;
+	
 	private Set<StudentInfo> studentInfos;
 	
 	public ClassesInfoDto() {
@@ -147,6 +153,30 @@ public class ClassesInfoDto {
 
 	public void setStudentInfos(Set<StudentInfo> studentInfos) {
 		this.studentInfos = studentInfos;
+	}
+
+	public String getBasis() {
+		return basis;
+	}
+
+	public void setBasis(String basis) {
+		this.basis = basis;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getRoom() {
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
 	}
 
 }

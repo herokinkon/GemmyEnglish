@@ -6,6 +6,8 @@ import { Student } from '../../student-management/student-service/student';
 import { StudentService } from '../../student-management/student-service/student.service';
 import { ClassService } from '../class-service/class.service';
 import { Classes, Course } from '../class-service/classes-model';
+import { Staff } from '../../staff-management/staff-service/staff';
+import { StaffService } from '../../staff-management/staff-service/staff.service';
 
 @Component({
   selector: 'app-class-detail',
@@ -30,24 +32,32 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
   selectedStudent: Student[];
   isAttendanceChange: boolean = false;
   checkAttendance = false;
+  // other info
+  otherInfo: any[];
+  // Staff List
+  staffList: Staff[];
 
-  constructor(private classService: ClassService, private route: ActivatedRoute, private studentService: StudentService) {
-    this.fields = [{ field: 'className', header: 'Class Name', cols: 1 },
-    { field: 'classCode', header: 'Class Code', cols: 1 },
-    { field: 'startDate', header: 'Start Date', cols: 1 },
-    { field: 'endDate', header: 'End Date', cols: 1 },
-    { field: 'fee', header: 'Fee', cols: 1 },
-    { field: 'courseId', header: 'Course', cols: 1 }];
+  constructor(private classService: ClassService, private route: ActivatedRoute, 
+    private studentService: StudentService, private staffService: StaffService) {
+    this.fields = [{ field: 'className', header: 'Class Name' },
+    { field: 'classCode', header: 'Class Code' },
+    { field: 'startDate', header: 'Start Date' },
+    { field: 'endDate', header: 'End Date' },
+    { field: 'fee', header: 'Fee' },
+    { field: 'courseId', header: 'Course' }];
+
+    // other info tab
+    this.otherInfo = [{ field: 'basis', header: 'Basis' },
+    { field: 'address', header: 'Address' },
+    { field: 'room', header: 'Room' }];
   }
 
   setEntityDialogData(title: string, isNewEntity: boolean, entity: Classes): void {
     this.title = title;
     this.isNewClass = isNewEntity;
     this.classInfo = entity;
-    if (!this.isNewClass) {
-      this.fields.unshift({ field: 'id', header: 'Id', type: 'text' });
-    }
     this.getStudentData();
+    this.getStaffData();
   }
 
   getEvent(): EventEmitter<EntityActionEvent<Classes>> {
@@ -64,7 +74,7 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
     if (id) {
       this.classService.getClassesById(+id).subscribe((cl: Classes) => {
         this.classInfo = cl;
-        this.getStudentData();
+        // this.getStudentData();
       });
       this.isNewClass = false;
     }
@@ -125,6 +135,14 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
         this.onChange();
       }
     }
+  }
+
+  getStaffData() {
+    this.staffService.getStaffListByClass(this.classInfo.id).subscribe(result => {
+      if (result) {
+        this.staffList = result;
+      }
+    });
   }
 
 }

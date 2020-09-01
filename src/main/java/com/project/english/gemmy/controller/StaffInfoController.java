@@ -87,5 +87,11 @@ public class StaffInfoController {
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/getStaffListByClass")
+	public ResponseEntity<List<StaffDTO>> getStaffListByClass(@RequestParam("classId") Long classId) {
+		return ResponseEntity.ok().body(staffService.getStaffListByClass(classId));
+	}
+
 
 }

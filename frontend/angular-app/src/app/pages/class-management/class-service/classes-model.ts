@@ -10,6 +10,9 @@ export interface Classes {
     description: string;
     fee: string;
     courseId: number;
+    basis: string;
+    address: string;
+	room: string
     studentInfos: Student[];
 }
 
