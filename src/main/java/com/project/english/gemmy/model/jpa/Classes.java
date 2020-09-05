@@ -43,11 +43,15 @@ public class Classes implements Serializable {
 
 	private Boolean status;
 	
-	private String basis;
+	private String campus;
 	
 	private String address;
 	
 	private String room;
+	
+	private String schedule;
+	
+	private Integer lesson;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
@@ -210,14 +214,6 @@ public class Classes implements Serializable {
 		return examResult;
 	}
 
-	public String getBasis() {
-		return basis;
-	}
-
-	public void setBasis(String basis) {
-		this.basis = basis;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -232,6 +228,30 @@ public class Classes implements Serializable {
 
 	public void setRoom(String room) {
 		this.room = room;
+	}
+
+	public String getCampus() {
+		return campus;
+	}
+
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
+
+	public String getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+
+	public Integer getLesson() {
+		return lesson;
+	}
+
+	public void setLesson(Integer lesson) {
+		this.lesson = lesson;
 	}
 
 }

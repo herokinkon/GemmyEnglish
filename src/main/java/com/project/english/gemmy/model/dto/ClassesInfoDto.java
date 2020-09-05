@@ -25,17 +25,15 @@ public class ClassesInfoDto {
 
 	private Boolean status;
 	
-	private Long courseId;
-	
-	private String courseName;
-	
-	private String courseDescription;
-	
-	private String basis;
+	private String campus;
 	
 	private String address;
 	
 	private String room;
+	
+	private String schedule;
+	
+	private Integer lesson;
 	
 	private Set<StudentInfo> studentInfos;
 	
@@ -54,13 +52,10 @@ public class ClassesInfoDto {
 		this.fee = classesInfo.getFee();
 		this.startDate = classesInfo.getStartDate();
 		this.status = classesInfo.getStatus();
-		if (classesInfo.getCourse() != null) {
-			this.courseId = classesInfo.getCourse().getId();
-			this.courseName = classesInfo.getCourse().getName();
-			this.courseDescription = classesInfo.getCourse().getDescription();
-		}
+		this.schedule = classesInfo.getSchedule();
 		this.studentInfos = classesInfo.getStudentInfos();
 		this.staffInfos = classesInfo.getStaffInfos();
+		this.lesson = classesInfo.getLesson();
 	}
 
 	public Long getId() {
@@ -127,44 +122,12 @@ public class ClassesInfoDto {
 		this.status = status;
 	}
 
-	public Long getCourseId() {
-		return courseId;
-	}
-
-	public void setCourseId(Long courseId) {
-		this.courseId = courseId;
-	}
-
-	public String getCourseName() {
-		return courseName;
-	}
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-
-	public String getCourseDescription() {
-		return courseDescription;
-	}
-
-	public void setCourseDescription(String courseDescription) {
-		this.courseDescription = courseDescription;
-	}
-
 	public Set<StudentInfo> getStudentInfos() {
 		return studentInfos;
 	}
 
 	public void setStudentInfos(Set<StudentInfo> studentInfos) {
 		this.studentInfos = studentInfos;
-	}
-
-	public String getBasis() {
-		return basis;
-	}
-
-	public void setBasis(String basis) {
-		this.basis = basis;
 	}
 
 	public String getAddress() {
@@ -189,6 +152,30 @@ public class ClassesInfoDto {
 
 	public void setStaffInfos(Set<StaffInfo> staffInfos) {
 		this.staffInfos = staffInfos;
+	}
+
+	public String getCampus() {
+		return campus;
+	}
+
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
+
+	public String getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
+
+	public Integer getLesson() {
+		return lesson;
+	}
+
+	public void setLesson(Integer lesson) {
+		this.lesson = lesson;
 	}
 
 }
