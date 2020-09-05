@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Staff } from '../../staff-management/staff-service/staff';
 import { StaffService } from '../../staff-management/staff-service/staff.service';
-import { TimelineEvent } from '../timeline-service/timeline-event';
 import { TimelineService } from '../timeline-service/timeline.service';
 
 @Component({
@@ -47,7 +46,6 @@ export class TimelineDetailComponent {
   }
 
   searchStaff(event: any) {
-    console.log(event);
     this.staffService.searchStaff(event.query, 'FT').subscribe(staffs => this.staffSuggestion = staffs);
   }
 
