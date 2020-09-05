@@ -1,8 +1,10 @@
 package com.project.english.gemmy.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +27,6 @@ public class TimelineController {
 
 	@Autowired
 	private TimelineService timelineService;
-
-	@GetMapping("/")
-	public ResponseEntity<List<TimelineDTO>> getAllEvents() {
-		List<TimelineDTO> timelineLst = timelineService.getAll();
-		if (timelineLst != null) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity.ok().headers(httpHeaders).body(timelineLst);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<TimelineDTO> getTimelineById(@PathVariable long id) {
@@ -62,13 +54,11 @@ public class TimelineController {
 		return new ResponseEntity<>(newTimeline, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/searchByStaffId")
-	public ResponseEntity<List<TimelineDTO>> searchTimeline(@RequestParam List<Long> timelineIds) {
-		List<TimelineDTO> timelineLst = timelineService.getTimelineByStaff(timelineIds);
-		if (!timelineLst.isEmpty()) {
-			HttpHeaders httpHeaders = new HttpHeaders();
-			return ResponseEntity.ok().headers(httpHeaders).body(timelineLst);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	@PostMapping("/searchByStaffId")
+	public ResponseEntity<List<TimelineDTO>> searchTimeline(@RequestBody(required = false) List<Long> ids,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+		List<TimelineDTO> timelineLst = timelineService.getTimelineByStaffAndDateRange(ids, startDate, endDate);
+		return ResponseEntity.ok().body(timelineLst);
 	}
 }

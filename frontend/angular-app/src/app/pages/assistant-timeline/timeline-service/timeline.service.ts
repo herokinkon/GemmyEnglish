@@ -19,10 +19,6 @@ export class TimelineService {
 
   constructor(private http: HttpClient) { }
 
-  getTimelines(): Observable<TimelineEvent[]> {
-    return this.http.get<TimelineEvent[]>(this.apiUrl, this.httpOptions);
-  }
-
   getTimeline(id: number): Observable<TimelineEvent> {
     return this.http.get<TimelineEvent>(this.apiUrl + `${id}`, this.httpOptions);
   }
@@ -39,8 +35,8 @@ export class TimelineService {
     return this.http.put<TimelineEvent>(this.apiUrl, timeline, this.httpOptions);
   }
 
-  searchTimeline(searchText: string, type: string) {
-    const data = { ...this.httpOptions, params: { searchText, type } };
-    return this.http.get<TimelineEvent[]>(this.apiUrl + 'searchTimeline', data);
+  searchTimeline(ids: any, startDate: Date, endDate: Date) {
+    const data = { ...this.httpOptions, params: { startDate: startDate.toISOString(), endDate: endDate.toISOString() } };
+    return this.http.post<TimelineEvent[]>(this.apiUrl + 'searchByStaffId', ids, data);
   }
 }

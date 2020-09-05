@@ -1,8 +1,8 @@
 package com.project.english.gemmy.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -19,11 +19,6 @@ public class TimelineService {
 
 	@Autowired
 	private TimelineRepository timelineRepo;
-
-	public List<TimelineDTO> getAll() {
-		List<Timeline> timelineDTOs = timelineRepo.findAll();
-		return timelineDTOs.stream().map(TimelineDTO::new).collect(Collectors.toList());
-	}
 
 	public TimelineDTO getTimelineById(long id) {
 		Optional<Timeline> result = timelineRepo.findById(id);
@@ -55,7 +50,7 @@ public class TimelineService {
 		return new TimelineDTO(timelineRepo.save(timelineInfo));
 	}
 
-	public List<TimelineDTO> getTimelineByStaff(List<Long> ids) {
-		return timelineRepo.findByStaff_idIn(ids);
+	public List<TimelineDTO> getTimelineByStaffAndDateRange(List<Long> ids, Date startDate, Date endDate) {
+		return timelineRepo.findAllByStaffIdAndWithDateRange(startDate, endDate, ids.isEmpty(), ids);
 	}
 }
