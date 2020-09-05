@@ -79,7 +79,7 @@ public class ClassesController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+	public ResponseEntity<?> deleteClass(@PathVariable Long id) {
 		boolean result = classesService.deleteClass(id);
 		if (result) {
 			return new ResponseEntity<>(HttpStatus.OK);

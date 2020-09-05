@@ -5,9 +5,11 @@ import { CommonEntityDialogInterface, EntityActionEvent } from 'src/app/shared/c
 import { Student } from '../../student-management/student-service/student';
 import { StudentService } from '../../student-management/student-service/student.service';
 import { ClassService } from '../class-service/class.service';
-import { Classes, Course } from '../class-service/classes-model';
+import { Classes } from '../class-service/classes-model';
 import { Staff } from '../../staff-management/staff-service/staff';
 import { StaffService } from '../../staff-management/staff-service/staff.service';
+import * as moment from 'moment'
+import { WeekDay } from '@angular/common';
 
 @Component({
   selector: 'app-class-detail',
@@ -24,8 +26,6 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
   isNewClass: boolean;
   fields: any[];
   isClassInfoChange: boolean = false;
-  course: Course[];
-  courseId: number;
   // Student List 
   studentList: Student[];
   // Attendance 
@@ -36,18 +36,20 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
   otherInfo: any[];
   // Staff List
   staffList: Staff[];
+  schedule: string[] = [];
 
-  constructor(private classService: ClassService, private route: ActivatedRoute, 
+  constructor(private classService: ClassService, private route: ActivatedRoute,
     private studentService: StudentService, private staffService: StaffService) {
     this.fields = [{ field: 'className', header: 'Class Name' },
     { field: 'classCode', header: 'Class Code' },
+    { field: 'fee', header: 'Fee' },
+    { field: 'lesson', header: 'Lesson' },
     { field: 'startDate', header: 'Start Date' },
     { field: 'endDate', header: 'End Date' },
-    { field: 'fee', header: 'Fee' },
-    { field: 'courseId', header: 'Course' }];
+    { field: 'schedule', header: 'Schedule' }];
 
     // other info tab
-    this.otherInfo = [{ field: 'basis', header: 'Basis' },
+    this.otherInfo = [{ field: 'campus', header: 'Campus' },
     { field: 'address', header: 'Address' },
     { field: 'room', header: 'Room' }];
   }
@@ -56,6 +58,9 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
     this.title = title;
     this.isNewClass = isNewEntity;
     this.classInfo = entity;
+    if (this.classInfo.schedule) {
+      this.schedule = this.classInfo.schedule.split(",");
+    }
     this.getStudentData();
     this.getStaffData();
   }
@@ -65,16 +70,10 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
   }
 
   ngOnInit(): void {
-    this.classService.getCourse().subscribe(data => {
-      if (data) {
-        this.course = data;
-      }
-    });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.classService.getClassesById(+id).subscribe((cl: Classes) => {
         this.classInfo = cl;
-        // this.getStudentData();
       });
       this.isNewClass = false;
     }
@@ -129,20 +128,46 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
     this.isAttendanceChange = true;
   }
 
-  courseChange(event: any) {
-    if (!this.isClassInfoChange && !this.isAttendanceChange) {
-      if (!event && this.classInfo.courseId != this.courseId) {
-        this.onChange();
-      }
-    }
-  }
-
   getStaffData() {
     this.staffService.getStaffListByClass(this.classInfo.id).subscribe(result => {
       if (result) {
         this.staffList = result;
       }
     });
+  }
+
+  updateSchedule(event: string[]) {
+    this.schedule = event;
+    this.classInfo.schedule = event.join();
+    this.calculateEndDate();
+    this.onChange();
+  }
+
+  calculateEndDate() {
+    this.onChange();
+    if (this.classInfo.startDate && this.classInfo.lesson && this.schedule && this.schedule.length) {
+      let start = moment(this.classInfo.startDate);
+      let count = 1;
+      var arr = [];
+      let tmp = start.clone().day(WeekDay[this.schedule[0]]);
+      let tmp2: moment.Moment;
+      while (count < this.classInfo.lesson) {
+        if (count + this.schedule.length > this.classInfo.lesson) {
+          break;
+        }
+        tmp.add(7, 'days');
+        count = count + this.schedule.length;
+      }
+      if (count == this.classInfo.lesson) {
+        arr.push(tmp.format('yyyy-MM-DD'));
+      } else {
+        tmp2 = tmp.clone().day(WeekDay[this.schedule[this.classInfo.lesson - count]]);
+        if (tmp2.isAfter(tmp, 'd')) {
+          arr.push(tmp2.format('YYYY-MM-DD'));
+        }
+      }
+      this.classInfo.endDate = arr[0];
+    }
   }
 
 }

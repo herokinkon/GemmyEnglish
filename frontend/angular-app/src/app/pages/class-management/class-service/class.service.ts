@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Student } from '../../student-management/student-service/student';
 import { Class } from './class';
-import { Classes, Course } from './classes-model';
+import { Classes } from './classes-model';
 import { Staff } from '../../staff-management/staff-service/staff';
 
 @Injectable({
@@ -44,10 +44,6 @@ export class ClassService {
   getClassByStudent(studentId: number): Observable<Class[]> {
     const data = { ...this.httpOptions, params: { studentId: studentId.toString() } };
     return this.http.get<Class[]>(this.apiUrl + 'getClassByStudent', data);
-  }
-
-  getCourse(): Observable<Course[]> {
-    return this.http.get<Course[]>(this.apiUrl + 'getCourse', this.httpOptions);
   }
 
   updateClassAndAttendance(classes: Classes, studentList: Student[]): Observable<Classes> {

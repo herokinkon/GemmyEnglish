@@ -10,16 +10,11 @@ export interface Classes {
     status: boolean;
     description: string;
     fee: string;
-    courseId: number;
-    basis: string;
+    campus: string;
     address: string;
-	room: string
+    room: string
+    schedule: string;
+    lesson: number;
     studentInfos: Student[];
     staffInfos: Staff[];
-}
-
-export class Course {
-    id: number;
-    name: string;
-    description: string;
 }

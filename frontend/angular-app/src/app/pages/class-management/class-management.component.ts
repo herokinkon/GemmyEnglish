@@ -10,6 +10,7 @@ import { Classes } from './class-service/classes-model';
 import { Staff } from '../staff-management/staff-service/staff';
 import { StaffService } from '../staff-management/staff-service/staff.service';
 import { SelectItem } from 'primeng/api/selectitem';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-class-management',
@@ -21,6 +22,7 @@ export class ClassManagementComponent implements OnInit {
   classes: Classes[];
   selectedClass: any;
   cols: any[];
+  tabIndex: number;
 
   // update student
   class1: Classes;
@@ -66,7 +68,8 @@ export class ClassManagementComponent implements OnInit {
       { field: 'classCode', header: 'Class Code' },
       { field: 'startDate', header: 'Start Date' },
       { field: 'endDate', header: 'End Date' },
-      { field: 'fee', header: 'Fee' }];
+      { field: 'fee', header: 'Fee' },
+      { field: 'schedule', header: 'Schedule' }];
     this.selectedTypeStudent = 'Move Student';
     this.selectedTypeStaff = 'Move Staff';
     this.classService.getClasses().subscribe(data => this.classes = data);
@@ -109,10 +112,10 @@ export class ClassManagementComponent implements OnInit {
     result.subscribe(evt => this.updateTable(evt));
   }
 
-  searchClass(event: any, isSourceClass: boolean, isUpdateStudent: boolean) {
+  searchClass(event: any, isSourceClass: boolean) {
     this.classService.searchClass(event.query).subscribe(data => {
       console.log(data)
-      if (isUpdateStudent) {
+      if (this.tabIndex == 1) {
         if (isSourceClass) {
           if (data) {
             this.suggestionClasses1 = data;
@@ -148,8 +151,8 @@ export class ClassManagementComponent implements OnInit {
     });
   }
 
-  updateList(event: any, isSource: boolean, isUpdateStudent: boolean) {
-    if (isUpdateStudent) {
+  updateList(event: any, isSource: boolean) {
+    if (this.tabIndex == 1) {
       if (isSource) {
         this.studentList1 = event.studentInfos;
       } else {
@@ -164,8 +167,8 @@ export class ClassManagementComponent implements OnInit {
     }
   }
 
-  updateData(isUpdateStudent: boolean) {
-    if (isUpdateStudent) {
+  updateData() {
+    if (this.tabIndex == 1) {
       if (this.selectedTypeStudent == 'Move Student') {
         this.classService.updateStudentClass(this.studentList1, this.studentList2, this.class1.id, this.class2.id).subscribe();
       } else {
@@ -182,16 +185,16 @@ export class ClassManagementComponent implements OnInit {
     }
   }
 
-  changeList(isUpdateStudent: boolean) {
-    if (isUpdateStudent) {
+  changeList() {
+    if (this.tabIndex == 1) {
       this.isChange = true;
     } else {
       this.isChangeStaff = true;
     }
   }
 
-  clearSearchData(isUpdateStudent: boolean) {
-    if (isUpdateStudent) {
+  clearSearchData() {
+    if (this.tabIndex == 1) {
       this.suggestionClasses1 = null;
       this.suggestionClasses2 = null;
       this.class1 = null;
@@ -210,8 +213,8 @@ export class ClassManagementComponent implements OnInit {
     }
   }
 
-  handleChange(event: any, isUpdateStudent: boolean) {
-    if (isUpdateStudent) {
+  handleChange(event: any) {
+    if (this.tabIndex == 1) {
       if (event.value == 'Add Student') {
         this.studentService.getNewStudents().subscribe(data => this.studentList1 = data);
       }
@@ -220,6 +223,10 @@ export class ClassManagementComponent implements OnInit {
         this.staffService.getNewStaffs().subscribe(data => this.staffListSource = data);
       }
     }
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.tabIndex = tabChangeEvent.index;
   }
 
 }
