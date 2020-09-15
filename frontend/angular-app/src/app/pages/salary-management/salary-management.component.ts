@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ENTITY_ACTION } from 'src/app/shared/app-constant.service';
 import { CommonDialogService } from 'src/app/shared/components/common-detail-dialog/common-dialog.service';
 import { EntityActionEvent } from 'src/app/shared/components/common-detail-dialog/common-entity-dialog-interface';
-import { Staff } from '../staff-management/staff-service/staff';
+import { Staff, StaffInfo } from '../staff-management/staff-service/staff';
 import { OtherOutcomeDetailComponent } from './other-outcome-detail/other-outcome-detail.component';
-import { OtherOutcome } from './salary-service/salary';
+import { OtherOutcome, SalaryPartTimeResult } from './salary-service/salary';
 import { SalaryService } from './salary-service/salary.service';
+import { StaffService } from '../staff-management/staff-service/staff.service';
 
 @Component({
   selector: 'salary-management',
@@ -15,32 +16,42 @@ import { SalaryService } from './salary-service/salary.service';
 export class SalaryManagementComponent implements OnInit {
 
   // tab 1
-  fullTimeHeader: any[];
-  fullTimeSalaries: Staff[]
-  selectedFullTimeSalary: any;
+  salaryHeader: any[];
+  salaryStaff: Staff[]
+  filterSalary: any;
 
   // tab 2
-  partTimeHeader: any[];
-  partTimeSalaries: Staff[]
-  selectedPartTimeSalary: any;
+  suggestionStaffs: Staff[];
+  staffInfo: Staff;
+  staff: Staff[];
+  calculatePartTimeFields: any;
+  selectedMonth: number;
+  salaryPartTimeResult: SalaryPartTimeResult;
 
   // tab 3
   othersHeader: any[];
   othersOutcome: OtherOutcome[]
   selectedOutcome: any;
 
-  constructor(private readonly dialog: CommonDialogService, private salaryService: SalaryService) { }
+  constructor(private readonly dialog: CommonDialogService, private salaryService: SalaryService, private staffService: StaffService) {
+    this.filterSalary = 'All';
+    this.selectedMonth = 1;
+  }
 
   ngOnInit(): void {
-    this.fullTimeHeader = [{ field: 'fullName', header: 'Full Name' },
+    this.salaryHeader = [{ field: 'fullName', header: 'Full Name' },
     { field: 'birthday', header: 'Birthday' },
+    { field: 'contactNumber', header: 'Contact Number' },
     { field: 'salary', header: 'Salary (VND/Month)' }];
 
-    // this.partTimeHeader = [{ field: 'fullName', header: 'Full Name' },
-    // { field: 'birthday', header: 'Birthday' },
-    // { field: 'salary', header: 'Salary (VND/Hour)' },
-    // { field: 'workedHour', header: 'Worked Hour' },
-    // { field: 'actual', header: 'Actual Worked Hour' }];
+    this.calculatePartTimeFields = [{ field: 'fullName', header: 'Full Name' },
+    { field: 'birthday', header: 'Birthday' },
+    { field: 'contactNumber', header: 'Purpose' },
+    { field: 'email', header: 'Date' },
+    { field: 'bankName', header: 'Bank Name' },
+    { field: 'bankAccount', header: 'Bank Account' },
+    { field: 'bankBranch', header: 'Bank Branch' },
+    { field: 'salary', header: 'Salary' }];
 
     this.othersHeader = [{ field: 'fullName', header: 'Full Name' },
     { field: 'birthday', header: 'Birthday' },
@@ -48,43 +59,10 @@ export class SalaryManagementComponent implements OnInit {
     { field: 'purpose', header: 'Purpose' },
     { field: 'cost', header: 'Cost' }];
 
-    this.salaryService.getFullTimeStaffSalary().subscribe(data => this.fullTimeSalaries = data);
-    // this.salaryService.getPartTimeStaffSalary().subscribe(data => this.partTimeSalaries = data);
+    this.staffService.getStaffs().subscribe(data => this.salaryStaff = data);
     this.salaryService.getOtherOutcome().subscribe(data => this.othersOutcome = data);
+    this.staffInfo = new StaffInfo();
   }
-
-  // showDialogToAdd() {
-  //   const result = this.dialog.openDialog('New Salary', SalaryDetailComponent, {});
-  //   result.subscribe(evt => this.updateTable(evt, this.fullTimeSalaries));
-  // }
-
-  // delete(salary: any) {
-  //   const index = this.fullTimeSalaries.findIndex(sal => salary.id === sal.id);
-  //   this.fullTimeSalaries.splice(index, 1);
-  //   this.salaryService.deleteStaffSalary(salary);
-  // }
-
-  // updateTable(event: EntityActionEvent<Staff>, fullTimeSalaries: Staff[]) {
-  //   switch (event?.action) {
-  //     case ENTITY_ACTION.CREATE:
-  //       fullTimeSalaries.push(event.entity);
-  //       break;
-  //     case ENTITY_ACTION.EDIT:
-  //       const index = this.fullTimeSalaries.findIndex(stu => event.entity.id === stu.id);
-  //       if (index >= 0) {
-  //         fullTimeSalaries[index] = event.entity;
-  //       }
-  //       break;
-  //     case ENTITY_ACTION.DELETE:
-  //       fullTimeSalaries.splice(this.fullTimeSalaries.findIndex(stu => event.entity.id === stu.id), 1);
-  //       break;
-  //   }
-  // }
-
-  // onRowSelect(event: any) {
-  //   const result = this.dialog.openDialog('Salary Detail', SalaryDetailComponent, { ...event.data });
-  //   result.subscribe(evt => this.updateTable(evt, this.fullTimeSalaries));
-  // }
 
   ///////////// Other Outcome tab
   showDialogToAddOtherOutcome() {
@@ -116,5 +94,44 @@ export class SalaryManagementComponent implements OnInit {
         this.othersOutcome.splice(startIndex, 1);
         break;
     }
+  }
+
+  updateList() {
+    console.log(this.filterSalary)
+    if (this.filterSalary == "All") {
+      this.staffService.getStaffs().subscribe(data => this.salaryStaff = data);
+    }
+    if (this.filterSalary == "Full Time") {
+      this.salaryService.getFullTimeStaffSalary().subscribe(data => this.salaryStaff = data);
+    }
+    if (this.filterSalary == "Part Time") {
+      this.salaryService.getPartTimeStaffSalary().subscribe(data => this.salaryStaff = data);
+    }
+  }
+
+  // Calculate Part Time tab
+
+  updateStaffInfoBox(event: any) {
+    console.log(event)
+    this.staffInfo = event;
+  }
+
+  searchStaff(event: any) {
+    this.staffService.searchStaffByName(event.query).subscribe(data => {
+      if (data) {
+        this.suggestionStaffs = data;
+      } else {
+        this.suggestionStaffs = [];
+        this.staffInfo = null;
+      }
+    });
+  }
+
+  addStaffToTextBox(event: Staff) {
+    this.staffInfo = event;
+  }
+
+  calculate() {
+
   }
 }

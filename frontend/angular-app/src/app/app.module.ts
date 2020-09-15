@@ -36,6 +36,7 @@ import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { RadioButtonModule } from 'primeng/radiobutton';
 // Pages components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -122,7 +123,8 @@ import { SideMenuComponent } from './shared/components/side-menu/side-menu.compo
     CalendarModule,
     NgxMaterialTimepickerModule,
     MatSlideToggleModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    RadioButtonModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
