@@ -4,7 +4,7 @@
             <p-table #listSalary [columns]="salaryHeader" [value]="salaryStaff" selectionMode="single"
                 [paginator]="true" [rows]="15" [autoLayout]="false">
                 <ng-template pTemplate="caption">
-                    Full Time Staff Salary
+                    Staff Salary
                     <div style="text-align: right">
                         <p-radioButton class="radio-button-style" name="staffType" value="All"
                             [(ngModel)]="filterSalary" inputId="salary1" (onClick)="updateList()">
