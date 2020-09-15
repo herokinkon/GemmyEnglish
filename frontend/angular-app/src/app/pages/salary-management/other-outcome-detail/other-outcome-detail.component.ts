@@ -37,9 +37,6 @@ export class OtherOutcomeDetailComponent implements OnInit, CommonEntityDialogIn
         this.title = title;
         this.isNewOutcome = isNewEntity;
         this.otherOutcomeInfo = entity;
-        // if (!this.isNewOutcome) {
-        //     this.fields.unshift({ field: 'id', header: 'SalaryId', cols: 1 });
-        // }
     }
 
     ngOnInit(): void {

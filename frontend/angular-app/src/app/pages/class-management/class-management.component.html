@@ -1,9 +1,12 @@
 <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Class List">
-        <p-table [columns]="cols" [value]="classes" selectionMode="single" [(selection)]="selectedClass"
+        <p-table #classList [columns]="cols" [value]="classes" selectionMode="single" [(selection)]="selectedClass"
             [paginator]="true" [rows]="15" (onRowSelect)="onRowSelect($event)" [autoLayout]="true">
             <ng-template pTemplate="caption">
                 Class List
+                <div style="text-align: right">
+                    <input type="text" pInputText placeholder="Search class" (input)="classList.filter($event.target.value, 'className', 'contains')">
+                </div>
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>

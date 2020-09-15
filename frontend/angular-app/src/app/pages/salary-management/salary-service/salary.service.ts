@@ -23,9 +23,9 @@ export class SalaryService {
         return this.http.get<Staff[]>(this.apiUrl + 'fulltime', this.httpOptions);
     }
 
-    // getPartTimeStaffSalary(): Observable<Salary[]> {
-    //     return this.http.get<Salary[]>(this.apiUrl + 'parttime', this.httpOptions);
-    // }
+    getPartTimeStaffSalary(): Observable<Staff[]> {
+        return this.http.get<Staff[]>(this.apiUrl + 'parttime', this.httpOptions);
+    }
 
     getOtherOutcome(): Observable<OtherOutcome[]> {
         return this.http.get<OtherOutcome[]>(this.apiUrl + 'othersoutcome', this.httpOptions);
