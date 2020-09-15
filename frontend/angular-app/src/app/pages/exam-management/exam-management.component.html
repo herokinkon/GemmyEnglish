@@ -29,7 +29,7 @@
     </mat-tab>
     <mat-tab label="Result">
         <div style="text-align: right; margin-top: 20px; margin-right: 20px;">
-            <p-selectButton [options]="searchOptions" [(ngModel)]="selectedType">
+            <p-selectButton [options]="searchOptions" [(ngModel)]="selectedType" (onOptionClick)="clearSearchData()">
             </p-selectButton>
         </div>
         <mat-grid-list cols="3" rowHeight="50px">
