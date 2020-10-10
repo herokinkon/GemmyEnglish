@@ -53,5 +53,4 @@ public class UserAccountController {
 		account.setId(newAccount.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(account);
 	}
-
 }

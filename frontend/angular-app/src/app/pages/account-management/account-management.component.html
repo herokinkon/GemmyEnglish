@@ -12,11 +12,13 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData">
-            <td>{{rowData.username}}</td>
+        <tr [pSelectableRow]="rowData" [ngClass]="!rowData.status ? 'disable-row':null">
+            <td>{{rowData.userName}}</td>
             <td>{{rowData.roles}}</td>
             <td>{{rowData.staff.fullName}}</td>
-            <td>{{rowData.status ? "Enable" : "Disable"}}</td>
+            <td><span class="status-badge"
+                    [ngClass]="rowData.status ? 'status-enable' : 'status-disable'">{{rowData.status ? "Enable" : "Disable"}}</span>
+            </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>

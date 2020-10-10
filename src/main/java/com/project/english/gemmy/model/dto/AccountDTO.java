@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.UserAccount;
+import com.project.english.gemmy.model.jpa.enumerate.Role;
 
 @JsonInclude(Include.NON_NULL)
 public class AccountDTO {
@@ -12,7 +13,7 @@ public class AccountDTO {
 	private String userName;
 	private Boolean status;
 	private StaffDTO staff;
-	private String roles;
+	private Role roles;
 	private String password;
 
 	public AccountDTO() {
@@ -28,6 +29,7 @@ public class AccountDTO {
 		this.staff = new StaffDTO();
 		StaffInfo nStaff = account.getStaff();
 		if (nStaff != null) {
+			this.staff.setId(account.getStaff().getId());
 			this.staff.setFullName(account.getStaff().getFullName());
 		}
 	}
@@ -60,11 +62,11 @@ public class AccountDTO {
 		return staff;
 	}
 
-	public String getRoles() {
+	public Role getRoles() {
 		return roles;
 	}
 
-	public void setRoles(String roles) {
+	public void setRoles(Role roles) {
 		this.roles = roles;
 	}
 

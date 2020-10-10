@@ -70,7 +70,7 @@ public class StaffInfoController {
 
 	@GetMapping("/searchStaffByName")
 	public ResponseEntity<List<StaffDTO>> searchStaffByName(@RequestParam String searchText) {
-		List<StaffDTO> staffInfos = staffRepo.findByFullNameContains(searchText);
+		List<StaffDTO> staffInfos = staffRepo.findByFullNameIgnoreCaseContains(searchText);
 		if (staffInfos != null && !staffInfos.isEmpty()) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(staffInfos);
@@ -79,7 +79,7 @@ public class StaffInfoController {
 	}
 	
 	@GetMapping("/searchStaff")
-	public ResponseEntity<List<StaffDTO>> searchStudent(@RequestParam String searchText, @RequestParam String type) {
+	public ResponseEntity<List<StaffDTO>> searchStaff(@RequestParam String searchText, @RequestParam String type) {
 		List<StaffDTO> staffList = staffService.getStaffByNameAndType(searchText, type);
 		if (!staffList.isEmpty()) {
 			HttpHeaders httpHeaders = new HttpHeaders();

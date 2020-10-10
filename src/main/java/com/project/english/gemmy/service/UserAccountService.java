@@ -37,6 +37,10 @@ public class UserAccountService {
 	}
 
 	public void update(AccountDTO account) {
+		if (account.getPassword() == null) {
+			Optional<UserAccount> orignialAcc = userAccountRepo.findById(account.getId());
+			account.setPassword(orignialAcc.get().getPassword());
+		}
 		ModelMapper mapper = new ModelMapper();
 		mapper.getConfiguration().setSkipNullEnabled(true);
 		userAccountRepo.save(mapper.map(account, UserAccount.class));

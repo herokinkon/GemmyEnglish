@@ -1,0 +1,12 @@
+mat-grid-tile {
+    overflow: unset;
+}
+
+mat-form-field {
+    width: 230px;
+}
+
+.dialog {
+    max-width: 600px;
+    min-width: 350px;
+}

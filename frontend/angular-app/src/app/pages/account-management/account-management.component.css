@@ -1,0 +1,26 @@
+.status-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.status-enable {
+    background-color: #c8e6c9;
+    color: #256029;
+}
+
+.status-disable {
+    background-color: #ffcdd2;
+    color: #c63737;
+}
+
+.ui-table-tbody>tr>td {
+    border: 0 none;
+}
+
+.disable-row {
+    color: silver !important;
+}
