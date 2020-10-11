@@ -45,9 +45,11 @@ export class StudentPaymentListComponent {
         this._payments = payments.payment.map((pay: any) => this.fillPayment(pay, months));
       } else {
         this.studentInfo = { studentId: payments.student.id, fullName: payments.student.fullName, birthday: payments.student.birthday };
-        const months = this.getMonthsHeader(new Date(payments.payment.startDate), new Date(payments.payment.endDate));
-        this.cols = this.classInfoCols.concat(months);
-        this._payments = [this.fillPayment(payments.payment, months)];
+        if (payments.payment && payments.payment.startDate && payments.payment.endDate) {
+          const months = this.getMonthsHeader(new Date(payments.payment.startDate), new Date(payments.payment.endDate));
+          this.cols = this.classInfoCols.concat(months);
+          this._payments = [this.fillPayment(payments.payment, months)];
+        }
       }
     }
   }
@@ -68,7 +70,9 @@ export class StudentPaymentListComponent {
 
   fillPayment(payment: any, months: any): any {
     for (let i = 0; i < payment.months; i++) {
-      payment[months[i].field] = 1;
+      if (months && months.length != 0 && months[i]) {
+        payment[months[i].field] = 1;
+      }
     }
     payment.canAdd = payment.months < months.length;
     payment.availableMonth = months.length - payment.months;

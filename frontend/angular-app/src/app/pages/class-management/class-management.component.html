@@ -1,9 +1,12 @@
-<mat-tab-group animationDuration="0ms">
+<mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Class List">
-        <p-table [columns]="cols" [value]="classes" selectionMode="single" [(selection)]="selectedClass"
+        <p-table #classList [columns]="cols" [value]="classes" selectionMode="single" [(selection)]="selectedClass"
             [paginator]="true" [rows]="15" (onRowSelect)="onRowSelect($event)" [autoLayout]="true">
             <ng-template pTemplate="caption">
                 Class List
+                <div style="text-align: right">
+                    <input type="text" pInputText placeholder="Search class" (input)="classList.filter($event.target.value, 'className', 'contains')">
+                </div>
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -31,7 +34,7 @@
     </mat-tab>
     <mat-tab label="Edit Student Class">
         <div style="text-align: left; margin-top: 20px; margin-left: 20px;">
-            <p-selectButton [options]="studentOptions" [(ngModel)]="selectedTypeStudent" (onChange)="handleChange($event, true)">
+            <p-selectButton [options]="studentOptions" [(ngModel)]="selectedTypeStudent" (onChange)="handleChange($event)">
             </p-selectButton>
         </div>
         <mat-grid-list cols="2" rowHeight="50px">
@@ -40,8 +43,8 @@
                     <mat-list-item role="listitem" *ngIf="selectedTypeStudent == 'Move Student'">
                         <mat-label class="mat-label-style">Source Class</mat-label>
                         <p-autoComplete [(ngModel)]="class1" [suggestions]="suggestionClasses1"
-                            (completeMethod)="searchClass($event, true, true)" field="className" [size]="30"
-                            placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, true, true)"
+                            (completeMethod)="searchClass($event, true)" field="className" [size]="30"
+                            placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, true)"
                             appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
@@ -50,13 +53,13 @@
             <mat-grid-tile rowspan="2">
                 <mat-label class="mat-label-style">Target Class</mat-label>
                 <p-autoComplete [(ngModel)]="class2" [suggestions]="suggestionClasses2"
-                    (completeMethod)="searchClass($event, false, true)" field="className" [size]="30"
-                    placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, false, true)"
+                    (completeMethod)="searchClass($event, false)" field="className" [size]="30"
+                    placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, false)"
                     appendTo="body">
                 </p-autoComplete>
             </mat-grid-tile>
             <mat-grid-tile colspan="2" style="width: 100%; height: 20px;">
-                <button type="button" mat-raised-button (click)="clearSearchData(true)" color="primary">
+                <button type="button" mat-raised-button (click)="clearSearchData()" color="primary">
                     <span>Clear</span>
                 </button>
             </mat-grid-tile>
@@ -65,9 +68,9 @@
                     targetHeader="Target Class" [responsive]="true" filterBy="fullName" dragdrop="true"
                     sourceFilterPlaceholder="Search by Name" targetFilterPlaceholder="Search by Name"
                     [sourceStyle]="{'height':'300px', 'width':'500px'}"
-                    [targetStyle]="{'height':'300px', 'width':'500px'}" (onMoveToTarget)="changeList(true)"
-                    (onMoveToSource)="changeList(true)" (onMoveAllToTarget)="changeList(true)"
-                    (onMoveAllToSource)="changeList(true)">
+                    [targetStyle]="{'height':'300px', 'width':'500px'}" (onMoveToTarget)="changeList()"
+                    (onMoveToSource)="changeList()" (onMoveAllToTarget)="changeList()"
+                    (onMoveAllToSource)="changeList()">
                     <ng-template let-student pTemplate="item">
                         <div class="ui-helper-clearfix">
                             <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{student.fullName}} -
@@ -79,7 +82,7 @@
             <mat-grid-tile colspan="2">
                 <div style="text-align:center; margin-top: 20px;">
                     <button [disabled]="!isChange" style="margin-left: 20px;" type="button" mat-raised-button
-                        (click)="updateData(true)" color="primary">
+                        (click)="updateData()" color="primary">
                         <span>Update</span>
                     </button>
                 </div>
@@ -88,7 +91,7 @@
     </mat-tab>
     <mat-tab label="Edit Staff Class">
         <div style="text-align: left; margin-top: 20px; margin-left: 20px;">
-            <p-selectButton [options]="staffOptions" [(ngModel)]="selectedTypeStaff" (onChange)="handleChange($event, false)">
+            <p-selectButton [options]="staffOptions" [(ngModel)]="selectedTypeStaff" (onChange)="handleChange($event)">
             </p-selectButton>
         </div>
         <mat-grid-list cols="2" rowHeight="50px">
@@ -97,8 +100,8 @@
                     <mat-list-item role="listitem" *ngIf="selectedTypeStaff == 'Move Staff'">
                         <mat-label class="mat-label-style">Source Class</mat-label>
                         <p-autoComplete [(ngModel)]="classSourceStaff" [suggestions]="suggestionStaffSource"
-                            (completeMethod)="searchClass($event, true, false)" field="className" [size]="30"
-                            placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, true, false)"
+                            (completeMethod)="searchClass($event, true)" field="className" [size]="30"
+                            placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, true)"
                             appendTo="body">
                         </p-autoComplete>
                     </mat-list-item>
@@ -107,13 +110,13 @@
             <mat-grid-tile rowspan="2">
                 <mat-label class="mat-label-style">Target Class</mat-label>
                 <p-autoComplete [(ngModel)]="classTargetStaff" [suggestions]="suggestionStaffTarget"
-                    (completeMethod)="searchClass($event, false, false)" field="className" [size]="30"
-                    placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, false, false)"
+                    (completeMethod)="searchClass($event, false)" field="className" [size]="30"
+                    placeholder="Class Name" [minLength]="1" (onSelect)="updateList($event, false)"
                     appendTo="body">
                 </p-autoComplete>
             </mat-grid-tile>
             <mat-grid-tile colspan="2" style="width: 100%; height: 20px;">
-                <button type="button" mat-raised-button (click)="clearSearchData(false)" color="primary">
+                <button type="button" mat-raised-button (click)="clearSearchData()" color="primary">
                     <span>Clear</span>
                 </button>
             </mat-grid-tile>
@@ -122,9 +125,9 @@
                     targetHeader="Target Class" [responsive]="true" filterBy="fullName" dragdrop="true"
                     sourceFilterPlaceholder="Search by Name" targetFilterPlaceholder="Search by Name"
                     [sourceStyle]="{'height':'300px', 'width':'500px'}"
-                    [targetStyle]="{'height':'300px', 'width':'500px'}" (onMoveToTarget)="changeList(false)"
-                    (onMoveToSource)="changeList(false)" (onMoveAllToTarget)="changeList(false)"
-                    (onMoveAllToSource)="changeList(false)">
+                    [targetStyle]="{'height':'300px', 'width':'500px'}" (onMoveToTarget)="changeList()"
+                    (onMoveToSource)="changeList()" (onMoveAllToTarget)="changeList()"
+                    (onMoveAllToSource)="changeList()">
                     <ng-template let-staff pTemplate="item">
                         <div class="ui-helper-clearfix">
                             <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{staff.fullName}} -
@@ -136,7 +139,7 @@
             <mat-grid-tile colspan="2">
                 <div style="text-align:center; margin-top: 20px;">
                     <button [disabled]="!isChangeStaff" style="margin-left: 20px;" type="button" mat-raised-button
-                        (click)="updateData(false)" color="primary">
+                        (click)="updateData()" color="primary">
                         <span>Update</span>
                     </button>
                 </div>

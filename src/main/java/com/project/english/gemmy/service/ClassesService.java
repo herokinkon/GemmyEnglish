@@ -20,11 +20,9 @@ import com.project.english.gemmy.model.dto.ClassesInfoDto;
 import com.project.english.gemmy.model.dto.StudentDTO;
 import com.project.english.gemmy.model.dto.UpdateClassAttendanceRequest;
 import com.project.english.gemmy.model.jpa.Classes;
-import com.project.english.gemmy.model.jpa.Course;
 import com.project.english.gemmy.model.jpa.StaffInfo;
 import com.project.english.gemmy.model.jpa.StudentInfo;
 import com.project.english.gemmy.model.repositories.ClassesRepository;
-import com.project.english.gemmy.model.repositories.CourseRepository;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
 import com.project.english.gemmy.util.CommonUtils;
 
@@ -36,9 +34,6 @@ public class ClassesService {
 	
 	@Autowired
 	private StudentInfoRepository studentInfoRepo;
-	
-	@Autowired
-	private CourseRepository courseRepo;
 	
 	public List<ClassesInfoDto> getAllClass() {
 		List<Classes> allClasses = classesRepo.findAll();
@@ -65,17 +60,13 @@ public class ClassesService {
 		Classes classInfo = new Classes();
 		classInfo.setClassName(classRequest.getClassName());
 		classInfo.setClassCode(classRequest.getClassCode());
-		if (classRequest.getCourseId() != null) {
-			Optional<Course> course = courseRepo.findById(classRequest.getCourseId());
-			if (course.isPresent()) {
-				classInfo.setCourse(course.get());
-			}
-		}
 		classInfo.setDescription(classRequest.getDescription());
 		classInfo.setEndDate(classRequest.getEndDate());
 		classInfo.setFee(classRequest.getFee());
 		classInfo.setStartDate(classRequest.getStartDate());
 		classInfo.setStatus(classRequest.getStatus());
+		classInfo.setSchedule(classRequest.getSchedule());
+		classInfo.setLesson(classRequest.getLesson());
 		Classes result = classesRepo.save(classInfo);
 		if (result != null) {
 			return new ClassesInfoDto(result);
@@ -93,12 +84,6 @@ public class ClassesService {
 		classInfo.setId(classRequest.getId());
 		classInfo.setClassName(classRequest.getClassName() != null ? classRequest.getClassName() : "");
 		classInfo.setClassCode(classRequest.getClassCode() != null ? classRequest.getClassCode() : "");
-		if (classRequest.getCourseId() != null) {
-			Optional<Course> course = courseRepo.findById(classRequest.getCourseId());
-			if (course.isPresent()) {
-				classInfo.setCourse(course.get());
-			}
-		}
 		classInfo.setDescription(classRequest.getDescription());
 		classInfo.setEndDate(classRequest.getEndDate());
 		classInfo.setFee(classRequest.getFee() != null ? classRequest.getFee() : beforeUpdate.getFee());
@@ -107,6 +92,8 @@ public class ClassesService {
 		classInfo.setFeePayments(beforeUpdate.getFeePayments());
 		classInfo.setStaffInfos(beforeUpdate.getStaffInfos());
 		classInfo.setStudentInfos(beforeUpdate.getStudentInfos());
+		classInfo.setSchedule(classRequest.getSchedule());
+		classInfo.setLesson(classRequest.getLesson());
 		Classes result = classesRepo.save(classInfo);
 		if (result != null) {
 			return new ClassesInfoDto(result);
