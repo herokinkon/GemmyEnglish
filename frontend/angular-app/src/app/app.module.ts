@@ -37,6 +37,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToastModule } from 'primeng/toast';
+import { RadioButtonModule } from 'primeng/radiobutton';
 // Pages components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -130,7 +131,8 @@ import { AccountDetailComponent } from './pages/account-management/account-detai
     NgxMaterialTimepickerModule,
     MatSlideToggleModule,
     OverlayPanelModule,
-    ToastModule
+    ToastModule,
+    RadioButtonModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

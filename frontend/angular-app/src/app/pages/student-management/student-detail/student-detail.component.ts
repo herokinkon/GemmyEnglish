@@ -47,7 +47,6 @@ export class StudentDetailComponent implements OnInit, CommonEntityDialogInterfa
     if (id) {
       this.studentService.getStudent(+id).subscribe((student: Student) => {
         this.studentInfo = student;
-        // this.loadClassData();
       });
       this.isNewStudent = false;
     }

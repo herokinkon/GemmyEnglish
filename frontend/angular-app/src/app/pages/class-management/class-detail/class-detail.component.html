@@ -8,30 +8,33 @@
                             <mat-form-field>
                                 <mat-label>{{field.header}}</mat-label>
                                 <input
-                                    *ngIf="field.field !== 'startDate' && field.field !== 'endDate' && field.field !== 'courseId' && field.field !== 'fee'"
+                                    *ngIf="field.field !== 'lesson' && field.field !== 'startDate' && field.field !== 'endDate' && field.field !== 'schedule' && field.field !== 'fee'"
                                     name="{{field.field}}" matInput [(ngModel)]="classInfo[field.field]"
-                                    [disabled]="field.field === 'id'" (keyup)="onChange()" required>
-                                <mat-select *ngIf="field.field === 'courseId'" [(value)]="classInfo[field.field]"
-                                    (openedChange)="courseChange($event)">
-                                    <mat-option *ngFor="let c of course" [value]="c.id">
-                                        {{c.name}} - {{c.description}}
-                                    </mat-option>
-                                </mat-select>
+                                    (keyup)="onChange()" required>
                                 <input *ngIf="field.field == 'fee'" name="{{field.field}}" matInput
                                     [ngModel]="classInfo[field.field]" (ngModelChange)="classInfo[field.field]=$event"
                                     (keyup)="onChange()" required>
-                                <div *ngIf="field.field == 'startDate'">
-                                    <input class="dateField" name="startDate" matInput [matDatepicker]="myDatepicker"
-                                        [(ngModel)]="classInfo.startDate" required>
-                                    <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
-                                </div>
-                                <div *ngIf="field.field == 'endDate'">
-                                    <input class="dateField" name="endDate" matInput [matDatepicker]="myDatepicker"
-                                        [(ngModel)]="classInfo.endDate" required>
-                                    <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #myDatepicker (selectedChanged)="onChange()"></mat-datepicker>
-                                </div>
+                                <input *ngIf="field.field == 'lesson'" name="{{field.field}}" matInput
+                                    [ngModel]="classInfo[field.field]" (ngModelChange)="classInfo[field.field]=$event"
+                                    (keyup)="calculateEndDate()" required>
+                                <input *ngIf="field.field == 'startDate'" class="dateField" name="startDate" matInput
+                                    [matDatepicker]="startDatepicker" [(ngModel)]="classInfo.startDate"
+                                    (click)="startDatepicker.open()" required>
+                                <mat-datepicker #startDatepicker (selectedChanged)="calculateEndDate()">
+                                </mat-datepicker>
+                                <input *ngIf="field.field == 'endDate'" class="dateField" name="endDate" matInput
+                                    [matDatepicker]="endDatepicker" [(ngModel)]="classInfo.endDate" disabled>
+                                <mat-datepicker #endDatepicker></mat-datepicker>
+                                <mat-select *ngIf="field.field == 'schedule'" [value]="schedule" name="schedule"
+                                    (valueChange)="updateSchedule($event)" multiple>
+                                    <mat-option value="Monday">Monday</mat-option>
+                                    <mat-option value="Tuesday">Tuesday</mat-option>
+                                    <mat-option value="Wednesday">Wednesday</mat-option>
+                                    <mat-option value="Thursday">Thursday</mat-option>
+                                    <mat-option value="Friday">Friday</mat-option>
+                                    <mat-option value="Saturday">Saturday</mat-option>
+                                    <mat-option value="Sunday">Sunday</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </mat-grid-tile>
                     </mat-grid-list>

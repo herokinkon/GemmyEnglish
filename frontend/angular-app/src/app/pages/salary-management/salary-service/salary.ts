@@ -8,3 +8,12 @@ export interface OtherOutcome {
     status: boolean;
     staffId: number;
 }
+
+export interface SalaryPartTimeResult {
+    workDay: number;
+    dayOfWeek: string;
+    startTime: Date;
+    endTime: Date;
+    hour: string;
+    salaryOfDate: string;
+}
