@@ -21,11 +21,11 @@ export class StudentManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = [
-    { field: 'fullName', header: 'Full Name' },
-    { field: 'birthday', header: 'Birthday' },
-    { field: 'email', header: 'Email' },
-    { field: 'facebook', header: 'Facebook' },
-    { field: 'contactNumber', header: 'Phone Number' }];
+      { field: 'fullName', header: 'Full Name' },
+      { field: 'birthday', header: 'Birthday' },
+      { field: 'email', header: 'Email' },
+      { field: 'facebook', header: 'Facebook' },
+      { field: 'contactNumber', header: 'Phone Number' }];
 
     this.studentService.getStudents().subscribe(data => this.students = data);
   }
@@ -35,18 +35,12 @@ export class StudentManagementComponent implements OnInit {
     result.subscribe(evt => this.updateTable(evt));
   }
 
-  delete(student: any) {
-    const index = this.students.findIndex(stu => student.id === stu.id);
-    this.students.splice(index, 1);
-    this.studentService.deleteStudent(student);
-  }
-
   updateTable(event: EntityActionEvent<Student>) {
     switch (event?.action) {
       case ENTITY_ACTION.CREATE:
         if (!this.students) {
           this.students = [];
-        } 
+        }
         this.students.push(event.entity);
         break;
       case ENTITY_ACTION.EDIT:
@@ -56,7 +50,7 @@ export class StudentManagementComponent implements OnInit {
         }
         break;
       case ENTITY_ACTION.DELETE:
-        let startIndex = this.students.findIndex(stu => event.entity.id === stu.id);
+        const startIndex = this.students.findIndex(stu => event.entity.id === stu.id);
         this.students.splice(startIndex, 1);
         break;
     }

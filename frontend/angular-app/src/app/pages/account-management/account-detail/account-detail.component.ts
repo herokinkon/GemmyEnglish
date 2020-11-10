@@ -37,7 +37,7 @@ export class AccountDetailComponent {
   }
 
   delete() {
-    this.acccountService.deleteAccount(this.data.id).subscribe();
+    this.acccountService.deleteAccount(this.data).subscribe();
   }
 
   searchStaff(event: any) {

@@ -21,13 +21,13 @@
         </mat-grid-tile>
         <mat-grid-tile>
             <div style="margin-right: auto;">
-                <mat-slide-toggle #recurEvent>Recurrence Event</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isRepeatEvent" name="reCur">Recurrence Event</mat-slide-toggle>
             </div>
         </mat-grid-tile>
         <mat-grid-tile [rowspan]="3">
             <mat-form-field>
                 <mat-label>Repeats On</mat-label>
-                <mat-select name="repeats" [(ngModel)]="daysOfWeek" [disabled]="!recurEvent.checked" multiple>
+                <mat-select name="repeats" [(ngModel)]="daysOfWeek" [disabled]="!isRepeatEvent" multiple>
                     <mat-option value=1>Mon</mat-option>
                     <mat-option value=2>Tue</mat-option>
                     <mat-option value=3>Wed</mat-option>
@@ -39,7 +39,7 @@
             </mat-form-field>
             <mat-form-field class="margin-left">
                 <input matInput name="endDate" [matDatepicker]="endDatepicker" [(ngModel)]="repeatDate"
-                    (click)="endDatepicker.open()" placeholder="Repeat until" [disabled]="!recurEvent.checked">
+                    (click)="endDatepicker.open()" placeholder="Repeat until" [disabled]="!isRepeatEvent">
                 <mat-datepicker #endDatepicker></mat-datepicker>
             </mat-form-field>
         </mat-grid-tile>
@@ -58,11 +58,11 @@
     </mat-grid-list>
 </div>
 <div mat-dialog-actions style="justify-content: center;">
-    <button matDialogClose type="button" mat-raised-button color="warn" style="margin-bottom: 10px;" (click)="delete()">
+    <button *ngIf="data.title" type="button" mat-raised-button color="warn" style="margin-bottom: 10px;"
+        (click)="delete()">
         <mat-icon>delete</mat-icon><span> Delete</span>
     </button>
-    <button matDialogClose type="button" mat-raised-button color="accent" style="margin-bottom: 10px;"
-        (click)="save(recurEvent.checked)">
+    <button type="button" mat-raised-button color="accent" style="margin-bottom: 10px;" (click)="save()">
         <mat-icon>check_circle</mat-icon><span> Save</span>
     </button>
 </div>

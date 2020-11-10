@@ -37,7 +37,7 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
   // Staff List
   staffList: Staff[];
 
-  constructor(private classService: ClassService, private route: ActivatedRoute, 
+  constructor(private classService: ClassService, private route: ActivatedRoute,
     private studentService: StudentService, private staffService: StaffService) {
     this.fields = [{ field: 'className', header: 'Class Name' },
     { field: 'classCode', header: 'Class Code' },
@@ -97,7 +97,7 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
         this.save();
         break;
       case ENTITY_ACTION.DELETE:
-        this.classService.deleteClass(this.classInfo.id).subscribe();
+        this.classService.deleteClass(this.classInfo).subscribe();
         break;
     }
 

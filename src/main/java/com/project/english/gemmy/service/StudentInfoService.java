@@ -41,8 +41,8 @@ public class StudentInfoService {
 				@Override
 				protected void configure() {
 					skip(destination.getAttendance());
-			      }
-			    });
+				}
+			});
 			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
 			return result;
 		}
@@ -55,8 +55,8 @@ public class StudentInfoService {
 			@Override
 			protected void configure() {
 				skip(destination.getAttendance());
-		      }
-		    });
+			}
+		});
 		StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
@@ -64,8 +64,8 @@ public class StudentInfoService {
 				@Override
 				protected void configure() {
 					skip(destination.getAttendance());
-			      }
-			    });
+				}
+			});
 			return modelMapper.map(result, StudentDTO.class);
 		}
 		return null;
@@ -77,11 +77,11 @@ public class StudentInfoService {
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getId());
 		if (temp.isPresent()) {
 			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
-			@Override
-			protected void configure() {
-				skip(destination.getAttendance());
-		      }
-		    });
+				@Override
+				protected void configure() {
+					skip(destination.getAttendance());
+				}
+			});
 			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 			StudentInfo result = studentInfoRepo.save(studentInfo);
 			if (result != null) {
@@ -91,17 +91,11 @@ public class StudentInfoService {
 		return null;
 	}
 
-	public boolean deleteStudent(Long id) {
+	public void deleteStudent(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-			try {
-				studentInfoRepo.delete(studentInfo.get());
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
+			studentInfoRepo.delete(studentInfo.get());
 		}
-		return false;
 	}
 
 	public List<StudentDTO> getStudentInfoByClass(Long id) {
@@ -123,7 +117,8 @@ public class StudentInfoService {
 		for (StudentInfo stu : studentInfoList) {
 			StudentDTO temp = new StudentDTO(stu);
 			if (stu.getAttendance() != null && !stu.getAttendance().isEmpty()) {
-				Type userListType = new TypeToken<ArrayList<Attendance>>() {}.getType();
+				Type userListType = new TypeToken<ArrayList<Attendance>>() {
+				}.getType();
 				List<Attendance> atten = new Gson().fromJson(stu.getAttendance(), userListType);
 				String currentDate = CommonUtils.getCurrentDate();
 				atten.stream().forEach(ca -> {
@@ -136,7 +131,7 @@ public class StudentInfoService {
 		}
 		return result;
 	}
-	
+
 	public List<StudentDTO> getStudentInfoByName(String name) {
 		return studentInfoRepo.findByFullNameContains(name);
 	}
@@ -144,12 +139,10 @@ public class StudentInfoService {
 	public List<StudentDTO> getStudentListByName(String name) {
 		return studentInfoRepo.findByFullNameContains(name);
 	}
-	
+
 	public List<StudentDTO> getNewStudentList() {
 		List<StudentInfo> students = studentInfoRepo.findAll();
-		List<StudentInfo> result = students.stream()
-                .filter(s -> s.getClasses().isEmpty())
-                .collect(Collectors.toList());  
+		List<StudentInfo> result = students.stream().filter(s -> s.getClasses().isEmpty()).collect(Collectors.toList());
 		if (students != null && !students.isEmpty()) {
 			return result.stream().map(StudentDTO::new).collect(Collectors.toList());
 		}

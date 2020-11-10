@@ -50,7 +50,7 @@ export class ExamDetailComponent implements OnInit, CommonEntityDialogInterface<
                 this.examService.updateExam(this.examInfo).subscribe();
                 break;
             case ENTITY_ACTION.DELETE:
-                this.examService.deleteExam(this.examInfo.id).subscribe();
+                this.examService.deleteExam(this.examInfo).subscribe();
                 break;
         }
         this.event.emit({ action, entity: this.examInfo });

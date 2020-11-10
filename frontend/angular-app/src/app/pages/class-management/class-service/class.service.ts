@@ -6,6 +6,8 @@ import { Student } from '../../student-management/student-service/student';
 import { Class } from './class';
 import { Classes, Course } from './classes-model';
 import { Staff } from '../../staff-management/staff-service/staff';
+import { NotificationService } from 'src/app/shared/service/notification.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,22 +21,25 @@ export class ClassService {
       'Content-Type': 'application/json'
     })
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notification: NotificationService) { }
 
   getClasses(): Observable<Classes[]> {
-    return this.http.get<Classes[]>(this.apiUrl, this.httpOptions);
+    return this.http.get<Classes[]>(this.apiUrl, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('', 'Finished loading all classes')));
   }
 
   getClassesById(id: number): Observable<Classes> {
     return this.http.get<Classes>(this.apiUrl + `${id}`, this.httpOptions);
   }
 
-  deleteClass(id: number): Observable<Classes> {
-    return this.http.delete<Classes>(this.apiUrl + `${id}`, this.httpOptions);
+  deleteClass(clazz: Classes): Observable<Classes> {
+    return this.http.delete<Classes>(this.apiUrl + `${clazz.id}`, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('Class', `[${clazz.className}] is deleted`)));
   }
 
   createClass(classes: Classes): Observable<Classes> {
-    return this.http.post<Classes>(this.apiUrl, classes);
+    return this.http.post<Classes>(this.apiUrl, classes).pipe(
+      tap(_ => this.notification.addSuccessMessage('Class', 'New Class is created')));
   }
 
   updateClass(classes: Classes): Observable<Classes> {
@@ -60,7 +65,7 @@ export class ClassService {
 
   searchClass(searchText: string) {
     const params = new HttpParams({ fromObject: { searchText } });
-    const data = { ...this.httpOptions, params: params };
+    const data = { ...this.httpOptions, params };
     return this.http.get<Classes[]>(this.apiUrl + 'searchClass', data)
   }
 

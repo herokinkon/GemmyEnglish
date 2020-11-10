@@ -27,33 +27,33 @@ public class StudentInfoController {
 	private StudentInfoService studentInfoService;
 
 	@GetMapping("/")
-	public ResponseEntity<List<StudentDTO>> getAllStudent() {
+	public ResponseEntity<List<StudentDTO>> getAllStudent() throws Exception {
 		List<StudentDTO> studentInfoLst = studentInfoService.getAllStudent();
 		if (studentInfoLst != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(studentInfoLst);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		throw new Exception("Student list is empty");
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO updateInfoRequest) {
+	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO updateInfoRequest) throws Exception {
 		StudentDTO result = studentInfoService.updateStudent(updateInfoRequest);
 		if (result != null) {
 			return ResponseEntity.ok(result);
 		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		throw new Exception("Can not update student info");
 
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<StudentDTO> getStudentByStudentId(@PathVariable Long id) {
+	public ResponseEntity<StudentDTO> getStudentByStudentId(@PathVariable Long id) throws Exception {
 		StudentDTO result = studentInfoService.getStudentInfoById(id);
 		if (result != null) {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			return ResponseEntity.ok().headers(httpHeaders).body(result);
 		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		throw new Exception(String.format("Student with id: %d is not found", id));
 	}
 
 	@PostMapping("/")
@@ -66,12 +66,13 @@ public class StudentInfoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
-		boolean result = studentInfoService.deleteStudent(id);
-		if (result) {
+	public ResponseEntity<?> deleteStudent(@PathVariable Long id) throws Exception {
+		try {
+			studentInfoService.deleteStudent(id);
 			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			throw new Exception(String.format("Student with id: %d is not found", id));
 		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping("/getStudentListByClass")
@@ -88,7 +89,7 @@ public class StudentInfoController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-		
+
 	@GetMapping("/searchStudent")
 	public ResponseEntity<List<StudentDTO>> searchStudent(@RequestParam String searchText) {
 		List<StudentDTO> studentInfo = studentInfoService.getStudentInfoByName(searchText);
@@ -98,7 +99,7 @@ public class StudentInfoController {
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@GetMapping("/getNewStudents")
 	public ResponseEntity<List<StudentDTO>> getNewStudents() {
 		List<StudentDTO> studentInfoLst = studentInfoService.getNewStudentList();

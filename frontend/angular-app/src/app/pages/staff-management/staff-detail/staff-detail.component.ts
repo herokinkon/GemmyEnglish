@@ -66,7 +66,7 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
         this.staffService.updateStaff(this.staffInfo).subscribe();
         break;
       case ENTITY_ACTION.DELETE:
-        this.staffService.deleteStaff(this.staffInfo.id).subscribe();
+        this.staffService.deleteStaff(this.staffInfo).subscribe();
         break;
     }
 
