@@ -1,0 +1,31 @@
+<p-table #lsStudent [value]="accounts" selectionMode="single" [(selection)]="selectedAccount" [paginator]="true"
+    [rows]="10" (onRowSelect)="onRowSelect($event)" [autoLayout]="true">
+    <ng-template pTemplate="caption">
+        Account List
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>User Name</th>
+            <th>Roles</th>
+            <th>Staff Name</th>
+            <th>Status</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+        <tr [pSelectableRow]="rowData" [ngClass]="!rowData.status ? 'disable-row':null">
+            <td>{{rowData.userName}}</td>
+            <td>{{rowData.roles}}</td>
+            <td>{{rowData.staff.fullName}}</td>
+            <td><span class="status-badge"
+                    [ngClass]="rowData.status ? 'status-enable' : 'status-disable'">{{rowData.status ? "Enable" : "Disable"}}</span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left">
+            <button type="button" mat-raised-button (click)="showDialogToAdd()" color="primary">
+                <mat-icon>add</mat-icon><span>Add</span>
+            </button>
+        </div>
+    </ng-template>
+</p-table>

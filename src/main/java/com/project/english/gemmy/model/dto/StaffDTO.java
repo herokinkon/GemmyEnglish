@@ -3,10 +3,12 @@ package com.project.english.gemmy.model.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.project.english.gemmy.model.jpa.Classes;
 import com.project.english.gemmy.model.jpa.StaffInfo;
 
 @JsonInclude(Include.NON_NULL)
@@ -52,8 +54,9 @@ public class StaffDTO {
 		this.setSalary(staffInfo.getSalary());
 		this.setStaffType(staffInfo.getStaffType());
 		this.setWorkOfStaff(staffInfo.getWorkOfStaff());
-		if (staffInfo.getClasses() != null) {
-			this.setClasses(staffInfo.getClasses().stream().map(ClassesInfoDto::new).collect(Collectors.toList()));
+		Set<Classes> clazz = staffInfo.getClasses();
+		if (clazz != null) {
+			this.setClasses(clazz.stream().map(ClassesInfoDto::new).collect(Collectors.toList()));
 		} else {
 			this.setClasses(new ArrayList<>());
 		}

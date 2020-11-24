@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Staff } from '../../staff-management/staff-service/staff';
 import { OtherOutcome } from './salary';
+import { NotificationService } from 'src/app/shared/service/notification.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -17,10 +19,11 @@ export class SalaryService {
             'Content-Type': 'application/json'
         })
     };
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private notification: NotificationService) { }
 
     getFullTimeStaffSalary(): Observable<Staff[]> {
-        return this.http.get<Staff[]>(this.apiUrl + 'fulltime', this.httpOptions);
+        return this.http.get<Staff[]>(this.apiUrl + 'fulltime', this.httpOptions).pipe(
+            tap(_ => this.notification.addSuccessMessage('', 'Finished loading all salaries')));
     }
 
     getPartTimeStaffSalary(): Observable<Staff[]> {

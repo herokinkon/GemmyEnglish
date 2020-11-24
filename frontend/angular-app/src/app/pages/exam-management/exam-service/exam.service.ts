@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Exam, ExamResult } from './exam.model';
+import { NotificationService } from 'src/app/shared/service/notification.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -16,10 +18,11 @@ export class ExamService {
             'Content-Type': 'application/json'
         })
     };
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private notification: NotificationService) { }
 
     getExams(): Observable<Exam[]> {
-        return this.http.get<Exam[]>(this.apiUrl, this.httpOptions);
+        return this.http.get<Exam[]>(this.apiUrl, this.httpOptions).pipe(
+            tap(_ => this.notification.addSuccessMessage('', 'Finished loading all exams')));
     }
 
     getExamById(id: number): Observable<Exam> {
@@ -27,20 +30,23 @@ export class ExamService {
     }
 
     createExam(exam: Exam): Observable<Exam> {
-        return this.http.post<Exam>(this.apiUrl, exam)
+        return this.http.post<Exam>(this.apiUrl, exam).pipe(
+            tap(_ => this.notification.addSuccessMessage('Exam', 'New Exam is created')));
     }
 
     updateExam(exam: Exam) {
-        return this.http.put<Exam>(this.apiUrl, exam, this.httpOptions);
+        return this.http.put<Exam>(this.apiUrl, exam, this.httpOptions).pipe(
+            tap(_ => this.notification.addSuccessMessage('Exam', `[${exam.name}] is updated`)));
     }
 
-    deleteExam(id: number) {
-        return this.http.delete<Exam>(this.apiUrl + `${id}`, this.httpOptions);
+    deleteExam(exam: Exam) {
+        return this.http.delete<Exam>(this.apiUrl + `${exam.id}`, this.httpOptions).pipe(
+            tap(_ => this.notification.addSuccessMessage('Exam', `[${exam.name}] is deleted`)));
     }
 
     searchExam(searchText: string) {
         const params = new HttpParams({ fromObject: { searchText } });
-        const data = { ...this.httpOptions, params: params };
+        const data = { ...this.httpOptions, params };
         return this.http.get<Exam[]>(this.apiUrl + 'searchExam', data)
     }
 

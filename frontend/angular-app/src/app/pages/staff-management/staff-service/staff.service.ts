@@ -3,6 +3,8 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Staff } from './staff';
 import { Observable } from 'rxjs';
+import { NotificationService } from 'src/app/shared/service/notification.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,32 +19,36 @@ export class StaffService {
       'Content-Type': 'application/json'
     })
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notification: NotificationService) { }
 
   getStaffs(): Observable<Staff[]> {
-    return this.http.get<Staff[]>(this.apiUrl, this.httpOptions);
+    return this.http.get<Staff[]>(this.apiUrl, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('', 'Finished loading all staffs')));
   }
 
   getStaff(id: number): Observable<Staff> {
     return this.http.get<Staff>(this.apiUrl + `${id}`, this.httpOptions);
   }
 
-  deleteStaff(id: number): Observable<Staff> {
-    return this.http.delete<Staff>(this.apiUrl + `${id}`, this.httpOptions);
+  deleteStaff(staff: Staff): Observable<Staff> {
+    return this.http.delete<Staff>(this.apiUrl + `${staff.id}`, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('staff', `[${staff.fullName}] is deleted`)));
   }
 
   createStaff(staff: Staff): Observable<Staff> {
-    return this.http.post<Staff>(this.apiUrl, staff);
+    return this.http.post<Staff>(this.apiUrl, staff).pipe(
+      tap(_ => this.notification.addSuccessMessage('Staff', 'New Staff is created')));
   }
 
   updateStaff(staff: Staff): Observable<Staff> {
-    return this.http.put<Staff>(this.apiUrl, staff, this.httpOptions);
+    return this.http.put<Staff>(this.apiUrl, staff, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('Account', `[${staff.fullName}] is updated`)));
   }
 
   searchStaffByName(searchText: string) {
     const params = new HttpParams({ fromObject: { searchText } });
-    const data = { ...this.httpOptions, params: params };
-    return this.http.get<Staff[]>(this.apiUrl + 'searchStaffByName', data)
+    const data = { ...this.httpOptions, params };
+    return this.http.get<Staff[]>(this.apiUrl + 'searchStaffByName', data);
   }
 
   searchStaff(searchText: string, type: string) {

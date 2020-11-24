@@ -36,6 +36,7 @@ import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ToastModule } from 'primeng/toast';
 import { RadioButtonModule } from 'primeng/radiobutton';
 // Pages components
 import { AppComponent } from './app.component';
@@ -62,6 +63,9 @@ import { JwtInterceptor } from './shared/authentication/jwtInterceptor';
 import { CommonDetailDialogComponent } from './shared/components/common-detail-dialog/common-detail-dialog.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { SideMenuComponent } from './shared/components/side-menu/side-menu.component';
+import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+import { AccountManagementComponent } from './pages/account-management/account-management.component';
+import { AccountDetailComponent } from './pages/account-management/account-detail/account-detail.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +90,10 @@ import { SideMenuComponent } from './shared/components/side-menu/side-menu.compo
     AssistantTimelineComponent,
     TimelineDetailComponent,
     SalaryManagementComponent,
-    OtherOutcomeDetailComponent
+    OtherOutcomeDetailComponent,
+    MyProfileComponent,
+    AccountManagementComponent,
+    AccountDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -124,6 +131,7 @@ import { SideMenuComponent } from './shared/components/side-menu/side-menu.compo
     NgxMaterialTimepickerModule,
     MatSlideToggleModule,
     OverlayPanelModule,
+    ToastModule,
     RadioButtonModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],

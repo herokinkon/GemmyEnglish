@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input } from '@angular/core';
 import { Staff } from '../staff-service/staff';
 // tslint:disable-next-line:max-line-length
 import { CommonEntityDialogInterface, EntityActionEvent } from 'src/app/shared/components/common-detail-dialog/common-entity-dialog-interface';
@@ -66,7 +66,7 @@ export class StaffDetailComponent implements OnInit, CommonEntityDialogInterface
         this.staffService.updateStaff(this.staffInfo).subscribe();
         break;
       case ENTITY_ACTION.DELETE:
-        this.staffService.deleteStaff(this.staffInfo.id).subscribe();
+        this.staffService.deleteStaff(this.staffInfo).subscribe();
         break;
     }
 

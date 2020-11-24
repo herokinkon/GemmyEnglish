@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Observable } from 'rxjs';
 import { Payment } from './payment';
-import { StudentDetailComponent } from '../../student-management/student-detail/student-detail.component';
+import { NotificationService } from 'src/app/shared/service/notification.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class PaymentService {
       'Content-Type': 'application/json'
     })
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notification: NotificationService) { }
 
   getPaymentInClass(classId: any): Observable<any[]> {
     const data = { ...this.httpOptions, params: { classId } };
@@ -38,7 +39,8 @@ export class PaymentService {
 
   getAllPayment() {
     const data = { ...this.httpOptions };
-    return this.http.get<any>(this.apiUrl + 'getAll', data);
+    return this.http.get<any>(this.apiUrl + 'getAll', data).pipe(
+      tap(_ => this.notification.addSuccessMessage('', 'Finished loading all payments')));
   }
 
   updatePayment(payment: Payment) {

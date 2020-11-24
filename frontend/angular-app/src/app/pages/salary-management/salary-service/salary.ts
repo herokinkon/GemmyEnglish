@@ -6,7 +6,7 @@ export interface OtherOutcome {
     purpose: string;
     cost: string;
     status: boolean;
-    staffId: number
+    staffId: number;
 }
 
 export interface SalaryPartTimeResult {

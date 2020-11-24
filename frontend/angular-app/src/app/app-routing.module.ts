@@ -13,6 +13,8 @@ import { StaffManagementComponent } from './pages/staff-management/staff-managem
 import { StaffDetailComponent } from './pages/staff-management/staff-detail/staff-detail.component';
 import { AssistantTimelineComponent } from './pages/assistant-timeline/assistant-timeline.component';
 import { SalaryManagementComponent } from './pages/salary-management/salary-management.component';
+import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+import { AccountManagementComponent } from './pages/account-management/account-management.component';
 
 const childRoutes: Routes = [
   { path: 'students', component: StudentManagementComponent },
@@ -24,7 +26,9 @@ const childRoutes: Routes = [
   { path: 'staff/:id', component: StaffDetailComponent },
   { path: 'exams', component: ExamManagementComponent },
   { path: 'timeline', component: AssistantTimelineComponent },
-  { path: 'salary', component: SalaryManagementComponent }
+  { path: 'salary', component: SalaryManagementComponent },
+  { path: 'profile', component: MyProfileComponent },
+  { path: 'account', component: AccountManagementComponent }
 ];
 
 const routes: Routes = [

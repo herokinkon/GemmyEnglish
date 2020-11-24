@@ -96,7 +96,7 @@ export class ClassDetailComponent implements OnInit, CommonEntityDialogInterface
         this.save();
         break;
       case ENTITY_ACTION.DELETE:
-        this.classService.deleteClass(this.classInfo.id).subscribe();
+        this.classService.deleteClass(this.classInfo).subscribe();
         break;
     }
 

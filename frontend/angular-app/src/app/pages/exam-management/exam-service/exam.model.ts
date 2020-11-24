@@ -5,7 +5,7 @@ export interface Exam {
     id: number;
     name: string;
     examType: string;
-    description: string
+    description: string;
 }
 
 export interface ExamResult {
@@ -16,8 +16,8 @@ export interface ExamResult {
     listening: number;
     speaking: number;
     overall: number;
-    result: Boolean;
+    result: boolean;
     exam: Exam;
     studentInfo: Student;
-    classes: Classes
+    classes: Classes;
 }

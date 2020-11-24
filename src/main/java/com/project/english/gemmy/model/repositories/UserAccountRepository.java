@@ -10,6 +10,5 @@ import com.project.english.gemmy.model.jpa.UserAccount;
 @Repository
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
-	public List<UserAccount> findByUserName(String userName);
-	
+	List<UserAccount> findByUserName(String userName);
 }

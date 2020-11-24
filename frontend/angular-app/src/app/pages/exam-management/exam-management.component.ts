@@ -83,7 +83,7 @@ export class ExamManagementComponent implements OnInit {
   delete(exam: Exam) {
     const index = this.exams.findIndex(ex => exam.id === ex.id);
     this.exams.splice(index, 1);
-    this.examService.deleteExam(exam.id);
+    this.examService.deleteExam(exam);
   }
 
   updateTable(event: EntityActionEvent<Exam>) {

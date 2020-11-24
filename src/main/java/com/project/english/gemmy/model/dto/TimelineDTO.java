@@ -102,13 +102,17 @@ public class TimelineDTO {
 	}
 
 	public void setDaysOfWeek(Integer[] daysOfWeek) {
-		this.daysOfWeek = Arrays.asList(daysOfWeek);
+		if (daysOfWeek != null) {
+			this.daysOfWeek = Arrays.asList(daysOfWeek);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public void setDOW(String daysOfWeek) {
 		try {
-			this.daysOfWeek = new ObjectMapper().readValue(daysOfWeek, List.class);
+			if (daysOfWeek != null) {
+				this.daysOfWeek = new ObjectMapper().readValue(daysOfWeek, List.class);
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AppConstant } from 'src/app/shared/app-constant.service';
 import { Student } from './student';
+import { tap } from 'rxjs/operators';
+import { NotificationService } from 'src/app/shared/service/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +18,30 @@ export class StudentService {
       'Content-Type': 'application/json'
     })
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notification: NotificationService) { }
 
   getStudents(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.apiUrl, this.httpOptions);
+    return this.http.get<Student[]>(this.apiUrl, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('', 'Finished loading all Students')));
   }
 
   getStudent(id: number): Observable<Student> {
     return this.http.get<Student>(this.apiUrl + `${id}`, this.httpOptions);
   }
 
-  deleteStudent(id: number): Observable<Student> {
-    return this.http.delete<Student>(this.apiUrl + `${id}`, this.httpOptions);
+  deleteStudent(id: number, name: string): Observable<Student> {
+    return this.http.delete<Student>(this.apiUrl + `${id}`, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('Student', `[${name}] is deleted`)));
   }
 
   createStudent(student: Student): Observable<Student> {
-    return this.http.post<Student>(this.apiUrl, student);
+    return this.http.post<Student>(this.apiUrl, student).pipe(
+      tap(_ => this.notification.addSuccessMessage('Student', 'New Student is created')));
   }
 
   updateStudent(student: Student): Observable<Student> {
-    return this.http.put<Student>(this.apiUrl, student, this.httpOptions);
+    return this.http.put<Student>(this.apiUrl, student, this.httpOptions).pipe(
+      tap(_ => this.notification.addSuccessMessage('Student', `[${student.fullName}] is updated`)));
   }
 
   getStudentListByClass(classId: any): Observable<Student[]> {
@@ -50,7 +56,7 @@ export class StudentService {
 
   searchStudent(searchText: string) {
     const params = new HttpParams({ fromObject: { searchText } });
-    const data = { ...this.httpOptions, params: params };
+    const data = { ...this.httpOptions, params };
     return this.http.get<Student[]>(this.apiUrl + 'searchStudent', data)
   }
 

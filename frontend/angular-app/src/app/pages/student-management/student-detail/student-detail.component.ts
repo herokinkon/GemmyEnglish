@@ -67,7 +67,7 @@ export class StudentDetailComponent implements OnInit, CommonEntityDialogInterfa
         this.studentService.updateStudent(this.studentInfo).subscribe();
         break;
       case ENTITY_ACTION.DELETE:
-        this.studentService.deleteStudent(this.studentInfo.id).subscribe();
+        this.studentService.deleteStudent(this.studentInfo.id, this.studentInfo.fullName).subscribe();
         break;
     }
 

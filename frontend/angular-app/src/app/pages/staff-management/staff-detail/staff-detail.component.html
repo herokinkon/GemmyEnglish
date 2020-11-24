@@ -1,9 +1,9 @@
 <div class="Staff-detail">
   <div class="content">
-    <mat-tab-group animationDuration="0ms" *ngIf="staffInfo">
+    <mat-tab-group animationDuration="0ms">
       <mat-tab label="Staff Info">
         <form class="staff-info">
-          <mat-grid-list cols="2" rowHeight="2:1">
+          <mat-grid-list cols="2" rowHeight="70px">
             <mat-grid-tile *ngFor="let field of fields">
               <mat-form-field>
                 <mat-label>{{field.header}}</mat-label>
@@ -43,15 +43,15 @@
         </form>
       </mat-tab>
       <mat-tab label="Other Info">
-        <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-list cols="2" rowHeight="70px">
           <mat-grid-tile *ngFor="let field of otherInfo">
             <mat-form-field>
               <mat-label>{{field.header}}</mat-label>
               <input *ngIf="field.field !== 'othersCertificate'; else elseBlock" name="{{field.field}}" matInput
                 [(ngModel)]="staffInfo[field.field]" required={{field.required}}>
               <ng-template #elseBlock>
-                <textarea matInput class="otherCertificate" name="otherCertificate" rows="5" cols="30" pInputTextarea
-                  autoResize="autoResize" [(ngModel)]="staffInfo.othersCertificate"></textarea>
+                <textarea matInput class="otherCertificate" name="otherCertificate" rows="2" cols="30" pInputTextarea
+                  [(ngModel)]="staffInfo.othersCertificate"></textarea>
               </ng-template>
             </mat-form-field>
           </mat-grid-tile>

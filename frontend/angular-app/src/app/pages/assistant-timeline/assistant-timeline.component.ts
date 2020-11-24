@@ -49,7 +49,19 @@ export class AssistantTimelineComponent {
         this.getEventsForStaff();
       },
       dateClick: (event: any) => {
-        const dialog = this.dialog.open(TimelineDetailComponent, { data: { date: event.date } });
+        const ref = this.dialog.open(TimelineDetailComponent, { data: { date: event.date } });
+        ref.afterClosed().subscribe(result => {
+          if (result) {
+            this.getEventsForStaff();
+          }
+        });
+      }, eventClick: (event: any) => {
+        const ref = this.dialog.open(TimelineDetailComponent, { data: event.event });
+        ref.afterClosed().subscribe(result => {
+          if (result) {
+            this.getEventsForStaff();
+          }
+        });
       }
     };
   }

@@ -110,10 +110,6 @@
 						</configuration>
 
 						<executions>
-							<!-- execution> <id>install node and npm</id> <goals> <goal>install-node-and-npm</goal> 
-								</goals> </execution> <execution> <id>npm install</id> <goals> <goal>npm</goal> 
-								</goals> </execution -->
-
 							<execution>
 								<id>npm run build</id>
 								<goals>
@@ -121,7 +117,7 @@
 								</goals>
 								<phase>generate-resources</phase>
 								<configuration>
-									<arguments>run build</arguments>
+									<arguments>run build -- --prod</arguments>
 								</configuration>
 							</execution>
 						</executions>

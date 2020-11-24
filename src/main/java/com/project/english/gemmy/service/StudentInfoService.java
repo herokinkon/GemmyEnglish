@@ -15,12 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.english.gemmy.model.dto.Attendance;
 import com.project.english.gemmy.model.dto.StudentDTO;
-import com.project.english.gemmy.model.dto.UpdateInfoRequest;
-import com.project.english.gemmy.model.dto.UserInfoResponse;
 import com.project.english.gemmy.model.jpa.StudentInfo;
-import com.project.english.gemmy.model.jpa.UserAccount;
 import com.project.english.gemmy.model.repositories.StudentInfoRepository;
-import com.project.english.gemmy.model.repositories.UserAccountRepository;
 import com.project.english.gemmy.util.CommonUtils;
 
 @Service
@@ -28,9 +24,6 @@ public class StudentInfoService {
 
 	@Autowired
 	private StudentInfoRepository studentInfoRepo;
-
-	@Autowired
-	private UserAccountRepository userAccountRepo;
 
 	public List<StudentDTO> getAllStudent() {
 		List<StudentInfo> students = studentInfoRepo.findAll();
@@ -48,8 +41,8 @@ public class StudentInfoService {
 				@Override
 				protected void configure() {
 					skip(destination.getAttendance());
-			      }
-			    });
+				}
+			});
 			StudentDTO result = modelMapper.map(studentInfo.get(), StudentDTO.class);
 			return result;
 		}
@@ -62,8 +55,8 @@ public class StudentInfoService {
 			@Override
 			protected void configure() {
 				skip(destination.getAttendance());
-		      }
-		    });
+			}
+		});
 		StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
 		StudentInfo result = studentInfoRepo.save(studentInfo);
 		if (result != null) {
@@ -71,8 +64,8 @@ public class StudentInfoService {
 				@Override
 				protected void configure() {
 					skip(destination.getAttendance());
-			      }
-			    });
+				}
+			});
 			return modelMapper.map(result, StudentDTO.class);
 		}
 		return null;
@@ -84,20 +77,12 @@ public class StudentInfoService {
 		Optional<StudentInfo> temp = studentInfoRepo.findById(updateInfoRequest.getId());
 		if (temp.isPresent()) {
 			modelMapper.addMappings(new PropertyMap<StudentDTO, StudentInfo>() {
-			@Override
-			protected void configure() {
-				skip(destination.getAttendance());
-		      }
-		    });
+				@Override
+				protected void configure() {
+					skip(destination.getAttendance());
+				}
+			});
 			StudentInfo studentInfo = modelMapper.map(updateInfoRequest, StudentInfo.class);
-//			temp.get().setBirthday(updateInfoRequest.getBirthday());
-//			temp.get().setContactNumber(updateInfoRequest.getContactNumber());
-//			temp.get().setEmail(updateInfoRequest.getEmail());
-//			temp.get().setFacebook(updateInfoRequest.getFacebook());
-//			temp.get().setFullName(updateInfoRequest.getFullName());
-//			temp.get().setOccupation(updateInfoRequest.getOccupation());
-//			temp.get().setParentContactNumber(updateInfoRequest.getParentContactNumber());
-//			temp.get().setParentEmail(updateInfoRequest.getParentEmail());
 			StudentInfo result = studentInfoRepo.save(studentInfo);
 			if (result != null) {
 				return new StudentDTO(result);
@@ -106,46 +91,11 @@ public class StudentInfoService {
 		return null;
 	}
 
-	public boolean deleteStudent(Long id) {
+	public void deleteStudent(Long id) {
 		Optional<StudentInfo> studentInfo = studentInfoRepo.findById(id);
 		if (studentInfo.isPresent()) {
-			try {
-				studentInfoRepo.delete(studentInfo.get());
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
+			studentInfoRepo.delete(studentInfo.get());
 		}
-		return false;
-	}
-
-	public UserInfoResponse getUserInfoByUserAccountId(Long userAccountId) {
-		Optional<UserAccount> userAccount = userAccountRepo.findById(userAccountId);
-		if (userAccount.isPresent()) {
-			UserInfoResponse userInfoRes = new UserInfoResponse();
-			List<StudentInfo> studentInfos = studentInfoRepo.findByUserAccount(userAccount.get());
-			if (studentInfos != null && !studentInfos.isEmpty()) {
-				userInfoRes.convertEntityToStudentObject(studentInfos.get(0));
-				return userInfoRes;
-			}
-		}
-		return null;
-	}
-
-	// use for admin
-	public boolean updateInfo(UpdateInfoRequest updateAccountRequest) {
-		StudentInfo studentInfo = new StudentInfo();
-		studentInfo.setId(updateAccountRequest.getId());
-		studentInfo.setBirthday(updateAccountRequest.getBirthday());
-		studentInfo.setContactNumber(updateAccountRequest.getContactNumber());
-		studentInfo.setEmail(updateAccountRequest.getEmail());
-		studentInfo.setFacebook(updateAccountRequest.getFacebook());
-		studentInfo.setFullName(updateAccountRequest.getFullName());
-		StudentInfo result = studentInfoRepo.save(studentInfo);
-		if (result != null) {
-			return true;
-		}
-		return false;
 	}
 
 	public List<StudentDTO> getStudentInfoByClass(Long id) {
@@ -167,7 +117,8 @@ public class StudentInfoService {
 		for (StudentInfo stu : studentInfoList) {
 			StudentDTO temp = new StudentDTO(stu);
 			if (stu.getAttendance() != null && !stu.getAttendance().isEmpty()) {
-				Type userListType = new TypeToken<ArrayList<Attendance>>() {}.getType();
+				Type userListType = new TypeToken<ArrayList<Attendance>>() {
+				}.getType();
 				List<Attendance> atten = new Gson().fromJson(stu.getAttendance(), userListType);
 				String currentDate = CommonUtils.getCurrentDate();
 				atten.stream().forEach(ca -> {
@@ -180,7 +131,7 @@ public class StudentInfoService {
 		}
 		return result;
 	}
-	
+
 	public List<StudentDTO> getStudentInfoByName(String name) {
 		return studentInfoRepo.findByFullNameContains(name);
 	}
@@ -188,12 +139,10 @@ public class StudentInfoService {
 	public List<StudentDTO> getStudentListByName(String name) {
 		return studentInfoRepo.findByFullNameContains(name);
 	}
-	
+
 	public List<StudentDTO> getNewStudentList() {
 		List<StudentInfo> students = studentInfoRepo.findAll();
-		List<StudentInfo> result = students.stream()
-                .filter(s -> s.getClasses().isEmpty())
-                .collect(Collectors.toList());  
+		List<StudentInfo> result = students.stream().filter(s -> s.getClasses().isEmpty()).collect(Collectors.toList());
 		if (students != null && !students.isEmpty()) {
 			return result.stream().map(StudentDTO::new).collect(Collectors.toList());
 		}

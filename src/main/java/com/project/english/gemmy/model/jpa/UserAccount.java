@@ -1,59 +1,49 @@
 package com.project.english.gemmy.model.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.project.english.gemmy.model.jpa.enumerate.Role;
 
 /**
  * The persistent class for the user_account database table.
  * 
  */
 @Entity
-@Table(name="user_account")
+@Table(name = "user_account")
 public class UserAccount implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="join_date")
-	private Date joinDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_login")
-	private Date lastLogin;
-
+	@JsonInclude(Include.NON_NULL)
 	private String password;
 
 	private Boolean status;
 
-	@Column(name="user_name")
+	@Column(name = "user_name")
 	private String userName;
 
-	//bi-directional many-to-one association to StaffInfo
-	@OneToMany(mappedBy="userAccount")
-	private List<StaffInfo> staffInfos;
+	@OneToOne()
+	@JoinColumn(name = "staff_id")
+	private StaffInfo staff;
 
-	//bi-directional many-to-one association to StudentInfo
-	@OneToMany(mappedBy="userAccount")
-	private List<StudentInfo> studentInfos;
-
-	//bi-directional many-to-many association to Role
-	@ManyToMany
-	@JoinTable(
-		name="user_account_has_role"
-		, joinColumns={
-			@JoinColumn(name="user_account_id")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="role_id")
-			}
-		)
-	private List<Role> roles;
+	@Enumerated(EnumType.STRING)
+	private Role roles;
 
 	public UserAccount() {
 	}
@@ -64,22 +54,6 @@ public class UserAccount implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getJoinDate() {
-		return this.joinDate;
-	}
-
-	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
-	}
-
-	public Date getLastLogin() {
-		return this.lastLogin;
-	}
-
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
 	}
 
 	public String getPassword() {
@@ -106,55 +80,19 @@ public class UserAccount implements Serializable {
 		this.userName = userName;
 	}
 
-	public List<StaffInfo> getStaffInfos() {
-		return this.staffInfos;
+	public StaffInfo getStaff() {
+		return staff;
 	}
 
-	public void setStaffInfos(List<StaffInfo> staffInfos) {
-		this.staffInfos = staffInfos;
+	public void setStaff(StaffInfo staff) {
+		this.staff = staff;
 	}
 
-	public StaffInfo addStaffInfo(StaffInfo staffInfo) {
-		getStaffInfos().add(staffInfo);
-		staffInfo.setUserAccount(this);
-
-		return staffInfo;
+	public Role getRoles() {
+		return roles;
 	}
 
-	public StaffInfo removeStaffInfo(StaffInfo staffInfo) {
-		getStaffInfos().remove(staffInfo);
-		staffInfo.setUserAccount(null);
-
-		return staffInfo;
-	}
-
-	public List<StudentInfo> getStudentInfos() {
-		return this.studentInfos;
-	}
-
-	public void setStudentInfos(List<StudentInfo> studentInfos) {
-		this.studentInfos = studentInfos;
-	}
-
-	public StudentInfo addStudentInfo(StudentInfo studentInfo) {
-		getStudentInfos().add(studentInfo);
-		studentInfo.setUserAccount(this);
-
-		return studentInfo;
-	}
-
-	public StudentInfo removeStudentInfo(StudentInfo studentInfo) {
-		getStudentInfos().remove(studentInfo);
-		studentInfo.setUserAccount(null);
-
-		return studentInfo;
-	}
-
-	public List<Role> getRoles() {
-		return this.roles;
-	}
-
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Role roles) {
 		this.roles = roles;
 	}
 

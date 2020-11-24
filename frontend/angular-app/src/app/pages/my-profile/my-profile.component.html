@@ -1,0 +1,36 @@
+<mat-tab-group class="profile" animationDuration="0ms" *ngIf="userInfo">
+    <mat-tab label="User information">
+        <mat-grid-list cols="2" rowHeight="70px">
+            <mat-grid-tile *ngFor="let field of fields">
+                <mat-form-field>
+                    <mat-label>{{field.header}}</mat-label>
+                    <input *ngIf="field.field !== 'birthday'; else elseBlock" name="{{field.field}}" matInput
+                        [(ngModel)]="userInfo[field.field]">
+
+                    <ng-template #elseBlock>
+                        <input matInput class="dateField" name="birthday" [matDatepicker]="birthdayPicker"
+                            [(ngModel)]="userInfo.birthday" (click)="birthdayPicker.open()" required>
+                        <mat-datepicker #birthdayPicker></mat-datepicker>
+                    </ng-template>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Other information">
+        <mat-grid-list cols="2" rowHeight="70px">
+            <mat-grid-tile *ngFor="let field of otherInfo">
+                <mat-form-field>
+                    <mat-label>{{field.header}}</mat-label>
+                    <input *ngIf="field.field !== 'othersCertificate'; else elseBlock" name="{{field.field}}" matInput
+                        [(ngModel)]="userInfo[field.field]" required={{field.required}}>
+                    <ng-template #elseBlock>
+                        <textarea matInput class="otherCertificate" name="otherCertificate" rows="2" cols="30"
+                            pInputTextarea [(ngModel)]="userInfo.othersCertificate"></textarea>
+                    </ng-template>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+</mat-tab-group>
